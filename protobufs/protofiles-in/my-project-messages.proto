@@ -1,0 +1,118 @@
+syntax = "proto3";
+
+
+message HelloQromaRequest {
+  string name = 1;
+}
+
+message HelloQromaResponse {
+  string response = 1;
+  uint32 callCount = 2;
+  uint32 nameLength = 3;
+}
+
+
+enum MathOperation {
+  MathOp_NotSet = 0;
+  MathOp_Add = 1;
+  MathOp_Subtract = 2;
+  MathOp_Add_And_Subtract = 3;
+}
+
+message MathRequest {
+  uint32 a = 1;
+  uint32 b = 2;
+  MathOperation op = 3;
+}
+
+message MathResult_Add {
+  uint32 result = 1;
+}
+
+message MathResult_Subtract {
+  uint32 result = 1;
+}
+
+message MathResult_AddAndSubtract {
+  uint32 addResult = 1;
+  uint32 subtractResult = 2;
+}
+
+message MathResponse {
+  oneof response {
+    MathResult_Add addResult = 1;
+    MathResult_Subtract subtractResult = 2;
+    MathResult_AddAndSubtract addAndSubtractResult = 3;
+  }
+}
+
+
+message BoardDetails {
+  string boardName = 1;
+  bool hasRgb = 2;
+}
+
+
+message MyProjectDetails {
+  string projectName = 1;
+}
+
+
+message MyProjectConfiguration {
+  string userName = 1;
+  uint32 startupRed = 2;
+  uint32 startupGreen = 3;
+  uint32 startupBlue = 4;
+}
+
+
+message GetProjectDetailsResponse {
+  MyProjectDetails projectDetails = 1;
+  MyProjectConfiguration currentConfiguration = 2;
+}
+
+
+message SetBoardLightColorRequest {
+  uint32 red = 1;
+  uint32 green = 2;
+  uint32 blue = 3;
+}
+
+message SetBoardLightColorResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+enum NoArgCommands {
+  Nac_NotSet = 0;
+  Nac_GetProjectDetailsRequest = 1;
+  Nac_GetBoardDetailsRequest = 2;
+  Nac_SaveCurrentConfiguration = 3;
+  Nac_LoadSavedConfiguration = 4;
+}
+
+message InvalidCommandResponse {
+  string message = 1;
+}
+
+
+message MyProjectCommand {
+  oneof command {
+    NoArgCommands noArgCommand = 1;
+    HelloQromaRequest helloQromaRequest = 2;
+    MathRequest mathRequest = 3;
+    SetBoardLightColorRequest setBoardLightColorRequest = 4;
+    MyProjectConfiguration setMyProjectConfigurationRequest = 5;
+  }
+}
+
+message MyProjectResponse {
+  oneof response {
+    InvalidCommandResponse invalidCommandResponse = 1;
+    HelloQromaResponse helloQromaResponse = 2;
+    MathResponse mathResponse = 3;
+    BoardDetails getBoardDetailsResponse = 4;
+    SetBoardLightColorResponse setBoardLightColorResponse = 5;
+    GetProjectDetailsResponse getProjectDetailsResponse = 6;
+  }
+}

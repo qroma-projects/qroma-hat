@@ -1,0 +1,13 @@
+HelloQromaRequest.name  max_size:20  fixed_length:true
+
+HelloQromaResponse.response  max_size:50  fixed_length: true
+
+BoardDetails.boardName  max_size:30  fixed_length: true
+
+SetBoardLightColorResponse.message  max_size:50  fixed_length: false
+
+MyProjectConfiguration.userName  max_size:30  fixed_length: true
+
+MyProjectDetails.projectName  max_size:50  fixed_length: true
+
+InvalidCommandResponse.message  max_size:50  fixed_length: false
