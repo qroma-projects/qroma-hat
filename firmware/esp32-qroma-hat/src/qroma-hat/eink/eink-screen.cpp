@@ -5,31 +5,8 @@
 #include "../qroma-config.h"
 #include "rotateHatImage.h"
 #include "../images/dgsr/dgsrImageFileLoader.h"
-
-
-HatImageData _activeImage = {
-  .imageWidth = EINK_WIDTH,
-  .imageHeight = EINK_HEIGHT,
-  .imagePixels = NULL,  // will be initialized by initActiveImageBuffer()
-  // added 99 - 13 (strlen) of /0 chars for initialization
-  .imageLabel = "IMAGE NOT SET\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0",
-};
-
-LoadedDgsrImage _loadedDgsrImage;
-
-
-
-uint8_t * initActiveImageBuffer() {
-  uint32_t bufferSize = (EINK_WIDTH * EINK_HEIGHT) / 2;
-  uint8_t * buffer = (uint8_t*) calloc(bufferSize, sizeof(uint8_t)); // allocate memory, save address
-  return buffer;
-}
-
-
-uint8_t * initLoadedDgsrImageBuffer() {
-  uint8_t * buffer = (uint8_t*) calloc(LOADED_DGSR_IMAGE_BUFFER_SIZE, sizeof(uint8_t)); // allocate memory, save address
-  return buffer;
-}
+#include "../images/dgsr/dgsrImageVars.h"
+#include <qroma-hat/images/data/images_data.h>
 
 
 void clearScreenToWhite() {
@@ -82,14 +59,17 @@ void clearScreenToBlack() {
   
   epd_draw_image(area, (uint8_t *)(_activeImage.imagePixels), BLACK_ON_WHITE);
   
-
-  // epd_clear();
-  // epd_draw_grayscale_image(area, (uint8_t *)activeImage.imageData);
-  // epd_draw_image(area, (uint8_t *)activeImage.imageData, BLACK_ON_WHITE);
-  
   delay(500);
   
   epd_poweroff();
+}
+
+
+void showDefaultImage() {
+  HatImagePointer hatImagePointer = {
+    .dgsrImage = &dgsr_image_qroma_hat_def,
+  };
+  showImageFromInternalDgsrData(HIE_DGSR, &hatImagePointer, &_activeImage);
 }
 
 
@@ -97,28 +77,22 @@ void localLoadFileIntoDgsrImage(const char * filePath, LoadedDgsrImage * imageTo
   logInfo("localLoadFileIntoDgsrImage()");
 }
 
-void showImageFromFile(const char * filePath, HatImageData * hatImageData) {
+void showImageFromFile(const char * filePath) {
   logInfo("showImageFromFile()");
   logInfo(filePath);
 
   char reasonInvalid[200];
   
   loadFileIntoDgsrImage(filePath, &_loadedDgsrImage, reasonInvalid);
-  mapLoadedDgsrImageToHatData(&_loadedDgsrImage, filePath, hatImageData);
-  showHatImageData(hatImageData);
+  mapLoadedDgsrImageToHatData(&_loadedDgsrImage, filePath, &_activeImage);
+  showHatImageData(&_activeImage);
 
   logInfo("DONE showImageFromFile()");
 }
 
 
 bool showImageFromInternalDgsrData(HatImageEncoding encoding, HatImagePointer * imgPointer, HatImageData * hatImageData) {
-
-// bool loadImageData(uint8_t imageIndex, HatImageData * hatImageData) {
   logInfo("showImageFromInternalDgsrData");
-
-  // HatImageDef * hatImageDef = &(_hatImageDefinitions[imageIndex]);
-  // logInfoInt((uint32_t)hatImageDef);
-  // logInfoInt((uint32_t)hatImageDef->hatImageEncoding);
 
   switch (encoding) {
     case HIE_GS_BMP:

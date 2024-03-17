@@ -16,13 +16,13 @@ typedef struct _HatGsBmpImageDef {
 } HatGsBmpImageDef;
 
 
-typedef struct _HatImageData { 
+typedef struct _HatImageData {
+  bool isInitialized;
+
   int32_t imageWidth;
   int32_t imageHeight;
   uint8_t * imagePixels;
   char imageLabel[100];
-  // const char * imageFile;
-  // const char * imageLabel;
 } HatImageData;
 
 
@@ -46,6 +46,8 @@ typedef struct _HatDgsrImageDef {
 
 
 typedef struct _LoadedDgsrImage {
+  bool isInitialized;
+
   uint32_t imageWidth;      // image width in pixels (BE)
   uint32_t imageHeight;     // image height in pixels (BE)
 
@@ -53,7 +55,7 @@ typedef struct _LoadedDgsrImage {
   char sourceFile[50];  // where the data for this image came from
 
   uint32_t dgsrDataByteCount;
-  // uint8_t dgsrData[5]; // 100k should be enough for now
+  uint32_t maxAllowedDgsrDataByteCount;
   uint8_t * dgsrFileData;
 
 } LoadedDgsrImage;

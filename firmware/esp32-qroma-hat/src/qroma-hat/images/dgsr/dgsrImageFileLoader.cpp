@@ -68,18 +68,15 @@ bool loadFileIntoDgsrImage(const char * filePath, LoadedDgsrImage * imageToLoad,
 
   logInfoIntWithDescription("EXPECTING DGSR BYTES >> ", expectedDgsrByteCount);
 
-  if (expectedDgsrByteCount >= LOADED_DGSR_IMAGE_BUFFER_SIZE) {
+  if (expectedDgsrByteCount >= imageToLoad->maxAllowedDgsrDataByteCount) {
     logError("File too large. Too many DGSR bytes");
-    logInfoIntWithDescription("Can't handle more than ", LOADED_DGSR_IMAGE_BUFFER_SIZE);
+    logInfoIntWithDescription("Can't handle more than ", imageToLoad->maxAllowedDgsrDataByteCount);
     return false;
   }
 
   size_t i = 0;
   while (i < expectedDgsrByteCount) {
     uint8_t nextByte = file.read();
-
-    // logInfoIntWithDescription("+", nextByte);
-
     imageToLoad->dgsrFileData[i] = nextByte;
     i++;
   }

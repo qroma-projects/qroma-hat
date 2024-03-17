@@ -38,7 +38,8 @@ enum NoArgCommands {
   Nac_NotSet             = 0;
   Nac_ClearScreenToWhite = 1;
   Nac_ClearScreenToBlack = 2;
-  Nac_GetConfiguration   = 3;
+  Nac_ShowDefaultImage   = 3;
+  Nac_GetConfiguration   = 4;
 }
 
 message MyProjectCommand {

@@ -9,9 +9,6 @@
 #include "images/dgsr/dgsrImageValidator.h"
 
 
-HatImageData workingHatImageData; // this is OK to share since only one command gets processed at a time
-
-
 void handleNoArgCommand(NoArgCommands noArgCommand, MyProjectResponse * response) {
   switch (noArgCommand) {
     case NoArgCommands_Nac_NotSet:
@@ -24,6 +21,10 @@ void handleNoArgCommand(NoArgCommands noArgCommand, MyProjectResponse * response
 
     case NoArgCommands_Nac_ClearScreenToBlack:
       clearScreenToBlack();
+      break;
+
+    case NoArgCommands_Nac_ShowDefaultImage:
+      showDefaultImage();
       break;
 
     case NoArgCommands_Nac_GetConfiguration:
@@ -92,7 +93,7 @@ void handleSetHatImageCommand(SetHatImageCommand * message, MyProjectResponse * 
   response->which_response = MyProjectResponse_setHatImageResponse_tag;
 
   // validate image is a valid DGSR file we can show
-  if (!isValidDgsrFile(message->imagePath, &workingHatImageData, response->response.getDgsrImageValidationResultResponse.message)) {
+  if (!isValidDgsrFile(message->imagePath, response->response.getDgsrImageValidationResultResponse.message)) {
     response->response.setHatImageResponse.success = false;
     strncpy(response->response.setHatImageResponse.message, 
       "Invalid hat image file: ", 
@@ -126,6 +127,8 @@ void handleSetHatImageCommand(SetHatImageCommand * message, MyProjectResponse * 
     sizeof(response->response.setHatImageResponse.message));
   strncat(response->response.setHatImageResponse.message, message->imagePath, 
     sizeof(response->response.setHatImageResponse.message));
+
+  showImageFromFile(message->imagePath);
 }
 
 
@@ -143,7 +146,7 @@ void handleGetDgsrImageValidationResultCommand(GetDgsrImageValidationResultComma
 
   logInfo("handleGetDgsrImageValidationResultCommand()");
 
-  bool isValid = isValidDgsrFile(message->imagePath, &workingHatImageData, response->response.getDgsrImageValidationResultResponse.message);
+  bool isValid = isValidDgsrFile(message->imagePath, response->response.getDgsrImageValidationResultResponse.message);
   
   logInfo("VALIDATION RESULT");
   logInfo(isValid);

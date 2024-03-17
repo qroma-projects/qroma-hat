@@ -5,6 +5,6 @@
 #include "../image_types.h"
 
 
-bool isValidDgsrFile(const char * filePath, HatImageData * hatImageData, char * reasonInvalid);
+bool isValidDgsrFile(const char * filePath, char * reasonInvalid);
 
 #endif

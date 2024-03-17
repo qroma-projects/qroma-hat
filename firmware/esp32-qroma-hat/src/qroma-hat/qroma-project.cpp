@@ -5,6 +5,7 @@
 #include "images/image_types.h"
 #include "eink/eink-screen.h"
 #include "images/data/images_data.h"
+#include "images/dgsr/dgsrImageVars.h"
 
 
 AppCommandProcessor<
@@ -91,21 +92,12 @@ void qromaProjectSetup()
   epd_init();
   logInfo("POST-EPDINIT");
 
-  uint8_t * activeImageBuffer = initActiveImageBuffer();
-  _activeImage.imagePixels = activeImageBuffer;
-
-  uint8_t * dgsrDataBuffer = initLoadedDgsrImageBuffer();
-  _loadedDgsrImage.dgsrFileData = dgsrDataBuffer;
+  bool initActiveImageSuccess = initActiveImageBuffer(EINK_WIDTH, EINK_HEIGHT, "IMAGE NOT SET");
+  bool initLoadedDgsrImageSuccess = initLoadedDgsrImageBuffer(LOADED_DGSR_IMAGE_BUFFER_SIZE);
 
   saveDefaultConfigs();
 
-  // HatImagePointer hatImagePointer = {
-  //   .dgsrImage = &dgsr_image_qroma_hat_def,
-  // };
-  // showImageFromInternalDgsrData(HIE_DGSR, &hatImagePointer, &_activeImage);
-  
-  
-  showImageFromFile("/qroma_hat.dgsr", &_activeImage);
+  showDefaultImage();
 
   logInfo("DONE setup()");
 }

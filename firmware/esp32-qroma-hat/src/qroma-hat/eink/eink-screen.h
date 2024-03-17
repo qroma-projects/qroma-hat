@@ -11,22 +11,18 @@
 const uint16_t EINK_WIDTH  = 960;
 const uint16_t EINK_HEIGHT = 540;
 
-
-extern HatImageData _activeImage;
-uint8_t * initActiveImageBuffer();
-
-extern LoadedDgsrImage _loadedDgsrImage;
-uint8_t * initLoadedDgsrImageBuffer();
+const uint32_t LOADED_DGSR_IMAGE_BUFFER_SIZE = 100000;
 
 
 void clearScreenToWhite();
 void clearScreenToBlack();
 void showExampleImage();
+void showDefaultImage();
 
 void showHatImageData(HatImageData * hatImageData);
 
 bool showImageFromInternalDgsrData(HatImageEncoding encoding, HatImagePointer * imgPointer, HatImageData * hatImageData);
-void showImageFromFile(const char * filePath, HatImageData * hatImageData);
+void showImageFromFile(const char * filePath);
 
 
 #endif

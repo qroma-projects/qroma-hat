@@ -20,7 +20,8 @@ typedef enum _NoArgCommands {
     NoArgCommands_Nac_NotSet = 0,
     NoArgCommands_Nac_ClearScreenToWhite = 1,
     NoArgCommands_Nac_ClearScreenToBlack = 2,
-    NoArgCommands_Nac_GetConfiguration = 3
+    NoArgCommands_Nac_ShowDefaultImage = 3,
+    NoArgCommands_Nac_GetConfiguration = 4
 } NoArgCommands;
 
 /* Struct definitions */

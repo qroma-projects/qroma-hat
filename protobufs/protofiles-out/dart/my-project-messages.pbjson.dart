@@ -35,15 +35,16 @@ const NoArgCommands$json = {
     {'1': 'Nac_NotSet', '2': 0},
     {'1': 'Nac_ClearScreenToWhite', '2': 1},
     {'1': 'Nac_ClearScreenToBlack', '2': 2},
-    {'1': 'Nac_GetConfiguration', '2': 3},
+    {'1': 'Nac_ShowDefaultImage', '2': 3},
+    {'1': 'Nac_GetConfiguration', '2': 4},
   ],
 };
 
 /// Descriptor for `NoArgCommands`. Decode as a `google.protobuf.EnumDescriptorProto`.
 final $typed_data.Uint8List noArgCommandsDescriptor = $convert.base64Decode(
     'Cg1Ob0FyZ0NvbW1hbmRzEg4KCk5hY19Ob3RTZXQQABIaChZOYWNfQ2xlYXJTY3JlZW5Ub1doaX'
-    'RlEAESGgoWTmFjX0NsZWFyU2NyZWVuVG9CbGFjaxACEhgKFE5hY19HZXRDb25maWd1cmF0aW9u'
-    'EAM=');
+    'RlEAESGgoWTmFjX0NsZWFyU2NyZWVuVG9CbGFjaxACEhgKFE5hY19TaG93RGVmYXVsdEltYWdl'
+    'EAMSGAoUTmFjX0dldENvbmZpZ3VyYXRpb24QBA==');
 
 @$core.Deprecated('Use updateConfigurationDescriptor instead')
 const UpdateConfiguration$json = {
