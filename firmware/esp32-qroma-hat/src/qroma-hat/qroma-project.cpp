@@ -94,23 +94,18 @@ void qromaProjectSetup()
   uint8_t * activeImageBuffer = initActiveImageBuffer();
   _activeImage.imagePixels = activeImageBuffer;
 
+  uint8_t * dgsrDataBuffer = initLoadedDgsrImageBuffer();
+  _loadedDgsrImage.dgsrFileData = dgsrDataBuffer;
+
   saveDefaultConfigs();
 
-    HatImagePointer hatImagePointer = {
-    .dgsrImage = &dgsr_image_qroma_hat_def,
-  };
-
-  // logInfo("DATA ITSELF?? ");
-  // logInfo(dgsr_image_qroma_hat_def.metadata.imageLabel);
-  // logInfo("DATA DONE");
-
-  // logInfoIntWithDescription("INIT HAT IMAGE POINTER GS >> ", hatImagePointer.dgsrImage->gsBitsPerPixel);
-  // logInfoIntWithDescription("INIT HAT IMAGE POINTER WIDTH >> ", hatImagePointer.dgsrImage->imageWidth);
-  // logInfoIntWithDescription("INIT HAT IMAGE POINTER HEIGHT >> ", hatImagePointer.dgsrImage->imageHeight);
-  // logInfo(hatImagePointer.dgsrImage->metadata.imageLabel);
-  // logInfo("LABEL COMPLETE");
-
-  showImageFromInternalDgsrData(HIE_DGSR, &hatImagePointer, &_activeImage);
+  // HatImagePointer hatImagePointer = {
+  //   .dgsrImage = &dgsr_image_qroma_hat_def,
+  // };
+  // showImageFromInternalDgsrData(HIE_DGSR, &hatImagePointer, &_activeImage);
+  
+  
+  showImageFromFile("/qroma_hat.dgsr", &_activeImage);
 
   logInfo("DONE setup()");
 }

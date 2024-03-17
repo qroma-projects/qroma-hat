@@ -4,6 +4,7 @@
 #include "../qroma-commands.h"
 #include "../qroma-config.h"
 #include "rotateHatImage.h"
+#include "../images/dgsr/dgsrImageFileLoader.h"
 
 
 HatImageData _activeImage = {
@@ -14,12 +15,22 @@ HatImageData _activeImage = {
   .imageLabel = "IMAGE NOT SET\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0",
 };
 
+LoadedDgsrImage _loadedDgsrImage;
+
+
 
 uint8_t * initActiveImageBuffer() {
   uint32_t bufferSize = (EINK_WIDTH * EINK_HEIGHT) / 2;
   uint8_t * buffer = (uint8_t*) calloc(bufferSize, sizeof(uint8_t)); // allocate memory, save address
   return buffer;
-} 
+}
+
+
+uint8_t * initLoadedDgsrImageBuffer() {
+  uint8_t * buffer = (uint8_t*) calloc(LOADED_DGSR_IMAGE_BUFFER_SIZE, sizeof(uint8_t)); // allocate memory, save address
+  return buffer;
+}
+
 
 void clearScreenToWhite() {
   logInfo("clearScreenToWhite()");
@@ -82,8 +93,21 @@ void clearScreenToBlack() {
 }
 
 
-void showImageFromFile(const char * filePath) {
+void localLoadFileIntoDgsrImage(const char * filePath, LoadedDgsrImage * imageToLoad, char * reasonInvalid) {
+  logInfo("localLoadFileIntoDgsrImage()");
+}
 
+void showImageFromFile(const char * filePath, HatImageData * hatImageData) {
+  logInfo("showImageFromFile()");
+  logInfo(filePath);
+
+  char reasonInvalid[200];
+  
+  loadFileIntoDgsrImage(filePath, &_loadedDgsrImage, reasonInvalid);
+  mapLoadedDgsrImageToHatData(&_loadedDgsrImage, filePath, hatImageData);
+  showHatImageData(hatImageData);
+
+  logInfo("DONE showImageFromFile()");
 }
 
 
@@ -109,6 +133,15 @@ bool showImageFromInternalDgsrData(HatImageEncoding encoding, HatImagePointer * 
       return false;
   }
 
+  showHatImageData(hatImageData);
+
+  return true;
+}
+
+
+void showHatImageData(HatImageData * hatImageData) {
+  logInfo("START showHatImageData()");
+
   Rect_t area = {
     .x = 0,
     .y = 0,
@@ -123,12 +156,10 @@ bool showImageFromInternalDgsrData(HatImageEncoding encoding, HatImagePointer * 
   epd_poweron();
   epd_clear();
   epd_draw_grayscale_image(area, (uint8_t *)hatImageData->imagePixels);
-  // epd_draw_image(area, (uint8_t *)activeImage.imageData, BLACK_ON_WHITE);
   
   delay(500);
   
   epd_poweroff();
 
-  return true;
+  logInfo("DONE showHatImageData()");
 }
-

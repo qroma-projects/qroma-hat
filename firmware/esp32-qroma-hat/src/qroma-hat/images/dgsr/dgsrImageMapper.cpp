@@ -100,11 +100,15 @@ bool mapLoadedDgsrImageToHatData(LoadedDgsrImage * dgsrImage, const char * fileP
   uint32_t nibbleIndex = 0;
   uint32_t nibbleArea = dgsrImage->imageHeight * dgsrImage->imageWidth;
 
+  logInfoUintWithDescription("HEIGHT >> ", dgsrImage->imageHeight);
+  logInfoUintWithDescription("WIDTH  >> ", dgsrImage->imageWidth);
+
   uint32_t dgsrDataByteIndex = 0;
-  const uint8_t * currentDataPtr = dgsrImage->dgsrData;
+  const uint8_t * currentDataPtr = dgsrImage->dgsrFileData;
 
   PixelRunResult pixelRunResult;
   uint8_t maxPixelGs = 0;
+  uint32_t pixelRunCount = 0;
 
   while (dgsrDataByteIndex < dgsrImage->dgsrDataByteCount) {
     bool success = getPixelRunResult(currentDataPtr, &pixelRunResult);
@@ -122,16 +126,19 @@ bool mapLoadedDgsrImageToHatData(LoadedDgsrImage * dgsrImage, const char * fileP
     dgsrDataByteIndex += pixelRunResult.bytesConsumed;
     currentDataPtr += pixelRunResult.bytesConsumed;
     nibbleIndex += pixelRunResult.runLength;
+    pixelRunCount++;
   }
+
+  logInfoUintWithDescription("PIXEL RUN COUNT >> ", pixelRunCount);
   
   if (maxPixelGs > 15) {
     logError("MAX OF 4 GS BITS PER PIXEL REQUIRED");
-    logInfoIntWithDescription("MAX COUND VALUE WAS ", maxPixelGs);
+    logInfoIntWithDescription("MAX PIXEL GS VALUE WAS ", maxPixelGs);
     logInfo(filePath);
     return false;
   }
 
-  logInfo("DONE mapDgsrImageToHatData");
+  logInfo("DONE mapLoadedDgsrImageToHatData");
 
   return true;
 }

@@ -9,15 +9,15 @@
 
 bool loadFileIntoDgsrImage(const char * filePath, LoadedDgsrImage * imageToLoad, char * reasonInvalid) {
 
+  logInfo("LOADING DGSR FILE");
+  logInfo(filePath);
+
   // validate image is on file system
   if (!doesFileExist(filePath)) {
     logError("File does not exist");
     logError(filePath);
     return false;
   }
-
-  logInfo("LOADING DGSR FILE");
-  logInfo(filePath);
 
   strncpy(imageToLoad->sourceFile, filePath, sizeof(imageToLoad->sourceFile));
 
@@ -68,71 +68,25 @@ bool loadFileIntoDgsrImage(const char * filePath, LoadedDgsrImage * imageToLoad,
 
   logInfoIntWithDescription("EXPECTING DGSR BYTES >> ", expectedDgsrByteCount);
 
-  if (expectedDgsrByteCount >= sizeof(imageToLoad->dgsrData)) {
+  if (expectedDgsrByteCount >= LOADED_DGSR_IMAGE_BUFFER_SIZE) {
     logError("File too large. Too many DGSR bytes");
-    logInfoIntWithDescription("Can't handle more than ", sizeof(imageToLoad->dgsrData));
+    logInfoIntWithDescription("Can't handle more than ", LOADED_DGSR_IMAGE_BUFFER_SIZE);
     return false;
   }
 
   size_t i = 0;
   while (i < expectedDgsrByteCount) {
     uint8_t nextByte = file.read();
-    // if (i < 10) {
-    //   logInfoIntWithDescription("DGSR BYTE - ", nextByte);
-    // }
 
-    logInfoIntWithDescription("+", nextByte);
+    // logInfoIntWithDescription("+", nextByte);
 
-    imageToLoad->dgsrData[i] = nextByte;
+    imageToLoad->dgsrFileData[i] = nextByte;
     i++;
   }
 
   logInfoIntWithDescription("DONE READING DGSR BYTES ", i);
-
-
-  // MapDgsrDataInputs inputs;
-  // inputs.imageWidth = imageToLoad->imageWidth;
-  // inputs.imageHeight = imageToLoad->imageHeight;
-  // inputs.imageLabel = filePath;
-  // inputs.dgsrData = imageToLoad->dgsrData;
-  // inputs.dgsrDataByteCount = expectedDgsrByteCount;
-
-  // MapDgsrDataOutputs outputs;
-
-  // bool readDgsrSuccess = mapDgsrDataToPixelData(&inputs, &outputs);
-  // if (!readDgsrSuccess) {
-  //   logError("Error reading DGSR data");
-  //   return false;
-  // }
-
-
-  // ReadDgsrDataInputs inputs;
-  // inputs.imageWidth = imageToLoad->imageWidth;
-  // inputs.imageHeight = imageToLoad->imageHeight;
-  // inputs.imageLabel = filePath;
-  // inputs.fileReadyToReadDgsrBytes = &file;
-  // inputs.dgsrDataBuffer = imageToLoad->dgsrData;
-  // inputs.dgsrDataByteCount = expectedDgsrByteCount;
-
-  // ReadDgsrDataOutputs outputs;
-
-  // bool readDgsrSuccess = doFileReadDgsrBytesIntoGrayscaleBuffer(imageToLoad, &inputs, &outputs);
-  // if (!readDgsrSuccess) {
-  //   logError("Error reading DGSR data");
-  //   return false;
-  // }
-
-  // logInfoIntWithDescription("PIXEL RUN COUNT", outputs.pixelRunCount);
-  // logInfoIntWithDescription("MAX GRAYSCALE", outputs.maxPixelGs);
-
-  // if (outputs.maxPixelGs > 15) {
-  //   logError("MAX OF 4 GS BITS PER PIXEL REQUIRED");
-  //   logInfoIntWithDescription("MAX COUND VALUE WAS ", outputs.maxPixelGs);
-  //   logInfo(filePath);
-  //   return false;
-  // }
-
-  // imageToLoad->maxPixelGs = outputs.maxPixelGs;
+  imageToLoad->dgsrDataByteCount = expectedDgsrByteCount;
+  strncpy(imageToLoad->sourceFile, filePath, sizeof(imageToLoad->sourceFile));
   
   uint8_t finalBytes[FINAL_BYTES_COUNT];
   i = 0;
@@ -144,11 +98,6 @@ bool loadFileIntoDgsrImage(const char * filePath, LoadedDgsrImage * imageToLoad,
     finalBytes[i] = nextByte;
     i++;
   }
-
-  // if (file.read((uint8_t*)finalBytes, sizeof(finalBytes)) != sizeof(finalBytes)) {
-  //   logError("Error reading final bytes from file");
-  //   return false;
-  // }
 
   if (finalBytes[0] != 0x00 || 
       finalBytes[1] != 0x00 ||
@@ -169,105 +118,8 @@ bool loadFileIntoDgsrImage(const char * filePath, LoadedDgsrImage * imageToLoad,
     logInfoIntWithDescription("  7 >> ", finalBytes[6]);
     logInfoIntWithDescription("  8 >> ", finalBytes[7]);
     
-    // return false;
+    return false;
   }
 
   return true;
 }
-
-
-// bool doFileReadDgsrBytesIntoGrayscaleBuffer(LoadedDgsrImage * dgsrImage, ReadDgsrDataInputs * inputs, ReadDgsrDataOutputs * outputs) {
-
-//   File file = *(inputs->fileReadyToReadDgsrBytes);
-  
-
-//   uint8_t nextByte = file.read();
-
-
-//   // file.peek
-
-//   // size_t numBytesRead = file.read(imageToLoad->dgsrData, expectedDgsrByteCount);
-//   // logInfoIntWithDescription("READ DGSR BYTES >> ", numBytesRead);
-//   // logInfo("READ DGSR BYTES");
-//   // logInfo(numBytesRead);
-
-//   // if (numBytesRead != expectedDgsrByteCount) {
-//   //   logError("Error reading DGSR bytes from file");
-//   //   logError(numBytesRead);
-//   //   logError(expectedDgsrByteCount);
-//   //   return false;
-//   // }
-
-//   // MapDgsrDataInputs inputs = {
-//   //   .imageWidth = imageToLoad->imageWidth,
-//   //   .imageHeight = imageToLoad->imageHeight,
-//   //   .imageLabel = filePath,
-//   //   .dgsrData = imageToLoad->dgsrData,
-//   //   // .dgsrDataByteCount = imageToLoad->dgsrDataByteCount,
-//   //   .dgsrDataByteCount = expectedDgsrByteCount,
-//   // };
-
-// }
-
-
-
-// bool mapDgsrDataToPixelData(MapDgsrDataInputs * inputs, MapDgsrDataOutputs * outputs) {
-
-// // }
-// // bool mapDgsrDataToPixelData(uint8_t * dgsrData, const char * filePath, HatImageData * hatImageData) {
-//   outputs->mapSuccess = false;
-
-//   logInfo("mapDgsrDataToPixelData");
-  
-//   // hatImageData->imageHeight = dgsrImage->imageHeight;
-//   // hatImageData->imageWidth = dgsrImage->imageWidth;
-//   // strncpy(hatImageData->imageLabel, filePath, sizeof(hatImageData->imageLabel));
-
-//   logInfo("MAPPING DGSR IMAGE");
-//   logInfo(inputs->imageLabel);
-
-//   uint32_t nibbleIndex = 0;
-//   uint32_t nibbleArea = inputs->imageHeight * inputs->imageWidth;
-
-//   uint32_t dgsrDataByteIndex = 0;
-//   const uint8_t * currentDataPtr = inputs->dgsrData;
-
-//   PixelRunResult pixelRunResult;
-//   uint8_t maxPixelGs = 0;
-//   uint32_t pixelRunCount = 0;
-
-//   while (dgsrDataByteIndex < inputs->dgsrDataByteCount) {
-//     bool success = getPixelRunResult(currentDataPtr, &pixelRunResult);
-//     if (!success) {
-//       logError("PIXEL RUN RESULT ERROR");
-//       return false;
-//     }
-
-//     if (pixelRunResult.pixelGs > maxPixelGs) {
-//       maxPixelGs = pixelRunResult.pixelGs;
-//     }
-
-//     setImageNibbleValues(outputs->mappedImagePixels, nibbleIndex, pixelRunResult.pixelGs, pixelRunResult.runLength);
-
-//     dgsrDataByteIndex += pixelRunResult.bytesConsumed;
-//     currentDataPtr += pixelRunResult.bytesConsumed;
-//     nibbleIndex += pixelRunResult.runLength;
-//     pixelRunCount++;
-//   }
-
-//   outputs->maxPixelGs = maxPixelGs;
-//   outputs->pixelRunCount = pixelRunCount;
-//   logInfoIntWithDescription("NUM BYTES CONSUMED >> ", pixelRunResult.bytesConsumed);
-  
-//   // if (maxPixelGs > 15) {
-//   //   logError("MAX OF 4 GS BITS PER PIXEL REQUIRED");
-//   //   logInfoIntWithDescription("MAX COUND VALUE WAS ", maxPixelGs);
-//   //   logInfo(filePath);
-//   //   return false;
-//   // }
-
-//   logInfo("DONE mapDgsrDataToPixelData");
-
-//   outputs->mapSuccess = true;
-//   return true;
-// }

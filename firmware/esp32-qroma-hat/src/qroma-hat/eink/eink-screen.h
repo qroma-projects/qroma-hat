@@ -11,14 +11,22 @@
 const uint16_t EINK_WIDTH  = 960;
 const uint16_t EINK_HEIGHT = 540;
 
+
 extern HatImageData _activeImage;
 uint8_t * initActiveImageBuffer();
+
+extern LoadedDgsrImage _loadedDgsrImage;
+uint8_t * initLoadedDgsrImageBuffer();
+
 
 void clearScreenToWhite();
 void clearScreenToBlack();
 void showExampleImage();
 
+void showHatImageData(HatImageData * hatImageData);
+
 bool showImageFromInternalDgsrData(HatImageEncoding encoding, HatImagePointer * imgPointer, HatImageData * hatImageData);
+void showImageFromFile(const char * filePath, HatImageData * hatImageData);
 
 
 #endif

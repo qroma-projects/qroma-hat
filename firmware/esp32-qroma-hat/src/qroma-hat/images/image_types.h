@@ -53,7 +53,8 @@ typedef struct _LoadedDgsrImage {
   char sourceFile[50];  // where the data for this image came from
 
   uint32_t dgsrDataByteCount;
-  uint8_t dgsrData[100000]; // 100k should be enough for now
+  // uint8_t dgsrData[5]; // 100k should be enough for now
+  uint8_t * dgsrFileData;
 
 } LoadedDgsrImage;
 
