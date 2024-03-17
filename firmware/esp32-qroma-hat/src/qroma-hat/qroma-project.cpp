@@ -118,7 +118,7 @@ void qromaProjectSetup()
 
 void qromaProjectLoop()
 {
-  logInfoUintWithDescription("QROMA PROJECT LOOP - ", updateCounter);
+  // logInfoUintWithDescription("QROMA PROJECT LOOP - ", updateCounter);
   myQromaApp.tick();
 
   updateCounter++;

@@ -9,7 +9,7 @@
 HatImageData _activeImage = {
   .imageWidth = EINK_WIDTH,
   .imageHeight = EINK_HEIGHT,
-  .imagePixels = NULL,
+  .imagePixels = NULL,  // will be initialized by initActiveImageBuffer()
   // added 99 - 13 (strlen) of /0 chars for initialization
   .imageLabel = "IMAGE NOT SET\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0",
 };
@@ -26,8 +26,26 @@ void clearScreenToWhite() {
   
   epd_poweron();
   epd_clear();
-  // epd_draw_grayscale_image(area, (uint8_t *)activeImage.imageData);
-  // epd_draw_image(area, (uint8_t *)activeImage.imageData, BLACK_ON_WHITE);
+  
+  delay(500);
+  
+  epd_poweroff();
+}
+
+
+void showExampleImage() {
+  logInfo("showExampleImage()");
+  
+  epd_poweron();
+
+   Rect_t area = {
+    .x = 230,
+    .y = 20,
+    .width = logo_width,
+    .height = logo_height,
+  };
+
+  epd_draw_image(area, (uint8_t *)logo_data, BLACK_ON_WHITE);
   
   delay(500);
   
@@ -40,14 +58,19 @@ void clearScreenToBlack() {
   
   epd_poweron();
 
-   Rect_t area = {
-    .x = 230,
-    .y = 20,
-    .width = logo_width,
-    .height = logo_height,
+  Rect_t area = {
+    .x = 0,
+    .y = 0,
+    .width = _activeImage.imageWidth,
+    .height = _activeImage.imageHeight,
   };
 
-  epd_draw_image(area, (uint8_t *)logo_data, BLACK_ON_WHITE);
+  // set drawing area to "off" pixels
+  uint32_t imageNibbleCount = (_activeImage.imageWidth * _activeImage.imageHeight) / 2;
+  memset(_activeImage.imagePixels, 0x00, imageNibbleCount);
+  
+  epd_draw_image(area, (uint8_t *)(_activeImage.imagePixels), BLACK_ON_WHITE);
+  
 
   // epd_clear();
   // epd_draw_grayscale_image(area, (uint8_t *)activeImage.imageData);

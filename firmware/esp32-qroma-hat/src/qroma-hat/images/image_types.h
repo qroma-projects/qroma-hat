@@ -17,8 +17,8 @@ typedef struct _HatGsBmpImageDef {
 
 
 typedef struct _HatImageData { 
-  uint32_t imageWidth;
-  uint32_t imageHeight;
+  int32_t imageWidth;
+  int32_t imageHeight;
   uint8_t * imagePixels;
   char imageLabel[100];
   // const char * imageFile;

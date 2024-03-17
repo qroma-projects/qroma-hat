@@ -16,6 +16,7 @@ uint8_t * initActiveImageBuffer();
 
 void clearScreenToWhite();
 void clearScreenToBlack();
+void showExampleImage();
 
 bool showImageFromInternalDgsrData(HatImageEncoding encoding, HatImagePointer * imgPointer, HatImageData * hatImageData);
 
