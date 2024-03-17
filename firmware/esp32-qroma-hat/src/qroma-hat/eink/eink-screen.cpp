@@ -67,7 +67,7 @@ void clearScreenToBlack() {
 
 void showDefaultImage() {
   HatImagePointer hatImagePointer = {
-    .dgsrImage = &dgsr_image_qroma_hat_def,
+    .dgsrImage = &dgsr_image_qroma_dev_def,
   };
   showImageFromInternalDgsrData(HIE_DGSR, &hatImagePointer, &_activeImage);
 }
