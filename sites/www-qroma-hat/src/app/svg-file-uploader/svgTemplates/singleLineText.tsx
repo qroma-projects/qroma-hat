@@ -19,35 +19,38 @@ const DEFAULT_FONT_SIZE = 160;
 const LINE_1_TEXT = "QROMA";
 
 
-const SingleLineSvg = ({line1, svgTemplateInputs}: {line1: string, svgTemplateInputs: ISvgTemplateInputs}) => (
-  <svg 
-    xmlns="http://www.w3.org/2000/svg" 
-    version="1.1" 
-    baseProfile="full" 
-    width={GS_IMAGE_WIDTH}
-    height={GS_IMAGE_HEIGHT}
-    >
-    <rect 
-      width="100%" 
-      height="100%" 
-      fill="white"
-      stroke="black"
-      strokeWidth={svgTemplateInputs.borderWidth}
-      strokeOpacity="1.0"
-      />
-    <text 
-      x={GS_IMAGE_WIDTH/2} 
-      y={GS_IMAGE_HEIGHT/2}
-      fontSize={svgTemplateInputs.fontSize}
-      fontFamily={svgTemplateInputs.fontFamily}
-      textAnchor="middle"
-      dominantBaseline="middle"
-      fill="black"
+const SingleLineSvg = ({line1, svgTemplateInputs}: {line1: string, svgTemplateInputs: ISvgTemplateInputs}) => {
+
+  return (
+    <svg 
+      xmlns="http://www.w3.org/2000/svg" 
+      version="1.1" 
+      baseProfile="full" 
+      width={GS_IMAGE_WIDTH}
+      height={GS_IMAGE_HEIGHT}
       >
-      {line1}
-    </text>
-  </svg>
-);
+      <rect 
+        width="100%" 
+        height="100%" 
+        fill="white"
+        stroke="black"
+        strokeWidth={svgTemplateInputs.borderWidth}
+        strokeOpacity="1.0"
+        />
+      <text 
+        x={GS_IMAGE_WIDTH/2} 
+        y={GS_IMAGE_HEIGHT/2}
+        fontSize={svgTemplateInputs.fontSize}
+        fontFamily={svgTemplateInputs.fontFamily}
+        textAnchor="middle"
+        dominantBaseline="middle"
+        fill="black"
+        >
+        {line1}
+      </text>
+    </svg>
+  );
+}
 
 const createSingleLineSvgGenerationInputs = (line1: string, svgTemplateInputs: ISvgTemplateInputs): ISvgToGrayscaleInputs => {
   const newSvgText = renderToString(

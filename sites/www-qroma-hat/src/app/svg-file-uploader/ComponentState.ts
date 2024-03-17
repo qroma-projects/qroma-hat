@@ -21,7 +21,7 @@ export const createInitialComponentState = (
   const svgTemplateInputs = {
     fontFamily: "arial",
     fontSize: 170,
-    borderWidth: 20, 
+    borderWidth: 20,
 
     imageTypesFilePath: "image_types.h",
     imageGroupNameRoot: "frank_hats_season2",
