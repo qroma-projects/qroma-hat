@@ -36,8 +36,6 @@ const NoArgCommands$json = {
     {'1': 'Nac_ClearScreenToWhite', '2': 1},
     {'1': 'Nac_ClearScreenToBlack', '2': 2},
     {'1': 'Nac_GetConfiguration', '2': 3},
-    {'1': 'Nac_GetFirmwareDetails', '2': 4},
-    {'1': 'Nac_RestartDevice', '2': 5},
   ],
 };
 
@@ -45,7 +43,7 @@ const NoArgCommands$json = {
 final $typed_data.Uint8List noArgCommandsDescriptor = $convert.base64Decode(
     'Cg1Ob0FyZ0NvbW1hbmRzEg4KCk5hY19Ob3RTZXQQABIaChZOYWNfQ2xlYXJTY3JlZW5Ub1doaX'
     'RlEAESGgoWTmFjX0NsZWFyU2NyZWVuVG9CbGFjaxACEhgKFE5hY19HZXRDb25maWd1cmF0aW9u'
-    'EAMSGgoWTmFjX0dldEZpcm13YXJlRGV0YWlscxAEEhUKEU5hY19SZXN0YXJ0RGV2aWNlEAU=');
+    'EAM=');
 
 @$core.Deprecated('Use updateConfigurationDescriptor instead')
 const UpdateConfiguration$json = {

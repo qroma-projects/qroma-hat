@@ -1,15 +1,20 @@
 #ifndef QROMA_PROJECT_CONFIG_H
 #define QROMA_PROJECT_CONFIG_H
 
-#include "qroma-commands.h"
-#include "qroma-proto/my-project-messages.pb.h"
+#include "qroma-config.h"
+#include <qroma-proto/my-project-messages.pb.h>
 
-extern MyProjectConfiguration _myProjectConfiguration;
 
-#define QROMA_PROJECT_CONFIG_FILENAME "/qroma-hat-config.qroma"
+extern UpdateConfiguration updateConfiguration;
+extern HatConfiguration hatConfiguration;
+
+
+#define QROMA_HAT_UPDATES_CONFIG_FILENAME "/qroma-hat-updates.qroma"
+#define QROMA_HAT_PROJECT_CONFIG_FILENAME "/qroma-hat-config.qroma"
 
 
 void saveDefaultConfigs();
-void populateProjectConfig(MyProjectConfiguration * config);
+bool saveHatConfig(HatConfiguration * toSave);
+
 
 #endif

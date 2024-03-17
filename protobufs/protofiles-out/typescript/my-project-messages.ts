@@ -272,15 +272,7 @@ export enum NoArgCommands {
     /**
      * @generated from protobuf enum value: Nac_GetConfiguration = 3;
      */
-    Nac_GetConfiguration = 3,
-    /**
-     * @generated from protobuf enum value: Nac_GetFirmwareDetails = 4;
-     */
-    Nac_GetFirmwareDetails = 4,
-    /**
-     * @generated from protobuf enum value: Nac_RestartDevice = 5;
-     */
-    Nac_RestartDevice = 5
+    Nac_GetConfiguration = 3
 }
 // @generated message type with reflection information, may provide speed optimized methods
 class UpdateConfiguration$Type extends MessageType<UpdateConfiguration> {

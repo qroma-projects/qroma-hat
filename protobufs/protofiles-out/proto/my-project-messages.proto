@@ -39,8 +39,6 @@ enum NoArgCommands {
   Nac_ClearScreenToWhite = 1;
   Nac_ClearScreenToBlack = 2;
   Nac_GetConfiguration   = 3;
-  Nac_GetFirmwareDetails = 4;
-  Nac_RestartDevice      = 5;
 }
 
 message MyProjectCommand {

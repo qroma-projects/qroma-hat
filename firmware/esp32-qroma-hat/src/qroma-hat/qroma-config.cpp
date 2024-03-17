@@ -3,25 +3,36 @@
 #include <qroma/util/qroma-persist.h>
 
 
-MyProjectConfiguration _myProjectConfiguration = {
-  // initialize project configuration fields here
-  .userName = "abc\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0",
-  .startupRed = 0,
-  .startupGreen = 0,
-  .startupBlue = 0,
+UpdateConfiguration updateConfiguration = {
+  .updateType = UpdateType_UpdateType_None,
+  .updateIntervalInMs = 10000,
+};
+
+HatConfiguration hatConfiguration = {
+  { .imageFile = "" },
+  .rotateImage = true,
 };
 
 
 void saveDefaultConfigs() {
-  if (!doesFileExist(QROMA_PROJECT_CONFIG_FILENAME)) {
-    bool saved = savePbToPersistence(&_myProjectConfiguration, QROMA_PROJECT_CONFIG_FILENAME, MyProjectConfiguration_fields);
+  if (!doesFileExist(QROMA_HAT_UPDATES_CONFIG_FILENAME)) {
+    bool saved = savePbToPersistence(&updateConfiguration, QROMA_HAT_UPDATES_CONFIG_FILENAME, UpdateConfiguration_fields);
     if (!saved) {
-      logError("ERROR SAVING {qroma_project.project_id} PROJECT CONFIG");
+      logError("ERROR SAVING qroma-hat UPDATES CONFIG");
     }
+  }
+
+  if (!doesFileExist(QROMA_HAT_PROJECT_CONFIG_FILENAME)) {
+    saveHatConfig(&hatConfiguration);
   }
 }
 
 
-void populateProjectConfig(MyProjectConfiguration * config) {
-  memcpy(config, &_myProjectConfiguration, sizeof(MyProjectConfiguration));
+bool saveHatConfig(HatConfiguration * toSave) {
+  bool saved = savePbToPersistence(toSave, QROMA_HAT_PROJECT_CONFIG_FILENAME, UpdateConfiguration_fields);
+  if (!saved) {
+    logError("ERROR SAVING qroma-hat PROJECT CONFIG");
+  }
+
+  return saved;
 }
