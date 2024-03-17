@@ -13,47 +13,43 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x19my-project-messages.proto\"!\n\x11HelloQromaRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\"M\n\x12HelloQromaResponse\x12\x10\n\x08response\x18\x01 \x01(\t\x12\x11\n\tcallCount\x18\x02 \x01(\r\x12\x12\n\nnameLength\x18\x03 \x01(\r\"?\n\x0bMathRequest\x12\t\n\x01\x61\x18\x01 \x01(\r\x12\t\n\x01\x62\x18\x02 \x01(\r\x12\x1a\n\x02op\x18\x03 \x01(\x0e\x32\x0e.MathOperation\" \n\x0eMathResult_Add\x12\x0e\n\x06result\x18\x01 \x01(\r\"%\n\x13MathResult_Subtract\x12\x0e\n\x06result\x18\x01 \x01(\r\"F\n\x19MathResult_AddAndSubtract\x12\x11\n\taddResult\x18\x01 \x01(\r\x12\x16\n\x0esubtractResult\x18\x02 \x01(\r\"\xac\x01\n\x0cMathResponse\x12$\n\taddResult\x18\x01 \x01(\x0b\x32\x0f.MathResult_AddH\x00\x12.\n\x0esubtractResult\x18\x02 \x01(\x0b\x32\x14.MathResult_SubtractH\x00\x12:\n\x14\x61\x64\x64\x41ndSubtractResult\x18\x03 \x01(\x0b\x32\x1a.MathResult_AddAndSubtractH\x00\x42\n\n\x08response\"1\n\x0c\x42oardDetails\x12\x11\n\tboardName\x18\x01 \x01(\t\x12\x0e\n\x06hasRgb\x18\x02 \x01(\x08\"\'\n\x10MyProjectDetails\x12\x13\n\x0bprojectName\x18\x01 \x01(\t\"i\n\x16MyProjectConfiguration\x12\x10\n\x08userName\x18\x01 \x01(\t\x12\x12\n\nstartupRed\x18\x02 \x01(\r\x12\x14\n\x0cstartupGreen\x18\x03 \x01(\r\x12\x13\n\x0bstartupBlue\x18\x04 \x01(\r\"}\n\x19GetProjectDetailsResponse\x12)\n\x0eprojectDetails\x18\x01 \x01(\x0b\x32\x11.MyProjectDetails\x12\x35\n\x14\x63urrentConfiguration\x18\x02 \x01(\x0b\x32\x17.MyProjectConfiguration\"E\n\x19SetBoardLightColorRequest\x12\x0b\n\x03red\x18\x01 \x01(\r\x12\r\n\x05green\x18\x02 \x01(\r\x12\x0c\n\x04\x62lue\x18\x03 \x01(\r\">\n\x1aSetBoardLightColorResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x0f\n\x07message\x18\x02 \x01(\t\")\n\x16InvalidCommandResponse\x12\x0f\n\x07message\x18\x01 \x01(\t\"\xa1\x02\n\x10MyProjectCommand\x12&\n\x0cnoArgCommand\x18\x01 \x01(\x0e\x32\x0e.NoArgCommandsH\x00\x12/\n\x11helloQromaRequest\x18\x02 \x01(\x0b\x32\x12.HelloQromaRequestH\x00\x12#\n\x0bmathRequest\x18\x03 \x01(\x0b\x32\x0c.MathRequestH\x00\x12?\n\x19setBoardLightColorRequest\x18\x04 \x01(\x0b\x32\x1a.SetBoardLightColorRequestH\x00\x12\x43\n setMyProjectConfigurationRequest\x18\x05 \x01(\x0b\x32\x17.MyProjectConfigurationH\x00\x42\t\n\x07\x63ommand\"\xea\x02\n\x11MyProjectResponse\x12\x39\n\x16invalidCommandResponse\x18\x01 \x01(\x0b\x32\x17.InvalidCommandResponseH\x00\x12\x31\n\x12helloQromaResponse\x18\x02 \x01(\x0b\x32\x13.HelloQromaResponseH\x00\x12%\n\x0cmathResponse\x18\x03 \x01(\x0b\x32\r.MathResponseH\x00\x12\x30\n\x17getBoardDetailsResponse\x18\x04 \x01(\x0b\x32\r.BoardDetailsH\x00\x12\x41\n\x1asetBoardLightColorResponse\x18\x05 \x01(\x0b\x32\x1b.SetBoardLightColorResponseH\x00\x12?\n\x19getProjectDetailsResponse\x18\x06 \x01(\x0b\x32\x1a.GetProjectDetailsResponseH\x00\x42\n\n\x08response*d\n\rMathOperation\x12\x11\n\rMathOp_NotSet\x10\x00\x12\x0e\n\nMathOp_Add\x10\x01\x12\x13\n\x0fMathOp_Subtract\x10\x02\x12\x1b\n\x17MathOp_Add_And_Subtract\x10\x03*\xa3\x01\n\rNoArgCommands\x12\x0e\n\nNac_NotSet\x10\x00\x12 \n\x1cNac_GetProjectDetailsRequest\x10\x01\x12\x1e\n\x1aNac_GetBoardDetailsRequest\x10\x02\x12 \n\x1cNac_SaveCurrentConfiguration\x10\x03\x12\x1e\n\x1aNac_LoadSavedConfiguration\x10\x04\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x19my-project-messages.proto\"R\n\x13UpdateConfiguration\x12\x1f\n\nupdateType\x18\x01 \x01(\x0e\x32\x0b.UpdateType\x12\x1a\n\x12updateIntervalInMs\x18\x02 \x01(\r\"f\n\x16SetUpdateConfiguration\x12\x31\n\x13updateConfiguration\x18\x01 \x01(\x0b\x32\x14.UpdateConfiguration\x12\x19\n\x11saveConfiguration\x18\x02 \x01(\x08\":\n\x10HatConfiguration\x12\x11\n\timagePath\x18\x01 \x01(\t\x12\x13\n\x0brotateImage\x18\x02 \x01(\x08\"/\n\x18SetHatRotateImageCommand\x12\x13\n\x0brotateImage\x18\x01 \x01(\x08\"\'\n\x12SetHatImageCommand\x12\x11\n\timagePath\x18\x01 \x01(\t\"8\n#GetDgsrImageValidationResultCommand\x12\x11\n\timagePath\x18\x01 \x01(\t\"\xf7\x01\n\x10MyProjectCommand\x12&\n\x0cnoArgCommand\x18\x01 \x01(\x0e\x32\x0e.NoArgCommandsH\x00\x12*\n\x0bsetHatImage\x18\x02 \x01(\x0b\x32\x13.SetHatImageCommandH\x00\x12\x36\n\x11setHatRotateImage\x18\x03 \x01(\x0b\x32\x19.SetHatRotateImageCommandH\x00\x12L\n\x1cgetDgsrImageValidationResult\x18\x04 \x01(\x0b\x32$.GetDgsrImageValidationResultCommandH\x00\x42\t\n\x07\x63ommand\")\n\x16InvalidCommandResponse\x12\x0f\n\x07message\x18\x01 \x01(\t\"w\n\x15\x43onfigurationResponse\x12\x31\n\x13updateConfiguration\x18\x01 \x01(\x0b\x32\x14.UpdateConfiguration\x12+\n\x10hatConfiguration\x18\x02 \x01(\x0b\x32\x11.HatConfiguration\"=\n\x17\x46irmwareDetailsResponse\x12\x0f\n\x07version\x18\x01 \x01(\t\x12\x11\n\tbuildTime\x18\x02 \x01(\t\")\n\x0eUpdateResponse\x12\x17\n\x0f\x62oardUptimeInMs\x18\x01 \x01(\r\"J\n\x13SetHatImageResponse\x12\x11\n\timagePath\x18\x01 \x01(\t\x12\x0f\n\x07success\x18\x02 \x01(\x08\x12\x0f\n\x07message\x18\x03 \x01(\t\"[\n$GetDgsrImageValidationResultResponse\x12\x11\n\timagePath\x18\x01 \x01(\t\x12\x0f\n\x07isValid\x18\x02 \x01(\x08\x12\x0f\n\x07message\x18\x03 \x01(\t\"\x87\x03\n\x11MyProjectResponse\x12\x39\n\x16invalidCommandResponse\x18\x01 \x01(\x0b\x32\x17.InvalidCommandResponseH\x00\x12;\n\x17\x66irmwareDetailsResponse\x18\x02 \x01(\x0b\x32\x18.FirmwareDetailsResponseH\x00\x12)\n\x0eupdateResponse\x18\x03 \x01(\x0b\x32\x0f.UpdateResponseH\x00\x12\x37\n\x15\x63onfigurationResponse\x18\x04 \x01(\x0b\x32\x16.ConfigurationResponseH\x00\x12\x33\n\x13setHatImageResponse\x18\x05 \x01(\x0b\x32\x14.SetHatImageResponseH\x00\x12U\n$getDgsrImageValidationResultResponse\x18\x06 \x01(\x0b\x32%.GetDgsrImageValidationResultResponseH\x00\x42\n\n\x08response*Q\n\nUpdateType\x12\x15\n\x11UpdateType_NotSet\x10\x00\x12\x13\n\x0fUpdateType_None\x10\x01\x12\x17\n\x13UpdateType_Interval\x10\x02*\xa4\x01\n\rNoArgCommands\x12\x0e\n\nNac_NotSet\x10\x00\x12\x1a\n\x16Nac_ClearScreenToWhite\x10\x01\x12\x1a\n\x16Nac_ClearScreenToBlack\x10\x02\x12\x18\n\x14Nac_GetConfiguration\x10\x03\x12\x1a\n\x16Nac_GetFirmwareDetails\x10\x04\x12\x15\n\x11Nac_RestartDevice\x10\x05\x62\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'my_project_messages_pb2', _globals)
 if _descriptor._USE_C_DESCRIPTORS == False:
   DESCRIPTOR._options = None
-  _globals['_MATHOPERATION']._serialized_start=1689
-  _globals['_MATHOPERATION']._serialized_end=1789
-  _globals['_NOARGCOMMANDS']._serialized_start=1792
-  _globals['_NOARGCOMMANDS']._serialized_end=1955
-  _globals['_HELLOQROMAREQUEST']._serialized_start=29
-  _globals['_HELLOQROMAREQUEST']._serialized_end=62
-  _globals['_HELLOQROMARESPONSE']._serialized_start=64
-  _globals['_HELLOQROMARESPONSE']._serialized_end=141
-  _globals['_MATHREQUEST']._serialized_start=143
-  _globals['_MATHREQUEST']._serialized_end=206
-  _globals['_MATHRESULT_ADD']._serialized_start=208
-  _globals['_MATHRESULT_ADD']._serialized_end=240
-  _globals['_MATHRESULT_SUBTRACT']._serialized_start=242
-  _globals['_MATHRESULT_SUBTRACT']._serialized_end=279
-  _globals['_MATHRESULT_ADDANDSUBTRACT']._serialized_start=281
-  _globals['_MATHRESULT_ADDANDSUBTRACT']._serialized_end=351
-  _globals['_MATHRESPONSE']._serialized_start=354
-  _globals['_MATHRESPONSE']._serialized_end=526
-  _globals['_BOARDDETAILS']._serialized_start=528
-  _globals['_BOARDDETAILS']._serialized_end=577
-  _globals['_MYPROJECTDETAILS']._serialized_start=579
-  _globals['_MYPROJECTDETAILS']._serialized_end=618
-  _globals['_MYPROJECTCONFIGURATION']._serialized_start=620
-  _globals['_MYPROJECTCONFIGURATION']._serialized_end=725
-  _globals['_GETPROJECTDETAILSRESPONSE']._serialized_start=727
-  _globals['_GETPROJECTDETAILSRESPONSE']._serialized_end=852
-  _globals['_SETBOARDLIGHTCOLORREQUEST']._serialized_start=854
-  _globals['_SETBOARDLIGHTCOLORREQUEST']._serialized_end=923
-  _globals['_SETBOARDLIGHTCOLORRESPONSE']._serialized_start=925
-  _globals['_SETBOARDLIGHTCOLORRESPONSE']._serialized_end=987
-  _globals['_INVALIDCOMMANDRESPONSE']._serialized_start=989
-  _globals['_INVALIDCOMMANDRESPONSE']._serialized_end=1030
-  _globals['_MYPROJECTCOMMAND']._serialized_start=1033
-  _globals['_MYPROJECTCOMMAND']._serialized_end=1322
-  _globals['_MYPROJECTRESPONSE']._serialized_start=1325
-  _globals['_MYPROJECTRESPONSE']._serialized_end=1687
+  _globals['_UPDATETYPE']._serialized_start=1508
+  _globals['_UPDATETYPE']._serialized_end=1589
+  _globals['_NOARGCOMMANDS']._serialized_start=1592
+  _globals['_NOARGCOMMANDS']._serialized_end=1756
+  _globals['_UPDATECONFIGURATION']._serialized_start=29
+  _globals['_UPDATECONFIGURATION']._serialized_end=111
+  _globals['_SETUPDATECONFIGURATION']._serialized_start=113
+  _globals['_SETUPDATECONFIGURATION']._serialized_end=215
+  _globals['_HATCONFIGURATION']._serialized_start=217
+  _globals['_HATCONFIGURATION']._serialized_end=275
+  _globals['_SETHATROTATEIMAGECOMMAND']._serialized_start=277
+  _globals['_SETHATROTATEIMAGECOMMAND']._serialized_end=324
+  _globals['_SETHATIMAGECOMMAND']._serialized_start=326
+  _globals['_SETHATIMAGECOMMAND']._serialized_end=365
+  _globals['_GETDGSRIMAGEVALIDATIONRESULTCOMMAND']._serialized_start=367
+  _globals['_GETDGSRIMAGEVALIDATIONRESULTCOMMAND']._serialized_end=423
+  _globals['_MYPROJECTCOMMAND']._serialized_start=426
+  _globals['_MYPROJECTCOMMAND']._serialized_end=673
+  _globals['_INVALIDCOMMANDRESPONSE']._serialized_start=675
+  _globals['_INVALIDCOMMANDRESPONSE']._serialized_end=716
+  _globals['_CONFIGURATIONRESPONSE']._serialized_start=718
+  _globals['_CONFIGURATIONRESPONSE']._serialized_end=837
+  _globals['_FIRMWAREDETAILSRESPONSE']._serialized_start=839
+  _globals['_FIRMWAREDETAILSRESPONSE']._serialized_end=900
+  _globals['_UPDATERESPONSE']._serialized_start=902
+  _globals['_UPDATERESPONSE']._serialized_end=943
+  _globals['_SETHATIMAGERESPONSE']._serialized_start=945
+  _globals['_SETHATIMAGERESPONSE']._serialized_end=1019
+  _globals['_GETDGSRIMAGEVALIDATIONRESULTRESPONSE']._serialized_start=1021
+  _globals['_GETDGSRIMAGEVALIDATIONRESULTRESPONSE']._serialized_end=1112
+  _globals['_MYPROJECTRESPONSE']._serialized_start=1115
+  _globals['_MYPROJECTRESPONSE']._serialized_end=1506
 # @@protoc_insertion_point(module_scope)

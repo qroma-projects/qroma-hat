@@ -1,13 +1,18 @@
-HelloQromaRequest.name  max_size:20  fixed_length:true
+# MyProjectCommand.showFileImage      max_size:40  fixed_length:true
 
-HelloQromaResponse.response  max_size:50  fixed_length: true
+InvalidCommandResponse.message      max_size:50  fixed_length: false
 
-BoardDetails.boardName  max_size:30  fixed_length: true
+FirmwareDetailsResponse.version  max_size:30  fixed_length: true
+FirmwareDetailsResponse.buildTime  max_size:30  fixed_length: true
 
-SetBoardLightColorResponse.message  max_size:50  fixed_length: false
+HatConfiguration.imagePath  max_size:40  fixed_length:true
 
-MyProjectConfiguration.userName  max_size:30  fixed_length: true
+SetHatImageCommand.imagePath  max_size:40  fixed_length:true
 
-MyProjectDetails.projectName  max_size:50  fixed_length: true
+SetHatImageResponse.imagePath  max_size:40  fixed_length:true
+SetHatImageResponse.message  max_size:100  fixed_length:true
 
-InvalidCommandResponse.message  max_size:50  fixed_length: false
+GetDgsrImageValidationResultCommand.imagePath  max_size:40  fixed_length:true
+
+GetDgsrImageValidationResultResponse.imagePath  max_size:40  fixed_length:true
+GetDgsrImageValidationResultResponse.message  max_size:100  fixed_length:true

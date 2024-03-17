@@ -10,118 +10,101 @@
 #endif
 
 /* Enum definitions */
-typedef enum _MathOperation {
-    MathOperation_MathOp_NotSet = 0,
-    MathOperation_MathOp_Add = 1,
-    MathOperation_MathOp_Subtract = 2,
-    MathOperation_MathOp_Add_And_Subtract = 3
-} MathOperation;
+typedef enum _UpdateType {
+    UpdateType_UpdateType_NotSet = 0,
+    UpdateType_UpdateType_None = 1,
+    UpdateType_UpdateType_Interval = 2
+} UpdateType;
 
 typedef enum _NoArgCommands {
     NoArgCommands_Nac_NotSet = 0,
-    NoArgCommands_Nac_GetProjectDetailsRequest = 1,
-    NoArgCommands_Nac_GetBoardDetailsRequest = 2,
-    NoArgCommands_Nac_SaveCurrentConfiguration = 3,
-    NoArgCommands_Nac_LoadSavedConfiguration = 4
+    NoArgCommands_Nac_ClearScreenToWhite = 1,
+    NoArgCommands_Nac_ClearScreenToBlack = 2,
+    NoArgCommands_Nac_GetConfiguration = 3,
+    NoArgCommands_Nac_GetFirmwareDetails = 4,
+    NoArgCommands_Nac_RestartDevice = 5
 } NoArgCommands;
 
 /* Struct definitions */
-typedef struct _HelloQromaRequest {
-    char name[20];
-} HelloQromaRequest;
+typedef struct _UpdateConfiguration {
+    UpdateType updateType;
+    uint32_t updateIntervalInMs;
+} UpdateConfiguration;
 
-typedef struct _HelloQromaResponse {
-    char response[50];
-    uint32_t callCount;
-    uint32_t nameLength;
-} HelloQromaResponse;
+typedef struct _SetUpdateConfiguration {
+    bool has_updateConfiguration;
+    UpdateConfiguration updateConfiguration;
+    bool saveConfiguration;
+} SetUpdateConfiguration;
 
-typedef struct _MathRequest {
-    uint32_t a;
-    uint32_t b;
-    MathOperation op;
-} MathRequest;
+typedef struct _HatConfiguration {
+    char imagePath[40];
+    bool rotateImage;
+} HatConfiguration;
 
-typedef struct _MathResult_Add {
-    uint32_t result;
-} MathResult_Add;
+typedef struct _SetHatRotateImageCommand {
+    bool rotateImage;
+} SetHatRotateImageCommand;
 
-typedef struct _MathResult_Subtract {
-    uint32_t result;
-} MathResult_Subtract;
+typedef struct _SetHatImageCommand {
+    char imagePath[40];
+} SetHatImageCommand;
 
-typedef struct _MathResult_AddAndSubtract {
-    uint32_t addResult;
-    uint32_t subtractResult;
-} MathResult_AddAndSubtract;
-
-typedef struct _MathResponse {
-    pb_size_t which_response;
-    union {
-        MathResult_Add addResult;
-        MathResult_Subtract subtractResult;
-        MathResult_AddAndSubtract addAndSubtractResult;
-    } response;
-} MathResponse;
-
-typedef struct _BoardDetails {
-    char boardName[30];
-    bool hasRgb;
-} BoardDetails;
-
-typedef struct _MyProjectDetails {
-    char projectName[50];
-} MyProjectDetails;
-
-typedef struct _MyProjectConfiguration {
-    char userName[30];
-    uint32_t startupRed;
-    uint32_t startupGreen;
-    uint32_t startupBlue;
-} MyProjectConfiguration;
-
-typedef struct _GetProjectDetailsResponse {
-    bool has_projectDetails;
-    MyProjectDetails projectDetails;
-    bool has_currentConfiguration;
-    MyProjectConfiguration currentConfiguration;
-} GetProjectDetailsResponse;
-
-typedef struct _SetBoardLightColorRequest {
-    uint32_t red;
-    uint32_t green;
-    uint32_t blue;
-} SetBoardLightColorRequest;
-
-typedef struct _SetBoardLightColorResponse {
-    bool success;
-    char message[50];
-} SetBoardLightColorResponse;
-
-typedef struct _InvalidCommandResponse {
-    char message[50];
-} InvalidCommandResponse;
+typedef struct _GetDgsrImageValidationResultCommand {
+    char imagePath[40];
+} GetDgsrImageValidationResultCommand;
 
 typedef struct _MyProjectCommand {
     pb_size_t which_command;
     union {
         NoArgCommands noArgCommand;
-        HelloQromaRequest helloQromaRequest;
-        MathRequest mathRequest;
-        SetBoardLightColorRequest setBoardLightColorRequest;
-        MyProjectConfiguration setMyProjectConfigurationRequest;
+        SetHatImageCommand setHatImage;
+        SetHatRotateImageCommand setHatRotateImage;
+        GetDgsrImageValidationResultCommand getDgsrImageValidationResult;
     } command;
 } MyProjectCommand;
+
+typedef struct _InvalidCommandResponse {
+    char message[50];
+} InvalidCommandResponse;
+
+typedef struct _ConfigurationResponse {
+    bool has_updateConfiguration;
+    UpdateConfiguration updateConfiguration;
+    bool has_hatConfiguration;
+    HatConfiguration hatConfiguration;
+} ConfigurationResponse;
+
+typedef struct _FirmwareDetailsResponse {
+    char version[30];
+    char buildTime[30];
+} FirmwareDetailsResponse;
+
+typedef struct _UpdateResponse {
+    uint32_t boardUptimeInMs;
+} UpdateResponse;
+
+typedef struct _SetHatImageResponse {
+    char imagePath[40];
+    bool success;
+    char message[100];
+} SetHatImageResponse;
+
+typedef struct _GetDgsrImageValidationResultResponse {
+    char imagePath[40];
+    bool isValid;
+    char message[100];
+} GetDgsrImageValidationResultResponse;
 
 typedef struct _MyProjectResponse {
     pb_size_t which_response;
     union {
         InvalidCommandResponse invalidCommandResponse;
-        HelloQromaResponse helloQromaResponse;
-        MathResponse mathResponse;
-        BoardDetails getBoardDetailsResponse;
-        SetBoardLightColorResponse setBoardLightColorResponse;
-        GetProjectDetailsResponse getProjectDetailsResponse;
+        FirmwareDetailsResponse firmwareDetailsResponse;
+        UpdateResponse updateResponse;
+        ConfigurationResponse configurationResponse;
+        SetHatImageResponse setHatImageResponse;
+        GetDgsrImageValidationResultResponse getDgsrImageValidationResultResponse;
     } response;
 } MyProjectResponse;
 
@@ -131,23 +114,15 @@ extern "C" {
 #endif
 
 /* Helper constants for enums */
-#define _MathOperation_MIN MathOperation_MathOp_NotSet
-#define _MathOperation_MAX MathOperation_MathOp_Add_And_Subtract
-#define _MathOperation_ARRAYSIZE ((MathOperation)(MathOperation_MathOp_Add_And_Subtract+1))
+#define _UpdateType_MIN UpdateType_UpdateType_NotSet
+#define _UpdateType_MAX UpdateType_UpdateType_Interval
+#define _UpdateType_ARRAYSIZE ((UpdateType)(UpdateType_UpdateType_Interval+1))
 
 #define _NoArgCommands_MIN NoArgCommands_Nac_NotSet
-#define _NoArgCommands_MAX NoArgCommands_Nac_LoadSavedConfiguration
-#define _NoArgCommands_ARRAYSIZE ((NoArgCommands)(NoArgCommands_Nac_LoadSavedConfiguration+1))
+#define _NoArgCommands_MAX NoArgCommands_Nac_RestartDevice
+#define _NoArgCommands_ARRAYSIZE ((NoArgCommands)(NoArgCommands_Nac_RestartDevice+1))
 
-
-
-#define MathRequest_op_ENUMTYPE MathOperation
-
-
-
-
-
-
+#define UpdateConfiguration_updateType_ENUMTYPE UpdateType
 
 
 
@@ -158,255 +133,222 @@ extern "C" {
 
 
 
+
+
+
+
+
+
 /* Initializer values for message structs */
-#define HelloQromaRequest_init_default           {""}
-#define HelloQromaResponse_init_default          {"", 0, 0}
-#define MathRequest_init_default                 {0, 0, _MathOperation_MIN}
-#define MathResult_Add_init_default              {0}
-#define MathResult_Subtract_init_default         {0}
-#define MathResult_AddAndSubtract_init_default   {0, 0}
-#define MathResponse_init_default                {0, {MathResult_Add_init_default}}
-#define BoardDetails_init_default                {"", 0}
-#define MyProjectDetails_init_default            {""}
-#define MyProjectConfiguration_init_default      {"", 0, 0, 0}
-#define GetProjectDetailsResponse_init_default   {false, MyProjectDetails_init_default, false, MyProjectConfiguration_init_default}
-#define SetBoardLightColorRequest_init_default   {0, 0, 0}
-#define SetBoardLightColorResponse_init_default  {0, ""}
-#define InvalidCommandResponse_init_default      {""}
+#define UpdateConfiguration_init_default         {_UpdateType_MIN, 0}
+#define SetUpdateConfiguration_init_default      {false, UpdateConfiguration_init_default, 0}
+#define HatConfiguration_init_default            {"", 0}
+#define SetHatRotateImageCommand_init_default    {0}
+#define SetHatImageCommand_init_default          {""}
+#define GetDgsrImageValidationResultCommand_init_default {""}
 #define MyProjectCommand_init_default            {0, {_NoArgCommands_MIN}}
+#define InvalidCommandResponse_init_default      {""}
+#define ConfigurationResponse_init_default       {false, UpdateConfiguration_init_default, false, HatConfiguration_init_default}
+#define FirmwareDetailsResponse_init_default     {"", ""}
+#define UpdateResponse_init_default              {0}
+#define SetHatImageResponse_init_default         {"", 0, ""}
+#define GetDgsrImageValidationResultResponse_init_default {"", 0, ""}
 #define MyProjectResponse_init_default           {0, {InvalidCommandResponse_init_default}}
-#define HelloQromaRequest_init_zero              {""}
-#define HelloQromaResponse_init_zero             {"", 0, 0}
-#define MathRequest_init_zero                    {0, 0, _MathOperation_MIN}
-#define MathResult_Add_init_zero                 {0}
-#define MathResult_Subtract_init_zero            {0}
-#define MathResult_AddAndSubtract_init_zero      {0, 0}
-#define MathResponse_init_zero                   {0, {MathResult_Add_init_zero}}
-#define BoardDetails_init_zero                   {"", 0}
-#define MyProjectDetails_init_zero               {""}
-#define MyProjectConfiguration_init_zero         {"", 0, 0, 0}
-#define GetProjectDetailsResponse_init_zero      {false, MyProjectDetails_init_zero, false, MyProjectConfiguration_init_zero}
-#define SetBoardLightColorRequest_init_zero      {0, 0, 0}
-#define SetBoardLightColorResponse_init_zero     {0, ""}
-#define InvalidCommandResponse_init_zero         {""}
+#define UpdateConfiguration_init_zero            {_UpdateType_MIN, 0}
+#define SetUpdateConfiguration_init_zero         {false, UpdateConfiguration_init_zero, 0}
+#define HatConfiguration_init_zero               {"", 0}
+#define SetHatRotateImageCommand_init_zero       {0}
+#define SetHatImageCommand_init_zero             {""}
+#define GetDgsrImageValidationResultCommand_init_zero {""}
 #define MyProjectCommand_init_zero               {0, {_NoArgCommands_MIN}}
+#define InvalidCommandResponse_init_zero         {""}
+#define ConfigurationResponse_init_zero          {false, UpdateConfiguration_init_zero, false, HatConfiguration_init_zero}
+#define FirmwareDetailsResponse_init_zero        {"", ""}
+#define UpdateResponse_init_zero                 {0}
+#define SetHatImageResponse_init_zero            {"", 0, ""}
+#define GetDgsrImageValidationResultResponse_init_zero {"", 0, ""}
 #define MyProjectResponse_init_zero              {0, {InvalidCommandResponse_init_zero}}
 
 /* Field tags (for use in manual encoding/decoding) */
-#define HelloQromaRequest_name_tag               1
-#define HelloQromaResponse_response_tag          1
-#define HelloQromaResponse_callCount_tag         2
-#define HelloQromaResponse_nameLength_tag        3
-#define MathRequest_a_tag                        1
-#define MathRequest_b_tag                        2
-#define MathRequest_op_tag                       3
-#define MathResult_Add_result_tag                1
-#define MathResult_Subtract_result_tag           1
-#define MathResult_AddAndSubtract_addResult_tag  1
-#define MathResult_AddAndSubtract_subtractResult_tag 2
-#define MathResponse_addResult_tag               1
-#define MathResponse_subtractResult_tag          2
-#define MathResponse_addAndSubtractResult_tag    3
-#define BoardDetails_boardName_tag               1
-#define BoardDetails_hasRgb_tag                  2
-#define MyProjectDetails_projectName_tag         1
-#define MyProjectConfiguration_userName_tag      1
-#define MyProjectConfiguration_startupRed_tag    2
-#define MyProjectConfiguration_startupGreen_tag  3
-#define MyProjectConfiguration_startupBlue_tag   4
-#define GetProjectDetailsResponse_projectDetails_tag 1
-#define GetProjectDetailsResponse_currentConfiguration_tag 2
-#define SetBoardLightColorRequest_red_tag        1
-#define SetBoardLightColorRequest_green_tag      2
-#define SetBoardLightColorRequest_blue_tag       3
-#define SetBoardLightColorResponse_success_tag   1
-#define SetBoardLightColorResponse_message_tag   2
-#define InvalidCommandResponse_message_tag       1
+#define UpdateConfiguration_updateType_tag       1
+#define UpdateConfiguration_updateIntervalInMs_tag 2
+#define SetUpdateConfiguration_updateConfiguration_tag 1
+#define SetUpdateConfiguration_saveConfiguration_tag 2
+#define HatConfiguration_imagePath_tag           1
+#define HatConfiguration_rotateImage_tag         2
+#define SetHatRotateImageCommand_rotateImage_tag 1
+#define SetHatImageCommand_imagePath_tag         1
+#define GetDgsrImageValidationResultCommand_imagePath_tag 1
 #define MyProjectCommand_noArgCommand_tag        1
-#define MyProjectCommand_helloQromaRequest_tag   2
-#define MyProjectCommand_mathRequest_tag         3
-#define MyProjectCommand_setBoardLightColorRequest_tag 4
-#define MyProjectCommand_setMyProjectConfigurationRequest_tag 5
+#define MyProjectCommand_setHatImage_tag         2
+#define MyProjectCommand_setHatRotateImage_tag   3
+#define MyProjectCommand_getDgsrImageValidationResult_tag 4
+#define InvalidCommandResponse_message_tag       1
+#define ConfigurationResponse_updateConfiguration_tag 1
+#define ConfigurationResponse_hatConfiguration_tag 2
+#define FirmwareDetailsResponse_version_tag      1
+#define FirmwareDetailsResponse_buildTime_tag    2
+#define UpdateResponse_boardUptimeInMs_tag       1
+#define SetHatImageResponse_imagePath_tag        1
+#define SetHatImageResponse_success_tag          2
+#define SetHatImageResponse_message_tag          3
+#define GetDgsrImageValidationResultResponse_imagePath_tag 1
+#define GetDgsrImageValidationResultResponse_isValid_tag 2
+#define GetDgsrImageValidationResultResponse_message_tag 3
 #define MyProjectResponse_invalidCommandResponse_tag 1
-#define MyProjectResponse_helloQromaResponse_tag 2
-#define MyProjectResponse_mathResponse_tag       3
-#define MyProjectResponse_getBoardDetailsResponse_tag 4
-#define MyProjectResponse_setBoardLightColorResponse_tag 5
-#define MyProjectResponse_getProjectDetailsResponse_tag 6
+#define MyProjectResponse_firmwareDetailsResponse_tag 2
+#define MyProjectResponse_updateResponse_tag     3
+#define MyProjectResponse_configurationResponse_tag 4
+#define MyProjectResponse_setHatImageResponse_tag 5
+#define MyProjectResponse_getDgsrImageValidationResultResponse_tag 6
 
 /* Struct field encoding specification for nanopb */
-#define HelloQromaRequest_FIELDLIST(X, a) \
-X(a, STATIC,   SINGULAR, STRING,   name,              1)
-#define HelloQromaRequest_CALLBACK NULL
-#define HelloQromaRequest_DEFAULT NULL
+#define UpdateConfiguration_FIELDLIST(X, a) \
+X(a, STATIC,   SINGULAR, UENUM,    updateType,        1) \
+X(a, STATIC,   SINGULAR, UINT32,   updateIntervalInMs,   2)
+#define UpdateConfiguration_CALLBACK NULL
+#define UpdateConfiguration_DEFAULT NULL
 
-#define HelloQromaResponse_FIELDLIST(X, a) \
-X(a, STATIC,   SINGULAR, STRING,   response,          1) \
-X(a, STATIC,   SINGULAR, UINT32,   callCount,         2) \
-X(a, STATIC,   SINGULAR, UINT32,   nameLength,        3)
-#define HelloQromaResponse_CALLBACK NULL
-#define HelloQromaResponse_DEFAULT NULL
+#define SetUpdateConfiguration_FIELDLIST(X, a) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  updateConfiguration,   1) \
+X(a, STATIC,   SINGULAR, BOOL,     saveConfiguration,   2)
+#define SetUpdateConfiguration_CALLBACK NULL
+#define SetUpdateConfiguration_DEFAULT NULL
+#define SetUpdateConfiguration_updateConfiguration_MSGTYPE UpdateConfiguration
 
-#define MathRequest_FIELDLIST(X, a_) \
-X(a_, STATIC,   SINGULAR, UINT32,   a,                 1) \
-X(a_, STATIC,   SINGULAR, UINT32,   b,                 2) \
-X(a_, STATIC,   SINGULAR, UENUM,    op,                3)
-#define MathRequest_CALLBACK NULL
-#define MathRequest_DEFAULT NULL
+#define HatConfiguration_FIELDLIST(X, a) \
+X(a, STATIC,   SINGULAR, STRING,   imagePath,         1) \
+X(a, STATIC,   SINGULAR, BOOL,     rotateImage,       2)
+#define HatConfiguration_CALLBACK NULL
+#define HatConfiguration_DEFAULT NULL
 
-#define MathResult_Add_FIELDLIST(X, a) \
-X(a, STATIC,   SINGULAR, UINT32,   result,            1)
-#define MathResult_Add_CALLBACK NULL
-#define MathResult_Add_DEFAULT NULL
+#define SetHatRotateImageCommand_FIELDLIST(X, a) \
+X(a, STATIC,   SINGULAR, BOOL,     rotateImage,       1)
+#define SetHatRotateImageCommand_CALLBACK NULL
+#define SetHatRotateImageCommand_DEFAULT NULL
 
-#define MathResult_Subtract_FIELDLIST(X, a) \
-X(a, STATIC,   SINGULAR, UINT32,   result,            1)
-#define MathResult_Subtract_CALLBACK NULL
-#define MathResult_Subtract_DEFAULT NULL
+#define SetHatImageCommand_FIELDLIST(X, a) \
+X(a, STATIC,   SINGULAR, STRING,   imagePath,         1)
+#define SetHatImageCommand_CALLBACK NULL
+#define SetHatImageCommand_DEFAULT NULL
 
-#define MathResult_AddAndSubtract_FIELDLIST(X, a) \
-X(a, STATIC,   SINGULAR, UINT32,   addResult,         1) \
-X(a, STATIC,   SINGULAR, UINT32,   subtractResult,    2)
-#define MathResult_AddAndSubtract_CALLBACK NULL
-#define MathResult_AddAndSubtract_DEFAULT NULL
+#define GetDgsrImageValidationResultCommand_FIELDLIST(X, a) \
+X(a, STATIC,   SINGULAR, STRING,   imagePath,         1)
+#define GetDgsrImageValidationResultCommand_CALLBACK NULL
+#define GetDgsrImageValidationResultCommand_DEFAULT NULL
 
-#define MathResponse_FIELDLIST(X, a) \
-X(a, STATIC,   ONEOF,    MESSAGE,  (response,addResult,response.addResult),   1) \
-X(a, STATIC,   ONEOF,    MESSAGE,  (response,subtractResult,response.subtractResult),   2) \
-X(a, STATIC,   ONEOF,    MESSAGE,  (response,addAndSubtractResult,response.addAndSubtractResult),   3)
-#define MathResponse_CALLBACK NULL
-#define MathResponse_DEFAULT NULL
-#define MathResponse_response_addResult_MSGTYPE MathResult_Add
-#define MathResponse_response_subtractResult_MSGTYPE MathResult_Subtract
-#define MathResponse_response_addAndSubtractResult_MSGTYPE MathResult_AddAndSubtract
-
-#define BoardDetails_FIELDLIST(X, a) \
-X(a, STATIC,   SINGULAR, STRING,   boardName,         1) \
-X(a, STATIC,   SINGULAR, BOOL,     hasRgb,            2)
-#define BoardDetails_CALLBACK NULL
-#define BoardDetails_DEFAULT NULL
-
-#define MyProjectDetails_FIELDLIST(X, a) \
-X(a, STATIC,   SINGULAR, STRING,   projectName,       1)
-#define MyProjectDetails_CALLBACK NULL
-#define MyProjectDetails_DEFAULT NULL
-
-#define MyProjectConfiguration_FIELDLIST(X, a) \
-X(a, STATIC,   SINGULAR, STRING,   userName,          1) \
-X(a, STATIC,   SINGULAR, UINT32,   startupRed,        2) \
-X(a, STATIC,   SINGULAR, UINT32,   startupGreen,      3) \
-X(a, STATIC,   SINGULAR, UINT32,   startupBlue,       4)
-#define MyProjectConfiguration_CALLBACK NULL
-#define MyProjectConfiguration_DEFAULT NULL
-
-#define GetProjectDetailsResponse_FIELDLIST(X, a) \
-X(a, STATIC,   OPTIONAL, MESSAGE,  projectDetails,    1) \
-X(a, STATIC,   OPTIONAL, MESSAGE,  currentConfiguration,   2)
-#define GetProjectDetailsResponse_CALLBACK NULL
-#define GetProjectDetailsResponse_DEFAULT NULL
-#define GetProjectDetailsResponse_projectDetails_MSGTYPE MyProjectDetails
-#define GetProjectDetailsResponse_currentConfiguration_MSGTYPE MyProjectConfiguration
-
-#define SetBoardLightColorRequest_FIELDLIST(X, a) \
-X(a, STATIC,   SINGULAR, UINT32,   red,               1) \
-X(a, STATIC,   SINGULAR, UINT32,   green,             2) \
-X(a, STATIC,   SINGULAR, UINT32,   blue,              3)
-#define SetBoardLightColorRequest_CALLBACK NULL
-#define SetBoardLightColorRequest_DEFAULT NULL
-
-#define SetBoardLightColorResponse_FIELDLIST(X, a) \
-X(a, STATIC,   SINGULAR, BOOL,     success,           1) \
-X(a, STATIC,   SINGULAR, STRING,   message,           2)
-#define SetBoardLightColorResponse_CALLBACK NULL
-#define SetBoardLightColorResponse_DEFAULT NULL
+#define MyProjectCommand_FIELDLIST(X, a) \
+X(a, STATIC,   ONEOF,    UENUM,    (command,noArgCommand,command.noArgCommand),   1) \
+X(a, STATIC,   ONEOF,    MESSAGE,  (command,setHatImage,command.setHatImage),   2) \
+X(a, STATIC,   ONEOF,    MESSAGE,  (command,setHatRotateImage,command.setHatRotateImage),   3) \
+X(a, STATIC,   ONEOF,    MESSAGE,  (command,getDgsrImageValidationResult,command.getDgsrImageValidationResult),   4)
+#define MyProjectCommand_CALLBACK NULL
+#define MyProjectCommand_DEFAULT NULL
+#define MyProjectCommand_command_setHatImage_MSGTYPE SetHatImageCommand
+#define MyProjectCommand_command_setHatRotateImage_MSGTYPE SetHatRotateImageCommand
+#define MyProjectCommand_command_getDgsrImageValidationResult_MSGTYPE GetDgsrImageValidationResultCommand
 
 #define InvalidCommandResponse_FIELDLIST(X, a) \
 X(a, STATIC,   SINGULAR, STRING,   message,           1)
 #define InvalidCommandResponse_CALLBACK NULL
 #define InvalidCommandResponse_DEFAULT NULL
 
-#define MyProjectCommand_FIELDLIST(X, a) \
-X(a, STATIC,   ONEOF,    UENUM,    (command,noArgCommand,command.noArgCommand),   1) \
-X(a, STATIC,   ONEOF,    MESSAGE,  (command,helloQromaRequest,command.helloQromaRequest),   2) \
-X(a, STATIC,   ONEOF,    MESSAGE,  (command,mathRequest,command.mathRequest),   3) \
-X(a, STATIC,   ONEOF,    MESSAGE,  (command,setBoardLightColorRequest,command.setBoardLightColorRequest),   4) \
-X(a, STATIC,   ONEOF,    MESSAGE,  (command,setMyProjectConfigurationRequest,command.setMyProjectConfigurationRequest),   5)
-#define MyProjectCommand_CALLBACK NULL
-#define MyProjectCommand_DEFAULT NULL
-#define MyProjectCommand_command_helloQromaRequest_MSGTYPE HelloQromaRequest
-#define MyProjectCommand_command_mathRequest_MSGTYPE MathRequest
-#define MyProjectCommand_command_setBoardLightColorRequest_MSGTYPE SetBoardLightColorRequest
-#define MyProjectCommand_command_setMyProjectConfigurationRequest_MSGTYPE MyProjectConfiguration
+#define ConfigurationResponse_FIELDLIST(X, a) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  updateConfiguration,   1) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  hatConfiguration,   2)
+#define ConfigurationResponse_CALLBACK NULL
+#define ConfigurationResponse_DEFAULT NULL
+#define ConfigurationResponse_updateConfiguration_MSGTYPE UpdateConfiguration
+#define ConfigurationResponse_hatConfiguration_MSGTYPE HatConfiguration
+
+#define FirmwareDetailsResponse_FIELDLIST(X, a) \
+X(a, STATIC,   SINGULAR, STRING,   version,           1) \
+X(a, STATIC,   SINGULAR, STRING,   buildTime,         2)
+#define FirmwareDetailsResponse_CALLBACK NULL
+#define FirmwareDetailsResponse_DEFAULT NULL
+
+#define UpdateResponse_FIELDLIST(X, a) \
+X(a, STATIC,   SINGULAR, UINT32,   boardUptimeInMs,   1)
+#define UpdateResponse_CALLBACK NULL
+#define UpdateResponse_DEFAULT NULL
+
+#define SetHatImageResponse_FIELDLIST(X, a) \
+X(a, STATIC,   SINGULAR, STRING,   imagePath,         1) \
+X(a, STATIC,   SINGULAR, BOOL,     success,           2) \
+X(a, STATIC,   SINGULAR, STRING,   message,           3)
+#define SetHatImageResponse_CALLBACK NULL
+#define SetHatImageResponse_DEFAULT NULL
+
+#define GetDgsrImageValidationResultResponse_FIELDLIST(X, a) \
+X(a, STATIC,   SINGULAR, STRING,   imagePath,         1) \
+X(a, STATIC,   SINGULAR, BOOL,     isValid,           2) \
+X(a, STATIC,   SINGULAR, STRING,   message,           3)
+#define GetDgsrImageValidationResultResponse_CALLBACK NULL
+#define GetDgsrImageValidationResultResponse_DEFAULT NULL
 
 #define MyProjectResponse_FIELDLIST(X, a) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (response,invalidCommandResponse,response.invalidCommandResponse),   1) \
-X(a, STATIC,   ONEOF,    MESSAGE,  (response,helloQromaResponse,response.helloQromaResponse),   2) \
-X(a, STATIC,   ONEOF,    MESSAGE,  (response,mathResponse,response.mathResponse),   3) \
-X(a, STATIC,   ONEOF,    MESSAGE,  (response,getBoardDetailsResponse,response.getBoardDetailsResponse),   4) \
-X(a, STATIC,   ONEOF,    MESSAGE,  (response,setBoardLightColorResponse,response.setBoardLightColorResponse),   5) \
-X(a, STATIC,   ONEOF,    MESSAGE,  (response,getProjectDetailsResponse,response.getProjectDetailsResponse),   6)
+X(a, STATIC,   ONEOF,    MESSAGE,  (response,firmwareDetailsResponse,response.firmwareDetailsResponse),   2) \
+X(a, STATIC,   ONEOF,    MESSAGE,  (response,updateResponse,response.updateResponse),   3) \
+X(a, STATIC,   ONEOF,    MESSAGE,  (response,configurationResponse,response.configurationResponse),   4) \
+X(a, STATIC,   ONEOF,    MESSAGE,  (response,setHatImageResponse,response.setHatImageResponse),   5) \
+X(a, STATIC,   ONEOF,    MESSAGE,  (response,getDgsrImageValidationResultResponse,response.getDgsrImageValidationResultResponse),   6)
 #define MyProjectResponse_CALLBACK NULL
 #define MyProjectResponse_DEFAULT NULL
 #define MyProjectResponse_response_invalidCommandResponse_MSGTYPE InvalidCommandResponse
-#define MyProjectResponse_response_helloQromaResponse_MSGTYPE HelloQromaResponse
-#define MyProjectResponse_response_mathResponse_MSGTYPE MathResponse
-#define MyProjectResponse_response_getBoardDetailsResponse_MSGTYPE BoardDetails
-#define MyProjectResponse_response_setBoardLightColorResponse_MSGTYPE SetBoardLightColorResponse
-#define MyProjectResponse_response_getProjectDetailsResponse_MSGTYPE GetProjectDetailsResponse
+#define MyProjectResponse_response_firmwareDetailsResponse_MSGTYPE FirmwareDetailsResponse
+#define MyProjectResponse_response_updateResponse_MSGTYPE UpdateResponse
+#define MyProjectResponse_response_configurationResponse_MSGTYPE ConfigurationResponse
+#define MyProjectResponse_response_setHatImageResponse_MSGTYPE SetHatImageResponse
+#define MyProjectResponse_response_getDgsrImageValidationResultResponse_MSGTYPE GetDgsrImageValidationResultResponse
 
-extern const pb_msgdesc_t HelloQromaRequest_msg;
-extern const pb_msgdesc_t HelloQromaResponse_msg;
-extern const pb_msgdesc_t MathRequest_msg;
-extern const pb_msgdesc_t MathResult_Add_msg;
-extern const pb_msgdesc_t MathResult_Subtract_msg;
-extern const pb_msgdesc_t MathResult_AddAndSubtract_msg;
-extern const pb_msgdesc_t MathResponse_msg;
-extern const pb_msgdesc_t BoardDetails_msg;
-extern const pb_msgdesc_t MyProjectDetails_msg;
-extern const pb_msgdesc_t MyProjectConfiguration_msg;
-extern const pb_msgdesc_t GetProjectDetailsResponse_msg;
-extern const pb_msgdesc_t SetBoardLightColorRequest_msg;
-extern const pb_msgdesc_t SetBoardLightColorResponse_msg;
-extern const pb_msgdesc_t InvalidCommandResponse_msg;
+extern const pb_msgdesc_t UpdateConfiguration_msg;
+extern const pb_msgdesc_t SetUpdateConfiguration_msg;
+extern const pb_msgdesc_t HatConfiguration_msg;
+extern const pb_msgdesc_t SetHatRotateImageCommand_msg;
+extern const pb_msgdesc_t SetHatImageCommand_msg;
+extern const pb_msgdesc_t GetDgsrImageValidationResultCommand_msg;
 extern const pb_msgdesc_t MyProjectCommand_msg;
+extern const pb_msgdesc_t InvalidCommandResponse_msg;
+extern const pb_msgdesc_t ConfigurationResponse_msg;
+extern const pb_msgdesc_t FirmwareDetailsResponse_msg;
+extern const pb_msgdesc_t UpdateResponse_msg;
+extern const pb_msgdesc_t SetHatImageResponse_msg;
+extern const pb_msgdesc_t GetDgsrImageValidationResultResponse_msg;
 extern const pb_msgdesc_t MyProjectResponse_msg;
 
 /* Defines for backwards compatibility with code written before nanopb-0.4.0 */
-#define HelloQromaRequest_fields &HelloQromaRequest_msg
-#define HelloQromaResponse_fields &HelloQromaResponse_msg
-#define MathRequest_fields &MathRequest_msg
-#define MathResult_Add_fields &MathResult_Add_msg
-#define MathResult_Subtract_fields &MathResult_Subtract_msg
-#define MathResult_AddAndSubtract_fields &MathResult_AddAndSubtract_msg
-#define MathResponse_fields &MathResponse_msg
-#define BoardDetails_fields &BoardDetails_msg
-#define MyProjectDetails_fields &MyProjectDetails_msg
-#define MyProjectConfiguration_fields &MyProjectConfiguration_msg
-#define GetProjectDetailsResponse_fields &GetProjectDetailsResponse_msg
-#define SetBoardLightColorRequest_fields &SetBoardLightColorRequest_msg
-#define SetBoardLightColorResponse_fields &SetBoardLightColorResponse_msg
-#define InvalidCommandResponse_fields &InvalidCommandResponse_msg
+#define UpdateConfiguration_fields &UpdateConfiguration_msg
+#define SetUpdateConfiguration_fields &SetUpdateConfiguration_msg
+#define HatConfiguration_fields &HatConfiguration_msg
+#define SetHatRotateImageCommand_fields &SetHatRotateImageCommand_msg
+#define SetHatImageCommand_fields &SetHatImageCommand_msg
+#define GetDgsrImageValidationResultCommand_fields &GetDgsrImageValidationResultCommand_msg
 #define MyProjectCommand_fields &MyProjectCommand_msg
+#define InvalidCommandResponse_fields &InvalidCommandResponse_msg
+#define ConfigurationResponse_fields &ConfigurationResponse_msg
+#define FirmwareDetailsResponse_fields &FirmwareDetailsResponse_msg
+#define UpdateResponse_fields &UpdateResponse_msg
+#define SetHatImageResponse_fields &SetHatImageResponse_msg
+#define GetDgsrImageValidationResultResponse_fields &GetDgsrImageValidationResultResponse_msg
 #define MyProjectResponse_fields &MyProjectResponse_msg
 
 /* Maximum encoded size of messages (where known) */
-#define BoardDetails_size                        33
-#define GetProjectDetailsResponse_size           104
-#define HelloQromaRequest_size                   21
-#define HelloQromaResponse_size                  63
+#define ConfigurationResponse_size               55
+#define FirmwareDetailsResponse_size             62
+#define GetDgsrImageValidationResultCommand_size 41
+#define GetDgsrImageValidationResultResponse_size 144
+#define HatConfiguration_size                    43
 #define InvalidCommandResponse_size              51
 #define MY_PROJECT_MESSAGES_PB_H_MAX_SIZE        MyProjectResponse_size
-#define MathRequest_size                         14
-#define MathResponse_size                        14
-#define MathResult_AddAndSubtract_size           12
-#define MathResult_Add_size                      6
-#define MathResult_Subtract_size                 6
-#define MyProjectCommand_size                    51
-#define MyProjectConfiguration_size              49
-#define MyProjectDetails_size                    51
-#define MyProjectResponse_size                   106
-#define SetBoardLightColorRequest_size           18
-#define SetBoardLightColorResponse_size          53
+#define MyProjectCommand_size                    43
+#define MyProjectResponse_size                   147
+#define SetHatImageCommand_size                  41
+#define SetHatImageResponse_size                 144
+#define SetHatRotateImageCommand_size            2
+#define SetUpdateConfiguration_size              12
+#define UpdateConfiguration_size                 8
+#define UpdateResponse_size                      6
 
 #ifdef __cplusplus
 } /* extern "C" */

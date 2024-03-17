@@ -6,49 +6,43 @@
 #error Regenerate this file with the current version of nanopb generator.
 #endif
 
-PB_BIND(HelloQromaRequest, HelloQromaRequest, AUTO)
+PB_BIND(UpdateConfiguration, UpdateConfiguration, AUTO)
 
 
-PB_BIND(HelloQromaResponse, HelloQromaResponse, AUTO)
+PB_BIND(SetUpdateConfiguration, SetUpdateConfiguration, AUTO)
 
 
-PB_BIND(MathRequest, MathRequest, AUTO)
+PB_BIND(HatConfiguration, HatConfiguration, AUTO)
 
 
-PB_BIND(MathResult_Add, MathResult_Add, AUTO)
+PB_BIND(SetHatRotateImageCommand, SetHatRotateImageCommand, AUTO)
 
 
-PB_BIND(MathResult_Subtract, MathResult_Subtract, AUTO)
+PB_BIND(SetHatImageCommand, SetHatImageCommand, AUTO)
 
 
-PB_BIND(MathResult_AddAndSubtract, MathResult_AddAndSubtract, AUTO)
+PB_BIND(GetDgsrImageValidationResultCommand, GetDgsrImageValidationResultCommand, AUTO)
 
 
-PB_BIND(MathResponse, MathResponse, AUTO)
-
-
-PB_BIND(BoardDetails, BoardDetails, AUTO)
-
-
-PB_BIND(MyProjectDetails, MyProjectDetails, AUTO)
-
-
-PB_BIND(MyProjectConfiguration, MyProjectConfiguration, AUTO)
-
-
-PB_BIND(GetProjectDetailsResponse, GetProjectDetailsResponse, AUTO)
-
-
-PB_BIND(SetBoardLightColorRequest, SetBoardLightColorRequest, AUTO)
-
-
-PB_BIND(SetBoardLightColorResponse, SetBoardLightColorResponse, AUTO)
+PB_BIND(MyProjectCommand, MyProjectCommand, AUTO)
 
 
 PB_BIND(InvalidCommandResponse, InvalidCommandResponse, AUTO)
 
 
-PB_BIND(MyProjectCommand, MyProjectCommand, AUTO)
+PB_BIND(ConfigurationResponse, ConfigurationResponse, AUTO)
+
+
+PB_BIND(FirmwareDetailsResponse, FirmwareDetailsResponse, AUTO)
+
+
+PB_BIND(UpdateResponse, UpdateResponse, AUTO)
+
+
+PB_BIND(SetHatImageResponse, SetHatImageResponse, AUTO)
+
+
+PB_BIND(GetDgsrImageValidationResultResponse, GetDgsrImageValidationResultResponse, AUTO)
 
 
 PB_BIND(MyProjectResponse, MyProjectResponse, AUTO)
