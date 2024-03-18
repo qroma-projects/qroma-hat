@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkwww_qroma_project=self.webpackChunkwww_qroma_project||[]).push([[4370],{5123:e=>{e.exports=JSON.parse('{"name":"docusaurus-plugin-content-docs","id":"qroma-hat-app"}')}}]);
