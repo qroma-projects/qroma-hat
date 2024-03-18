@@ -56,6 +56,14 @@ const config = {
       sidebarCollapsed: false,
       sidebarCollapsible: false,
     }],
+    ['@docusaurus/plugin-content-docs', {
+      id: 'qroma-hat-app',
+      path: 'src/app-pages',
+      routeBasePath: 'app',
+      sidebarPath: require.resolve('./sidebar-app.js'),
+      sidebarCollapsed: false,
+      sidebarCollapsible: false,
+    }],
   ],
 
   presets: [

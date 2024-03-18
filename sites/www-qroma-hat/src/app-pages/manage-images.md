@@ -1,11 +1,11 @@
 ---
-title: Qroma Hat App
+title: Manage Images
 ---
 
 import BrowserOnly from '@docusaurus/BrowserOnly';
-import { SvgToGreyscaleArduinoFileTool } from '../../app/svg-file-uploader/SvgToGreyscaleArduinoFileTool';
+import { SvgToGreyscaleArduinoFileTool } from '../hat-app/svg-file-uploader/SvgToGreyscaleArduinoFileTool';
 
-# Qroma Hat App
+# Manage Qroma Hat Images
 
 To connect to your Qroma Hat device, plug it into your computer's USB port
   and click the Connect button. When prompted
