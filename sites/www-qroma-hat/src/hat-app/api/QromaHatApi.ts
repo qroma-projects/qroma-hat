@@ -13,7 +13,7 @@ export interface IQromaHatApi {
 
   // restartDevice: () => void
   getHatImages: () => Promise<DirItem[]> 
-  showImageFile: (filePath: string) => void
+  showImageFile: (filePath: string) => Promise<void>
   uploadToHat: (filePath: string, fileBytes: Uint8Array) => Promise<void>
 }
 
@@ -122,8 +122,6 @@ export const useQromaHatApi = (): IQromaHatApi => {
         console.log("DIR RESULT");
         console.log(dirResult);
         return dirResult.dirItems;
-      // setDirItems(dirResult.dirItems);
-      // setActiveDirPath(dirResult.dirPath);
     }
     console.log("NO DIR RESULT");
     return [];
@@ -137,7 +135,7 @@ export const useQromaHatApi = (): IQromaHatApi => {
       command: {
         oneofKind: 'setHatImage',
         setHatImage: {
-          imagePath: "/dgsr/" + filePath,
+          imagePath: filePath,
         }
       }
     };
@@ -145,8 +143,8 @@ export const useQromaHatApi = (): IQromaHatApi => {
     qromaAppWebSerial.sendQromaAppCommand(appCommand);
   }
 
-  const uploadToHat = (filePath: string, fileBytes: Uint8Array) => {
-    qromaCommFileSystemApi.writeFileContents(filePath, fileBytes);
+  const uploadToHat = async (filePath: string, fileBytes: Uint8Array): Promise<void> => {
+    await qromaCommFileSystemApi.writeFileContents(filePath, fileBytes);
   }
 
   return {

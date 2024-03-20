@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useQromaHatApi } from "../../api/QromaHatApi";
 import { crc32 } from "crc";
+import { sleep } from "../../../react-qroma-lib";
+import { logTimeStamp } from "../../../react-qroma-lib/qroma-lib/utils";
 
 
 export interface IDgsrFileLoadIntoHatProps {
@@ -16,6 +18,7 @@ export const DgsrFileLoadIntoHat = (props: IDgsrFileLoadIntoHatProps) => {
   const { isBusy, setIsBusy, fileNameRoot, imageDataFileBytes } = props;
 
   const [fileBytes, setFileBytes] = useState<Uint8Array | null>(null);
+  const [showAfterUpload, setShowAfterUpload] = useState(true);
 
   const qromaHatApi = useQromaHatApi();
   const isConnected = qromaHatApi.connectionState.isWebSerialConnected;
@@ -44,7 +47,19 @@ export const DgsrFileLoadIntoHat = (props: IDgsrFileLoadIntoHatProps) => {
     console.log("UPLOAD: " + props.uploadFilePath);
     console.log("SIZE: " + imageDataFileBytes.length);
     await qromaHatApi.uploadToHat(props.uploadFilePath, imageDataFileBytes);
+    console.log("DONE UPLOAD")
+
+    if (showAfterUpload) {
+      logTimeStamp("DO SHOW AFTER UPLOAD - ");
+      await sleep(5000);
+      logTimeStamp("SENDING SHOW COMMAND - ");
+      await qromaHatApi.showImageFile(props.uploadFilePath);
+    }
     setIsBusy(false);
+  }
+
+  const handleShowOnHat = () => {
+    qromaHatApi.showImageFile(props.uploadFilePath);
   }
 
 
@@ -75,6 +90,17 @@ export const DgsrFileLoadIntoHat = (props: IDgsrFileLoadIntoHatProps) => {
         <button disabled={isBusy} onClick={handleUploadFromLocalClick}>
           {isBusy ? "Loading..." : "Upload This to Hat"}
         </button>
+        <button disabled={isBusy} onClick={handleShowOnHat}>
+          {isBusy ? "Loading..." : "Show on Hat"}
+        </button>
+        {/* <div>
+          <input 
+              type="checkbox"
+              checked={showAfterUpload} 
+              onChange={(event) => setShowAfterUpload(event.target.checked) } 
+              />
+            Show After Upload
+        </div> */}
       </div>
       <div>
         <input type="file" onChange={handleFileChange} />

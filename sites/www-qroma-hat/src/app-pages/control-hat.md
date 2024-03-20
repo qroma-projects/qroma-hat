@@ -3,7 +3,8 @@ title: Use Qroma Hat
 ---
 
 import BrowserOnly from '@docusaurus/BrowserOnly';
-import { HatControlApp } from '../hat-app/hat-control/HatControlApp';
+import { QromaHatManageImagesComponent } from "../hat-app/manage-images/QromaHatManageImagesComponent";
+
 
 # Use Qroma Hat
 
@@ -13,11 +14,11 @@ to connect to a serial port, select the entry with the most likely name
 (e.g. something-<b>usbserial</b>).
 
 
-<BrowserOnly fallback={<div>SvgToGreyscaleArduinoFileTool is only available in the browser</div>}>
-  {() => {
-    return (
-      <HatControlApp 
-        />
-    );
-  }}
+<BrowserOnly>
+{() => {
+  return (
+    <QromaHatManageImagesComponent
+      />
+  )
+}}
 </BrowserOnly>

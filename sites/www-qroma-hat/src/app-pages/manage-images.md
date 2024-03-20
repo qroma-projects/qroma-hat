@@ -3,7 +3,8 @@ title: Manage Images
 ---
 
 import BrowserOnly from '@docusaurus/BrowserOnly';
-import { SvgToGreyscaleArduinoFileTool } from '../hat-app/svg-file-uploader/SvgToGreyscaleArduinoFileTool';
+import { QromaHatManageImagesComponent } from "../hat-app/manage-images/QromaHatManageImagesComponent";
+
 
 # Manage Qroma Hat Images
 
@@ -14,12 +15,11 @@ to connect to a serial port, select the entry with the most likely name
 
 [Use the Upload page](/advanced-io/upload-file) to put your file on the hat's board
 
-
-<BrowserOnly fallback={<div>SvgToGreyscaleArduinoFileTool is only available in the browser</div>}>
-  {() => {
-    return (
-      <SvgToGreyscaleArduinoFileTool 
-        />
-    );
-  }}
+<BrowserOnly>
+{() => {
+  return (
+    <QromaHatManageImagesComponent
+      />
+  )
+}}
 </BrowserOnly>
