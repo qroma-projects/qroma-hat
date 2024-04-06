@@ -9,6 +9,46 @@
 #include <qroma-hat/images/data/images_data.h>
 
 
+void initScreen() {
+
+  int vref = 1100;
+
+  // Correct the ADC reference voltage
+  esp_adc_cal_characteristics_t adc_chars;
+#if defined(T5_47)
+  esp_adc_cal_value_t val_type = esp_adc_cal_characterize(
+      ADC_UNIT_1,
+      ADC_ATTEN_DB_11,
+      ADC_WIDTH_BIT_12,
+      1100,
+      &adc_chars
+  );
+#else
+  esp_adc_cal_value_t val_type = esp_adc_cal_characterize(
+      ADC_UNIT_2,
+      ADC_ATTEN_DB_11,
+      ADC_WIDTH_BIT_12,
+      1100,
+      &adc_chars
+  );
+#endif
+  if (val_type == ESP_ADC_CAL_VAL_EFUSE_VREF) {
+      Serial.printf("eFuse Vref: %umV\r\n", adc_chars.vref);
+      vref = adc_chars.vref;
+  }
+
+#if defined(T5_47_PLUS)
+  Wire.begin(TOUCH_SDA, TOUCH_SCL);
+  rtc.begin();
+  rtc.setDateTime(2022, 6, 30, 0, 0, 0);
+#endif
+
+  logInfo("PRE-EPDINIT");
+  epd_init();
+  logInfo("POST-EPDINIT");
+}
+
+
 void clearScreenToWhite() {
   logInfo("clearScreenToWhite()");
   
@@ -77,17 +117,26 @@ void localLoadFileIntoDgsrImage(const char * filePath, LoadedDgsrImage * imageTo
   logInfo("localLoadFileIntoDgsrImage()");
 }
 
-void showImageFromFile(const char * filePath) {
+
+bool showImageFromFile(const char * filePath) {
   logInfo("showImageFromFile()");
   logInfo(filePath);
 
   char reasonInvalid[200];
   
-  loadFileIntoDgsrImage(filePath, &_loadedDgsrImage, reasonInvalid);
-  mapLoadedDgsrImageToHatData(&_loadedDgsrImage, filePath, &_activeImage);
+  if (!loadFileIntoDgsrImage(filePath, &_loadedDgsrImage, reasonInvalid)) {
+    return false;
+  }
+
+  if (!mapLoadedDgsrImageToHatData(&_loadedDgsrImage, filePath, &_activeImage)) {
+    return false;
+  }
+  
   showHatImageData(&_activeImage);
 
   logInfo("DONE showImageFromFile()");
+
+  return true;
 }
 
 
@@ -123,7 +172,7 @@ void showHatImageData(HatImageData * hatImageData) {
     .height = (int32_t)hatImageData->imageHeight,
   };
 
-  if (hatConfiguration.rotateImage) {
+  if (_hatConfiguration.rotateImage) {
     rotateHatImage(hatImageData);
   }
 

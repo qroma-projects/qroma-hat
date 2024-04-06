@@ -5,9 +5,11 @@ InvalidCommandResponse.message      max_size:50  fixed_length: false
 FirmwareDetailsResponse.version  max_size:30  fixed_length: true
 FirmwareDetailsResponse.buildTime  max_size:30  fixed_length: true
 
-HatConfiguration.imagePath  max_size:40  fixed_length:true
+HatConfiguration.activeImagePath  max_size:40  fixed_length:true
 
 SetHatImageCommand.imagePath  max_size:40  fixed_length:true
+
+SetPlaybackDirectoryCommand.playbackDir  max_size:40  fixed_length:true
 
 SetHatImageResponse.imagePath  max_size:40  fixed_length:true
 SetHatImageResponse.message  max_size:100  fixed_length:true
@@ -16,3 +18,6 @@ GetDgsrImageValidationResultCommand.imagePath  max_size:40  fixed_length:true
 
 GetDgsrImageValidationResultResponse.imagePath  max_size:40  fixed_length:true
 GetDgsrImageValidationResultResponse.message  max_size:100  fixed_length:true
+
+PlaybackSettings_ShowSingleFile.imagePath  max_size:40  fixed_length:true
+PlaybackSettings_UseDirectoryForRandomFileSlideshow.slideshowDirPath  max_size:40  fixed_length:true

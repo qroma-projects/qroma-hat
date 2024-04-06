@@ -1,26 +1,21 @@
 syntax = "proto3";
 
 
-enum UpdateType {
-  UpdateType_NotSet = 0;
-  UpdateType_None = 1;
-  UpdateType_Interval = 2;
-}
+// enum UpdateType {
+//   UpdateType_NotSet = 0;
+//   UpdateType_None = 1;
+//   UpdateType_Interval = 2;
+// }
 
-message UpdateConfiguration {
-  UpdateType updateType = 1;
-  uint32 updateIntervalInMs = 2;
-}
+// message UpdateConfiguration {
+//   UpdateType updateType = 1;
+//   uint32 updateIntervalInMs = 2;
+// }
 
-message SetUpdateConfiguration {
-  UpdateConfiguration updateConfiguration = 1;
-  bool saveConfiguration = 2;
-}
-
-message HatConfiguration {
-  string imagePath = 1;
-  bool rotateImage = 2;
-}
+// message SetUpdateConfiguration {
+//   UpdateConfiguration updateConfiguration = 1;
+//   bool saveConfiguration = 2;
+// }
 
 message SetHatRotateImageCommand {
   bool rotateImage = 1;
@@ -30,17 +25,65 @@ message SetHatImageCommand {
   string imagePath = 1;
 }
 
+message SetPlaybackDirectoryCommand {
+  string playbackDir = 1;
+}
+
 message GetDgsrImageValidationResultCommand {
   string imagePath = 1;
 }
 
 enum NoArgCommands {
-  Nac_NotSet             = 0;
-  Nac_ClearScreenToWhite = 1;
-  Nac_ClearScreenToBlack = 2;
-  Nac_ShowDefaultImage   = 3;
-  Nac_GetConfiguration   = 4;
+  Nac_NotSet               = 0;
+  Nac_ClearScreenToWhite   = 1;
+  Nac_ClearScreenToBlack   = 2;
+  Nac_ShowDefaultImage     = 3;
+  Nac_GetConfiguration     = 4;
+  Nac_AdvancePlayback      = 5;
+  Nac_UserPausePlayback    = 6;
+  Nac_UserUnpausePlayback  = 7;
 }
+
+enum PlaybackMode {
+  Pbm_NotSet                        = 0;
+  Pbm_ShowDefaultImage              = 1;
+  Pbm_ShowSingleFile                = 2;
+  Pbm_UseDirectoryForRandomFileSlideshow  = 3;
+  Pbm_ShowWhiteScreen               = 4;
+  Pbm_ShowBlackScreen               = 5;
+}
+
+message PlaybackSettings_ShowSingleFile {
+  string imagePath = 1;
+}
+
+message PlaybackSettings_UseDirectoryForRandomFileSlideshow {
+  string slideshowDirPath = 1;
+  uint32 delayIntervalInMs = 2;
+}
+
+message SetPlaybackCommand {
+  oneof playback {
+    PlaybackSettings_ShowSingleFile showSingleFile = 2;
+    PlaybackSettings_UseDirectoryForRandomFileSlideshow dirSlideshow = 3;
+  }
+}
+
+message PlaybackConfiguration {
+  PlaybackMode mode = 1;
+  PlaybackSettings_ShowSingleFile showSingleFileSettings = 2;
+  PlaybackSettings_UseDirectoryForRandomFileSlideshow dirSlideshowSettings = 3;
+  bool isSlideshowPaused = 4;
+  uint32 randomSeed = 10;
+}
+
+
+message HatConfiguration {
+  string activeImagePath = 1;
+  bool rotateImage = 2;
+  PlaybackConfiguration playbackSettings = 3;
+}
+
 
 message MyProjectCommand {
   oneof command {
@@ -48,6 +91,7 @@ message MyProjectCommand {
     SetHatImageCommand setHatImage = 2;
     SetHatRotateImageCommand setHatRotateImage = 3;
     GetDgsrImageValidationResultCommand getDgsrImageValidationResult = 4;
+    SetPlaybackCommand setPlayback = 5;
   }
 }
 
@@ -57,7 +101,7 @@ message InvalidCommandResponse {
 }
 
 message ConfigurationResponse {
-  UpdateConfiguration updateConfiguration = 1;
+  // UpdateConfiguration updateConfiguration = 1;
   HatConfiguration hatConfiguration = 2;
 }
 

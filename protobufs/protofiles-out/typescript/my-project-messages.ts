@@ -10,45 +10,12 @@ import { UnknownFieldHandler } from "@protobuf-ts/runtime";
 import type { PartialMessage } from "@protobuf-ts/runtime";
 import { reflectionMergePartial } from "@protobuf-ts/runtime";
 import { MessageType } from "@protobuf-ts/runtime";
-/**
- * @generated from protobuf message UpdateConfiguration
- */
-export interface UpdateConfiguration {
-    /**
-     * @generated from protobuf field: UpdateType updateType = 1;
-     */
-    updateType: UpdateType;
-    /**
-     * @generated from protobuf field: uint32 updateIntervalInMs = 2;
-     */
-    updateIntervalInMs: number;
-}
-/**
- * @generated from protobuf message SetUpdateConfiguration
- */
-export interface SetUpdateConfiguration {
-    /**
-     * @generated from protobuf field: UpdateConfiguration updateConfiguration = 1;
-     */
-    updateConfiguration?: UpdateConfiguration;
-    /**
-     * @generated from protobuf field: bool saveConfiguration = 2;
-     */
-    saveConfiguration: boolean;
-}
-/**
- * @generated from protobuf message HatConfiguration
- */
-export interface HatConfiguration {
-    /**
-     * @generated from protobuf field: string imagePath = 1;
-     */
-    imagePath: string;
-    /**
-     * @generated from protobuf field: bool rotateImage = 2;
-     */
-    rotateImage: boolean;
-}
+// enum UpdateType {//   UpdateType_NotSet = 0;//   UpdateType_None = 1;//   UpdateType_Interval = 2;// }
+
+// message UpdateConfiguration {//   UpdateType updateType = 1;//   uint32 updateIntervalInMs = 2;// }
+
+// message SetUpdateConfiguration {//   UpdateConfiguration updateConfiguration = 1;//   bool saveConfiguration = 2;// }
+
 /**
  * @generated from protobuf message SetHatRotateImageCommand
  */
@@ -68,6 +35,15 @@ export interface SetHatImageCommand {
     imagePath: string;
 }
 /**
+ * @generated from protobuf message SetPlaybackDirectoryCommand
+ */
+export interface SetPlaybackDirectoryCommand {
+    /**
+     * @generated from protobuf field: string playbackDir = 1;
+     */
+    playbackDir: string;
+}
+/**
  * @generated from protobuf message GetDgsrImageValidationResultCommand
  */
 export interface GetDgsrImageValidationResultCommand {
@@ -75,6 +51,93 @@ export interface GetDgsrImageValidationResultCommand {
      * @generated from protobuf field: string imagePath = 1;
      */
     imagePath: string;
+}
+/**
+ * @generated from protobuf message PlaybackSettings_ShowSingleFile
+ */
+export interface PlaybackSettings_ShowSingleFile {
+    /**
+     * @generated from protobuf field: string imagePath = 1;
+     */
+    imagePath: string;
+}
+/**
+ * @generated from protobuf message PlaybackSettings_UseDirectoryForRandomFileSlideshow
+ */
+export interface PlaybackSettings_UseDirectoryForRandomFileSlideshow {
+    /**
+     * @generated from protobuf field: string slideshowDirPath = 1;
+     */
+    slideshowDirPath: string;
+    /**
+     * @generated from protobuf field: uint32 delayIntervalInMs = 2;
+     */
+    delayIntervalInMs: number;
+}
+/**
+ * @generated from protobuf message SetPlaybackCommand
+ */
+export interface SetPlaybackCommand {
+    /**
+     * @generated from protobuf oneof: playback
+     */
+    playback: {
+        oneofKind: "showSingleFile";
+        /**
+         * @generated from protobuf field: PlaybackSettings_ShowSingleFile showSingleFile = 2;
+         */
+        showSingleFile: PlaybackSettings_ShowSingleFile;
+    } | {
+        oneofKind: "dirSlideshow";
+        /**
+         * @generated from protobuf field: PlaybackSettings_UseDirectoryForRandomFileSlideshow dirSlideshow = 3;
+         */
+        dirSlideshow: PlaybackSettings_UseDirectoryForRandomFileSlideshow;
+    } | {
+        oneofKind: undefined;
+    };
+}
+/**
+ * @generated from protobuf message PlaybackConfiguration
+ */
+export interface PlaybackConfiguration {
+    /**
+     * @generated from protobuf field: PlaybackMode mode = 1;
+     */
+    mode: PlaybackMode;
+    /**
+     * @generated from protobuf field: PlaybackSettings_ShowSingleFile showSingleFileSettings = 2;
+     */
+    showSingleFileSettings?: PlaybackSettings_ShowSingleFile;
+    /**
+     * @generated from protobuf field: PlaybackSettings_UseDirectoryForRandomFileSlideshow dirSlideshowSettings = 3;
+     */
+    dirSlideshowSettings?: PlaybackSettings_UseDirectoryForRandomFileSlideshow;
+    /**
+     * @generated from protobuf field: bool isSlideshowPaused = 4;
+     */
+    isSlideshowPaused: boolean;
+    /**
+     * @generated from protobuf field: uint32 randomSeed = 10;
+     */
+    randomSeed: number;
+}
+/**
+ * @generated from protobuf message HatConfiguration
+ */
+export interface HatConfiguration {
+    /**
+     * @generated from protobuf field: string activeImagePath = 1;
+     */
+    activeImagePath: string;
+    /**
+     * @generated from protobuf field: bool rotateImage = 2;
+     */
+    rotateImage: boolean;
+    /**
+     * @generated from protobuf field: PlaybackConfiguration playbackSettings = 3;
+     */
+    playbackSettings?: PlaybackConfiguration;
 }
 /**
  * @generated from protobuf message MyProjectCommand
@@ -108,6 +171,12 @@ export interface MyProjectCommand {
          */
         getDgsrImageValidationResult: GetDgsrImageValidationResultCommand;
     } | {
+        oneofKind: "setPlayback";
+        /**
+         * @generated from protobuf field: SetPlaybackCommand setPlayback = 5;
+         */
+        setPlayback: SetPlaybackCommand;
+    } | {
         oneofKind: undefined;
     };
 }
@@ -125,10 +194,8 @@ export interface InvalidCommandResponse {
  */
 export interface ConfigurationResponse {
     /**
-     * @generated from protobuf field: UpdateConfiguration updateConfiguration = 1;
-     */
-    updateConfiguration?: UpdateConfiguration;
-    /**
+     * UpdateConfiguration updateConfiguration = 1;
+     *
      * @generated from protobuf field: HatConfiguration hatConfiguration = 2;
      */
     hatConfiguration?: HatConfiguration;
@@ -237,23 +304,6 @@ export interface MyProjectResponse {
     };
 }
 /**
- * @generated from protobuf enum UpdateType
- */
-export enum UpdateType {
-    /**
-     * @generated from protobuf enum value: UpdateType_NotSet = 0;
-     */
-    UpdateType_NotSet = 0,
-    /**
-     * @generated from protobuf enum value: UpdateType_None = 1;
-     */
-    UpdateType_None = 1,
-    /**
-     * @generated from protobuf enum value: UpdateType_Interval = 2;
-     */
-    UpdateType_Interval = 2
-}
-/**
  * @generated from protobuf enum NoArgCommands
  */
 export enum NoArgCommands {
@@ -276,172 +326,49 @@ export enum NoArgCommands {
     /**
      * @generated from protobuf enum value: Nac_GetConfiguration = 4;
      */
-    Nac_GetConfiguration = 4
-}
-// @generated message type with reflection information, may provide speed optimized methods
-class UpdateConfiguration$Type extends MessageType<UpdateConfiguration> {
-    constructor() {
-        super("UpdateConfiguration", [
-            { no: 1, name: "updateType", kind: "enum", T: () => ["UpdateType", UpdateType] },
-            { no: 2, name: "updateIntervalInMs", kind: "scalar", T: 13 /*ScalarType.UINT32*/ }
-        ]);
-    }
-    create(value?: PartialMessage<UpdateConfiguration>): UpdateConfiguration {
-        const message = globalThis.Object.create((this.messagePrototype!));
-        message.updateType = 0;
-        message.updateIntervalInMs = 0;
-        if (value !== undefined)
-            reflectionMergePartial<UpdateConfiguration>(this, message, value);
-        return message;
-    }
-    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: UpdateConfiguration): UpdateConfiguration {
-        let message = target ?? this.create(), end = reader.pos + length;
-        while (reader.pos < end) {
-            let [fieldNo, wireType] = reader.tag();
-            switch (fieldNo) {
-                case /* UpdateType updateType */ 1:
-                    message.updateType = reader.int32();
-                    break;
-                case /* uint32 updateIntervalInMs */ 2:
-                    message.updateIntervalInMs = reader.uint32();
-                    break;
-                default:
-                    let u = options.readUnknownField;
-                    if (u === "throw")
-                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
-                    let d = reader.skip(wireType);
-                    if (u !== false)
-                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
-            }
-        }
-        return message;
-    }
-    internalBinaryWrite(message: UpdateConfiguration, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
-        /* UpdateType updateType = 1; */
-        if (message.updateType !== 0)
-            writer.tag(1, WireType.Varint).int32(message.updateType);
-        /* uint32 updateIntervalInMs = 2; */
-        if (message.updateIntervalInMs !== 0)
-            writer.tag(2, WireType.Varint).uint32(message.updateIntervalInMs);
-        let u = options.writeUnknownFields;
-        if (u !== false)
-            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
-        return writer;
-    }
+    Nac_GetConfiguration = 4,
+    /**
+     * @generated from protobuf enum value: Nac_AdvancePlayback = 5;
+     */
+    Nac_AdvancePlayback = 5,
+    /**
+     * @generated from protobuf enum value: Nac_UserPausePlayback = 6;
+     */
+    Nac_UserPausePlayback = 6,
+    /**
+     * @generated from protobuf enum value: Nac_UserUnpausePlayback = 7;
+     */
+    Nac_UserUnpausePlayback = 7
 }
 /**
- * @generated MessageType for protobuf message UpdateConfiguration
+ * @generated from protobuf enum PlaybackMode
  */
-export const UpdateConfiguration = new UpdateConfiguration$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class SetUpdateConfiguration$Type extends MessageType<SetUpdateConfiguration> {
-    constructor() {
-        super("SetUpdateConfiguration", [
-            { no: 1, name: "updateConfiguration", kind: "message", T: () => UpdateConfiguration },
-            { no: 2, name: "saveConfiguration", kind: "scalar", T: 8 /*ScalarType.BOOL*/ }
-        ]);
-    }
-    create(value?: PartialMessage<SetUpdateConfiguration>): SetUpdateConfiguration {
-        const message = globalThis.Object.create((this.messagePrototype!));
-        message.saveConfiguration = false;
-        if (value !== undefined)
-            reflectionMergePartial<SetUpdateConfiguration>(this, message, value);
-        return message;
-    }
-    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: SetUpdateConfiguration): SetUpdateConfiguration {
-        let message = target ?? this.create(), end = reader.pos + length;
-        while (reader.pos < end) {
-            let [fieldNo, wireType] = reader.tag();
-            switch (fieldNo) {
-                case /* UpdateConfiguration updateConfiguration */ 1:
-                    message.updateConfiguration = UpdateConfiguration.internalBinaryRead(reader, reader.uint32(), options, message.updateConfiguration);
-                    break;
-                case /* bool saveConfiguration */ 2:
-                    message.saveConfiguration = reader.bool();
-                    break;
-                default:
-                    let u = options.readUnknownField;
-                    if (u === "throw")
-                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
-                    let d = reader.skip(wireType);
-                    if (u !== false)
-                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
-            }
-        }
-        return message;
-    }
-    internalBinaryWrite(message: SetUpdateConfiguration, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
-        /* UpdateConfiguration updateConfiguration = 1; */
-        if (message.updateConfiguration)
-            UpdateConfiguration.internalBinaryWrite(message.updateConfiguration, writer.tag(1, WireType.LengthDelimited).fork(), options).join();
-        /* bool saveConfiguration = 2; */
-        if (message.saveConfiguration !== false)
-            writer.tag(2, WireType.Varint).bool(message.saveConfiguration);
-        let u = options.writeUnknownFields;
-        if (u !== false)
-            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
-        return writer;
-    }
+export enum PlaybackMode {
+    /**
+     * @generated from protobuf enum value: Pbm_NotSet = 0;
+     */
+    Pbm_NotSet = 0,
+    /**
+     * @generated from protobuf enum value: Pbm_ShowDefaultImage = 1;
+     */
+    Pbm_ShowDefaultImage = 1,
+    /**
+     * @generated from protobuf enum value: Pbm_ShowSingleFile = 2;
+     */
+    Pbm_ShowSingleFile = 2,
+    /**
+     * @generated from protobuf enum value: Pbm_UseDirectoryForRandomFileSlideshow = 3;
+     */
+    Pbm_UseDirectoryForRandomFileSlideshow = 3,
+    /**
+     * @generated from protobuf enum value: Pbm_ShowWhiteScreen = 4;
+     */
+    Pbm_ShowWhiteScreen = 4,
+    /**
+     * @generated from protobuf enum value: Pbm_ShowBlackScreen = 5;
+     */
+    Pbm_ShowBlackScreen = 5
 }
-/**
- * @generated MessageType for protobuf message SetUpdateConfiguration
- */
-export const SetUpdateConfiguration = new SetUpdateConfiguration$Type();
-// @generated message type with reflection information, may provide speed optimized methods
-class HatConfiguration$Type extends MessageType<HatConfiguration> {
-    constructor() {
-        super("HatConfiguration", [
-            { no: 1, name: "imagePath", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
-            { no: 2, name: "rotateImage", kind: "scalar", T: 8 /*ScalarType.BOOL*/ }
-        ]);
-    }
-    create(value?: PartialMessage<HatConfiguration>): HatConfiguration {
-        const message = globalThis.Object.create((this.messagePrototype!));
-        message.imagePath = "";
-        message.rotateImage = false;
-        if (value !== undefined)
-            reflectionMergePartial<HatConfiguration>(this, message, value);
-        return message;
-    }
-    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: HatConfiguration): HatConfiguration {
-        let message = target ?? this.create(), end = reader.pos + length;
-        while (reader.pos < end) {
-            let [fieldNo, wireType] = reader.tag();
-            switch (fieldNo) {
-                case /* string imagePath */ 1:
-                    message.imagePath = reader.string();
-                    break;
-                case /* bool rotateImage */ 2:
-                    message.rotateImage = reader.bool();
-                    break;
-                default:
-                    let u = options.readUnknownField;
-                    if (u === "throw")
-                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
-                    let d = reader.skip(wireType);
-                    if (u !== false)
-                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
-            }
-        }
-        return message;
-    }
-    internalBinaryWrite(message: HatConfiguration, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
-        /* string imagePath = 1; */
-        if (message.imagePath !== "")
-            writer.tag(1, WireType.LengthDelimited).string(message.imagePath);
-        /* bool rotateImage = 2; */
-        if (message.rotateImage !== false)
-            writer.tag(2, WireType.Varint).bool(message.rotateImage);
-        let u = options.writeUnknownFields;
-        if (u !== false)
-            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
-        return writer;
-    }
-}
-/**
- * @generated MessageType for protobuf message HatConfiguration
- */
-export const HatConfiguration = new HatConfiguration$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class SetHatRotateImageCommand$Type extends MessageType<SetHatRotateImageCommand> {
     constructor() {
@@ -537,6 +464,53 @@ class SetHatImageCommand$Type extends MessageType<SetHatImageCommand> {
  */
 export const SetHatImageCommand = new SetHatImageCommand$Type();
 // @generated message type with reflection information, may provide speed optimized methods
+class SetPlaybackDirectoryCommand$Type extends MessageType<SetPlaybackDirectoryCommand> {
+    constructor() {
+        super("SetPlaybackDirectoryCommand", [
+            { no: 1, name: "playbackDir", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+        ]);
+    }
+    create(value?: PartialMessage<SetPlaybackDirectoryCommand>): SetPlaybackDirectoryCommand {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        message.playbackDir = "";
+        if (value !== undefined)
+            reflectionMergePartial<SetPlaybackDirectoryCommand>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: SetPlaybackDirectoryCommand): SetPlaybackDirectoryCommand {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* string playbackDir */ 1:
+                    message.playbackDir = reader.string();
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: SetPlaybackDirectoryCommand, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* string playbackDir = 1; */
+        if (message.playbackDir !== "")
+            writer.tag(1, WireType.LengthDelimited).string(message.playbackDir);
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message SetPlaybackDirectoryCommand
+ */
+export const SetPlaybackDirectoryCommand = new SetPlaybackDirectoryCommand$Type();
+// @generated message type with reflection information, may provide speed optimized methods
 class GetDgsrImageValidationResultCommand$Type extends MessageType<GetDgsrImageValidationResultCommand> {
     constructor() {
         super("GetDgsrImageValidationResultCommand", [
@@ -584,13 +558,315 @@ class GetDgsrImageValidationResultCommand$Type extends MessageType<GetDgsrImageV
  */
 export const GetDgsrImageValidationResultCommand = new GetDgsrImageValidationResultCommand$Type();
 // @generated message type with reflection information, may provide speed optimized methods
+class PlaybackSettings_ShowSingleFile$Type extends MessageType<PlaybackSettings_ShowSingleFile> {
+    constructor() {
+        super("PlaybackSettings_ShowSingleFile", [
+            { no: 1, name: "imagePath", kind: "scalar", T: 9 /*ScalarType.STRING*/ }
+        ]);
+    }
+    create(value?: PartialMessage<PlaybackSettings_ShowSingleFile>): PlaybackSettings_ShowSingleFile {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        message.imagePath = "";
+        if (value !== undefined)
+            reflectionMergePartial<PlaybackSettings_ShowSingleFile>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: PlaybackSettings_ShowSingleFile): PlaybackSettings_ShowSingleFile {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* string imagePath */ 1:
+                    message.imagePath = reader.string();
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: PlaybackSettings_ShowSingleFile, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* string imagePath = 1; */
+        if (message.imagePath !== "")
+            writer.tag(1, WireType.LengthDelimited).string(message.imagePath);
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message PlaybackSettings_ShowSingleFile
+ */
+export const PlaybackSettings_ShowSingleFile = new PlaybackSettings_ShowSingleFile$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class PlaybackSettings_UseDirectoryForRandomFileSlideshow$Type extends MessageType<PlaybackSettings_UseDirectoryForRandomFileSlideshow> {
+    constructor() {
+        super("PlaybackSettings_UseDirectoryForRandomFileSlideshow", [
+            { no: 1, name: "slideshowDirPath", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "delayIntervalInMs", kind: "scalar", T: 13 /*ScalarType.UINT32*/ }
+        ]);
+    }
+    create(value?: PartialMessage<PlaybackSettings_UseDirectoryForRandomFileSlideshow>): PlaybackSettings_UseDirectoryForRandomFileSlideshow {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        message.slideshowDirPath = "";
+        message.delayIntervalInMs = 0;
+        if (value !== undefined)
+            reflectionMergePartial<PlaybackSettings_UseDirectoryForRandomFileSlideshow>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: PlaybackSettings_UseDirectoryForRandomFileSlideshow): PlaybackSettings_UseDirectoryForRandomFileSlideshow {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* string slideshowDirPath */ 1:
+                    message.slideshowDirPath = reader.string();
+                    break;
+                case /* uint32 delayIntervalInMs */ 2:
+                    message.delayIntervalInMs = reader.uint32();
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: PlaybackSettings_UseDirectoryForRandomFileSlideshow, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* string slideshowDirPath = 1; */
+        if (message.slideshowDirPath !== "")
+            writer.tag(1, WireType.LengthDelimited).string(message.slideshowDirPath);
+        /* uint32 delayIntervalInMs = 2; */
+        if (message.delayIntervalInMs !== 0)
+            writer.tag(2, WireType.Varint).uint32(message.delayIntervalInMs);
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message PlaybackSettings_UseDirectoryForRandomFileSlideshow
+ */
+export const PlaybackSettings_UseDirectoryForRandomFileSlideshow = new PlaybackSettings_UseDirectoryForRandomFileSlideshow$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class SetPlaybackCommand$Type extends MessageType<SetPlaybackCommand> {
+    constructor() {
+        super("SetPlaybackCommand", [
+            { no: 2, name: "showSingleFile", kind: "message", oneof: "playback", T: () => PlaybackSettings_ShowSingleFile },
+            { no: 3, name: "dirSlideshow", kind: "message", oneof: "playback", T: () => PlaybackSettings_UseDirectoryForRandomFileSlideshow }
+        ]);
+    }
+    create(value?: PartialMessage<SetPlaybackCommand>): SetPlaybackCommand {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        message.playback = { oneofKind: undefined };
+        if (value !== undefined)
+            reflectionMergePartial<SetPlaybackCommand>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: SetPlaybackCommand): SetPlaybackCommand {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* PlaybackSettings_ShowSingleFile showSingleFile */ 2:
+                    message.playback = {
+                        oneofKind: "showSingleFile",
+                        showSingleFile: PlaybackSettings_ShowSingleFile.internalBinaryRead(reader, reader.uint32(), options, (message.playback as any).showSingleFile)
+                    };
+                    break;
+                case /* PlaybackSettings_UseDirectoryForRandomFileSlideshow dirSlideshow */ 3:
+                    message.playback = {
+                        oneofKind: "dirSlideshow",
+                        dirSlideshow: PlaybackSettings_UseDirectoryForRandomFileSlideshow.internalBinaryRead(reader, reader.uint32(), options, (message.playback as any).dirSlideshow)
+                    };
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: SetPlaybackCommand, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* PlaybackSettings_ShowSingleFile showSingleFile = 2; */
+        if (message.playback.oneofKind === "showSingleFile")
+            PlaybackSettings_ShowSingleFile.internalBinaryWrite(message.playback.showSingleFile, writer.tag(2, WireType.LengthDelimited).fork(), options).join();
+        /* PlaybackSettings_UseDirectoryForRandomFileSlideshow dirSlideshow = 3; */
+        if (message.playback.oneofKind === "dirSlideshow")
+            PlaybackSettings_UseDirectoryForRandomFileSlideshow.internalBinaryWrite(message.playback.dirSlideshow, writer.tag(3, WireType.LengthDelimited).fork(), options).join();
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message SetPlaybackCommand
+ */
+export const SetPlaybackCommand = new SetPlaybackCommand$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class PlaybackConfiguration$Type extends MessageType<PlaybackConfiguration> {
+    constructor() {
+        super("PlaybackConfiguration", [
+            { no: 1, name: "mode", kind: "enum", T: () => ["PlaybackMode", PlaybackMode] },
+            { no: 2, name: "showSingleFileSettings", kind: "message", T: () => PlaybackSettings_ShowSingleFile },
+            { no: 3, name: "dirSlideshowSettings", kind: "message", T: () => PlaybackSettings_UseDirectoryForRandomFileSlideshow },
+            { no: 4, name: "isSlideshowPaused", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
+            { no: 10, name: "randomSeed", kind: "scalar", T: 13 /*ScalarType.UINT32*/ }
+        ]);
+    }
+    create(value?: PartialMessage<PlaybackConfiguration>): PlaybackConfiguration {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        message.mode = 0;
+        message.isSlideshowPaused = false;
+        message.randomSeed = 0;
+        if (value !== undefined)
+            reflectionMergePartial<PlaybackConfiguration>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: PlaybackConfiguration): PlaybackConfiguration {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* PlaybackMode mode */ 1:
+                    message.mode = reader.int32();
+                    break;
+                case /* PlaybackSettings_ShowSingleFile showSingleFileSettings */ 2:
+                    message.showSingleFileSettings = PlaybackSettings_ShowSingleFile.internalBinaryRead(reader, reader.uint32(), options, message.showSingleFileSettings);
+                    break;
+                case /* PlaybackSettings_UseDirectoryForRandomFileSlideshow dirSlideshowSettings */ 3:
+                    message.dirSlideshowSettings = PlaybackSettings_UseDirectoryForRandomFileSlideshow.internalBinaryRead(reader, reader.uint32(), options, message.dirSlideshowSettings);
+                    break;
+                case /* bool isSlideshowPaused */ 4:
+                    message.isSlideshowPaused = reader.bool();
+                    break;
+                case /* uint32 randomSeed */ 10:
+                    message.randomSeed = reader.uint32();
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: PlaybackConfiguration, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* PlaybackMode mode = 1; */
+        if (message.mode !== 0)
+            writer.tag(1, WireType.Varint).int32(message.mode);
+        /* PlaybackSettings_ShowSingleFile showSingleFileSettings = 2; */
+        if (message.showSingleFileSettings)
+            PlaybackSettings_ShowSingleFile.internalBinaryWrite(message.showSingleFileSettings, writer.tag(2, WireType.LengthDelimited).fork(), options).join();
+        /* PlaybackSettings_UseDirectoryForRandomFileSlideshow dirSlideshowSettings = 3; */
+        if (message.dirSlideshowSettings)
+            PlaybackSettings_UseDirectoryForRandomFileSlideshow.internalBinaryWrite(message.dirSlideshowSettings, writer.tag(3, WireType.LengthDelimited).fork(), options).join();
+        /* bool isSlideshowPaused = 4; */
+        if (message.isSlideshowPaused !== false)
+            writer.tag(4, WireType.Varint).bool(message.isSlideshowPaused);
+        /* uint32 randomSeed = 10; */
+        if (message.randomSeed !== 0)
+            writer.tag(10, WireType.Varint).uint32(message.randomSeed);
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message PlaybackConfiguration
+ */
+export const PlaybackConfiguration = new PlaybackConfiguration$Type();
+// @generated message type with reflection information, may provide speed optimized methods
+class HatConfiguration$Type extends MessageType<HatConfiguration> {
+    constructor() {
+        super("HatConfiguration", [
+            { no: 1, name: "activeImagePath", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
+            { no: 2, name: "rotateImage", kind: "scalar", T: 8 /*ScalarType.BOOL*/ },
+            { no: 3, name: "playbackSettings", kind: "message", T: () => PlaybackConfiguration }
+        ]);
+    }
+    create(value?: PartialMessage<HatConfiguration>): HatConfiguration {
+        const message = globalThis.Object.create((this.messagePrototype!));
+        message.activeImagePath = "";
+        message.rotateImage = false;
+        if (value !== undefined)
+            reflectionMergePartial<HatConfiguration>(this, message, value);
+        return message;
+    }
+    internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: HatConfiguration): HatConfiguration {
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* string activeImagePath */ 1:
+                    message.activeImagePath = reader.string();
+                    break;
+                case /* bool rotateImage */ 2:
+                    message.rotateImage = reader.bool();
+                    break;
+                case /* PlaybackConfiguration playbackSettings */ 3:
+                    message.playbackSettings = PlaybackConfiguration.internalBinaryRead(reader, reader.uint32(), options, message.playbackSettings);
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
+    }
+    internalBinaryWrite(message: HatConfiguration, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* string activeImagePath = 1; */
+        if (message.activeImagePath !== "")
+            writer.tag(1, WireType.LengthDelimited).string(message.activeImagePath);
+        /* bool rotateImage = 2; */
+        if (message.rotateImage !== false)
+            writer.tag(2, WireType.Varint).bool(message.rotateImage);
+        /* PlaybackConfiguration playbackSettings = 3; */
+        if (message.playbackSettings)
+            PlaybackConfiguration.internalBinaryWrite(message.playbackSettings, writer.tag(3, WireType.LengthDelimited).fork(), options).join();
+        let u = options.writeUnknownFields;
+        if (u !== false)
+            (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
+        return writer;
+    }
+}
+/**
+ * @generated MessageType for protobuf message HatConfiguration
+ */
+export const HatConfiguration = new HatConfiguration$Type();
+// @generated message type with reflection information, may provide speed optimized methods
 class MyProjectCommand$Type extends MessageType<MyProjectCommand> {
     constructor() {
         super("MyProjectCommand", [
             { no: 1, name: "noArgCommand", kind: "enum", oneof: "command", T: () => ["NoArgCommands", NoArgCommands] },
             { no: 2, name: "setHatImage", kind: "message", oneof: "command", T: () => SetHatImageCommand },
             { no: 3, name: "setHatRotateImage", kind: "message", oneof: "command", T: () => SetHatRotateImageCommand },
-            { no: 4, name: "getDgsrImageValidationResult", kind: "message", oneof: "command", T: () => GetDgsrImageValidationResultCommand }
+            { no: 4, name: "getDgsrImageValidationResult", kind: "message", oneof: "command", T: () => GetDgsrImageValidationResultCommand },
+            { no: 5, name: "setPlayback", kind: "message", oneof: "command", T: () => SetPlaybackCommand }
         ]);
     }
     create(value?: PartialMessage<MyProjectCommand>): MyProjectCommand {
@@ -629,6 +905,12 @@ class MyProjectCommand$Type extends MessageType<MyProjectCommand> {
                         getDgsrImageValidationResult: GetDgsrImageValidationResultCommand.internalBinaryRead(reader, reader.uint32(), options, (message.command as any).getDgsrImageValidationResult)
                     };
                     break;
+                case /* SetPlaybackCommand setPlayback */ 5:
+                    message.command = {
+                        oneofKind: "setPlayback",
+                        setPlayback: SetPlaybackCommand.internalBinaryRead(reader, reader.uint32(), options, (message.command as any).setPlayback)
+                    };
+                    break;
                 default:
                     let u = options.readUnknownField;
                     if (u === "throw")
@@ -653,6 +935,9 @@ class MyProjectCommand$Type extends MessageType<MyProjectCommand> {
         /* GetDgsrImageValidationResultCommand getDgsrImageValidationResult = 4; */
         if (message.command.oneofKind === "getDgsrImageValidationResult")
             GetDgsrImageValidationResultCommand.internalBinaryWrite(message.command.getDgsrImageValidationResult, writer.tag(4, WireType.LengthDelimited).fork(), options).join();
+        /* SetPlaybackCommand setPlayback = 5; */
+        if (message.command.oneofKind === "setPlayback")
+            SetPlaybackCommand.internalBinaryWrite(message.command.setPlayback, writer.tag(5, WireType.LengthDelimited).fork(), options).join();
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -714,7 +999,6 @@ export const InvalidCommandResponse = new InvalidCommandResponse$Type();
 class ConfigurationResponse$Type extends MessageType<ConfigurationResponse> {
     constructor() {
         super("ConfigurationResponse", [
-            { no: 1, name: "updateConfiguration", kind: "message", T: () => UpdateConfiguration },
             { no: 2, name: "hatConfiguration", kind: "message", T: () => HatConfiguration }
         ]);
     }
@@ -729,9 +1013,6 @@ class ConfigurationResponse$Type extends MessageType<ConfigurationResponse> {
         while (reader.pos < end) {
             let [fieldNo, wireType] = reader.tag();
             switch (fieldNo) {
-                case /* UpdateConfiguration updateConfiguration */ 1:
-                    message.updateConfiguration = UpdateConfiguration.internalBinaryRead(reader, reader.uint32(), options, message.updateConfiguration);
-                    break;
                 case /* HatConfiguration hatConfiguration */ 2:
                     message.hatConfiguration = HatConfiguration.internalBinaryRead(reader, reader.uint32(), options, message.hatConfiguration);
                     break;
@@ -747,9 +1028,6 @@ class ConfigurationResponse$Type extends MessageType<ConfigurationResponse> {
         return message;
     }
     internalBinaryWrite(message: ConfigurationResponse, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
-        /* UpdateConfiguration updateConfiguration = 1; */
-        if (message.updateConfiguration)
-            UpdateConfiguration.internalBinaryWrite(message.updateConfiguration, writer.tag(1, WireType.LengthDelimited).fork(), options).join();
         /* HatConfiguration hatConfiguration = 2; */
         if (message.hatConfiguration)
             HatConfiguration.internalBinaryWrite(message.hatConfiguration, writer.tag(2, WireType.LengthDelimited).fork(), options).join();

@@ -14,6 +14,8 @@ const uint16_t EINK_HEIGHT = 540;
 const uint32_t LOADED_DGSR_IMAGE_BUFFER_SIZE = 100000;
 
 
+void initScreen();
+
 void clearScreenToWhite();
 void clearScreenToBlack();
 void showExampleImage();
@@ -22,7 +24,7 @@ void showDefaultImage();
 void showHatImageData(HatImageData * hatImageData);
 
 bool showImageFromInternalDgsrData(HatImageEncoding encoding, HatImagePointer * imgPointer, HatImageData * hatImageData);
-void showImageFromFile(const char * filePath);
+bool showImageFromFile(const char * filePath);
 
 
 #endif

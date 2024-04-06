@@ -6,6 +6,7 @@
 #include "eink/eink-screen.h"
 #include "images/data/images_data.h"
 #include "images/dgsr/dgsrImageVars.h"
+#include "playback/playback.h"
 
 
 AppCommandProcessor<
@@ -16,9 +17,6 @@ AppCommandProcessor<
 QromaSerialCommApp myQromaApp;
 
 int updateCounter = 0;
-
-int vref = 1100;
-
 
 
 void qromaProjectSetup()
@@ -48,7 +46,8 @@ void qromaProjectSetup()
       .projectLoopDelayInMs = 100,
       .has_heartbeatConfiguration = true,
       .heartbeatConfiguration = {
-        .heartbeatType = HeartbeatType_HeartbeatType_Interval,
+        // .heartbeatType = HeartbeatType_HeartbeatType_Interval,
+        .heartbeatType = HeartbeatType_HeartbeatType_None,
         .heartbeatIntervalInMs = 1000,
       },
     };
@@ -56,48 +55,18 @@ void qromaProjectSetup()
 
   myQromaApp.startupQroma();
 
-    // Correct the ADC reference voltage
-  esp_adc_cal_characteristics_t adc_chars;
-#if defined(T5_47)
-  esp_adc_cal_value_t val_type = esp_adc_cal_characterize(
-      ADC_UNIT_1,
-      ADC_ATTEN_DB_11,
-      ADC_WIDTH_BIT_12,
-      1100,
-      &adc_chars
-  );
-#else
-  esp_adc_cal_value_t val_type = esp_adc_cal_characterize(
-      ADC_UNIT_2,
-      ADC_ATTEN_DB_11,
-      ADC_WIDTH_BIT_12,
-      1100,
-      &adc_chars
-  );
-#endif
-  if (val_type == ESP_ADC_CAL_VAL_EFUSE_VREF) {
-      Serial.printf("eFuse Vref: %umV\r\n", adc_chars.vref);
-      vref = adc_chars.vref;
-  }
+  logInfo("HEARTBEAT CONFIG 2");
+  logInfoUintWithDescription("HEARTBEAT TYPE - ", myQromaApp.getCoreManagementConfigRef()->heartbeatConfiguration.heartbeatType);
 
-#if defined(T5_47_PLUS)
-  Wire.begin(TOUCH_SDA, TOUCH_SCL);
-  rtc.begin();
-  rtc.setDateTime(2022, 6, 30, 0, 0, 0);
-#endif
-
-  logInfo("INIT QROMA HAT CONFIG");
-
-  logInfo("PRE-EPDINIT");
-  epd_init();
-  logInfo("POST-EPDINIT");
+  initScreen();
 
   bool initActiveImageSuccess = initActiveImageBuffer(EINK_WIDTH, EINK_HEIGHT, "IMAGE NOT SET");
   bool initLoadedDgsrImageSuccess = initLoadedDgsrImageBuffer(LOADED_DGSR_IMAGE_BUFFER_SIZE);
 
-  saveDefaultConfigs();
+  myQromaApp.saveDefaultQromaCoreConfig();
+  saveDefaultHatConfig();
 
-  showDefaultImage();
+  initPlayback();
 
   logInfo("DONE setup()");
 }
@@ -107,6 +76,7 @@ void qromaProjectLoop()
 {
   // logInfoUintWithDescription("QROMA PROJECT LOOP - ", updateCounter);
   myQromaApp.tick();
+  tickPlayback();
 
   updateCounter++;
 }

@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react"
 import { useQromaCommFileSystemRxApi } from "../../react-qroma-lib/qroma-lib/file-explorer/QromaCommFileSystemRxApi";
-import { DirItem } from "../../react-qroma-lib/qroma-comm-proto/file-system-commands";
-import { SelectImageButton } from "./SelectImageButton";
+import { DirItem, DirItemType } from "../../react-qroma-lib/qroma-comm-proto/file-system-commands";
+import { SelectImageButton } from "./set-image/SelectImageButton";
 import { useQromaHatApi } from "../api/QromaHatApi";
+import { HatControlComponent } from "./HatControlComponent";
 
 
 export const HatControlApp = () => {
@@ -10,7 +11,8 @@ export const HatControlApp = () => {
   const qromaHatApi = useQromaHatApi();
   const isConnected = qromaHatApi.connectionState.isWebSerialConnected;
 
-  const [dirItems, setDirItems] = useState([] as DirItem[]);
+  // const [imageDir, setImageDir] = useState("/dgsr");
+  // const [dirItems, setDirItems] = useState([] as DirItem[]);
 
 
   const startConnection = () => {
@@ -18,16 +20,16 @@ export const HatControlApp = () => {
     console.log("qromaCommFileSystemApi - INIT CALLED FROM SHOW QROMA DIR");
   }
 
-  const showHatImages = async () => {
-    console.log("SHOWING HAT IMAGES");
+  // const showHatImages = async () => {
+  //   console.log("SHOWING HAT IMAGES");
 
-    const dirItems = await qromaHatApi.getHatImages();
-    // if (dirResult && dirResult.success) {
-    //   // setActiveDirPath(dirResult.dirPath);
-    // }
-    console.log("DIR RESULT");
-    setDirItems(dirItems);
-  }
+  //   const dirItems = await qromaHatApi.getHatImages(imageDir);
+  //   // if (dirResult && dirResult.success) {
+  //   //   // setActiveDirPath(dirResult.dirPath);
+  //   // }
+  //   console.log("DIR RESULT");
+  //   setDirItems(dirItems);
+  // }
 
   // useEffect(() => {
   //   const loadDirContent = async () => {
@@ -35,23 +37,34 @@ export const HatControlApp = () => {
   //   };
   //   loadDirContent();
   // }, [dirPath]);
+
+  // const imageDirItems = dirItems.filter(di => di.dirItemType === DirItemType.DIT_FILE && di.name.endsWith(".dgsr"));
   
   return (
     <>
-      HatControlApp
+      {/* HatControlApp */}
       {isConnected ? 
-        <button onClick={() => showHatImages() }>Show hat images</button> :
+        // <button onClick={() => showHatImages() }>Show hat images</button> :
+        <HatControlComponent
+          qromaHatApi={qromaHatApi}
+          />
+        :
         <button onClick={() => startConnection() }>Start Connection!</button> 
       }
-      {
-        dirItems.map(di => (
+      {/* <HatControlComponent
+        qromaHatApi={qromaHatApi}
+        /> */}
+
+      {/* {
+        imageDirItems.map(di => (
           <SelectImageButton
-            path={di.name}
+            path={imageDir + "/" + di.name}
+            label={di.name}
             key={di.name}
             qromaHatApi={qromaHatApi}
             />
         ))
-      }
+      } */}
     </>
   )
 }

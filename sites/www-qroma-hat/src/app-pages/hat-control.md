@@ -3,7 +3,7 @@ title: Use Qroma Hat
 ---
 
 import BrowserOnly from '@docusaurus/BrowserOnly';
-import { QromaHatManageImagesComponent } from "../hat-app/manage-images/QromaHatManageImagesComponent";
+import { HatControlApp } from "../hat-app/hat-control/HatControlApp";
 
 
 # Use Qroma Hat
@@ -17,7 +17,7 @@ to connect to a serial port, select the entry with the most likely name
 <BrowserOnly>
 {() => {
   return (
-    <QromaHatManageImagesComponent
+    <HatControlApp
       />
   )
 }}

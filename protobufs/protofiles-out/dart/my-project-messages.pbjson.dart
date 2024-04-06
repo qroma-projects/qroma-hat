@@ -13,21 +13,6 @@ import 'dart:convert' as $convert;
 import 'dart:core' as $core;
 import 'dart:typed_data' as $typed_data;
 
-@$core.Deprecated('Use updateTypeDescriptor instead')
-const UpdateType$json = {
-  '1': 'UpdateType',
-  '2': [
-    {'1': 'UpdateType_NotSet', '2': 0},
-    {'1': 'UpdateType_None', '2': 1},
-    {'1': 'UpdateType_Interval', '2': 2},
-  ],
-};
-
-/// Descriptor for `UpdateType`. Decode as a `google.protobuf.EnumDescriptorProto`.
-final $typed_data.Uint8List updateTypeDescriptor = $convert.base64Decode(
-    'CgpVcGRhdGVUeXBlEhUKEVVwZGF0ZVR5cGVfTm90U2V0EAASEwoPVXBkYXRlVHlwZV9Ob25lEA'
-    'ESFwoTVXBkYXRlVHlwZV9JbnRlcnZhbBAC');
-
 @$core.Deprecated('Use noArgCommandsDescriptor instead')
 const NoArgCommands$json = {
   '1': 'NoArgCommands',
@@ -37,6 +22,9 @@ const NoArgCommands$json = {
     {'1': 'Nac_ClearScreenToBlack', '2': 2},
     {'1': 'Nac_ShowDefaultImage', '2': 3},
     {'1': 'Nac_GetConfiguration', '2': 4},
+    {'1': 'Nac_AdvancePlayback', '2': 5},
+    {'1': 'Nac_UserPausePlayback', '2': 6},
+    {'1': 'Nac_UserUnpausePlayback', '2': 7},
   ],
 };
 
@@ -44,51 +32,28 @@ const NoArgCommands$json = {
 final $typed_data.Uint8List noArgCommandsDescriptor = $convert.base64Decode(
     'Cg1Ob0FyZ0NvbW1hbmRzEg4KCk5hY19Ob3RTZXQQABIaChZOYWNfQ2xlYXJTY3JlZW5Ub1doaX'
     'RlEAESGgoWTmFjX0NsZWFyU2NyZWVuVG9CbGFjaxACEhgKFE5hY19TaG93RGVmYXVsdEltYWdl'
-    'EAMSGAoUTmFjX0dldENvbmZpZ3VyYXRpb24QBA==');
+    'EAMSGAoUTmFjX0dldENvbmZpZ3VyYXRpb24QBBIXChNOYWNfQWR2YW5jZVBsYXliYWNrEAUSGQ'
+    'oVTmFjX1VzZXJQYXVzZVBsYXliYWNrEAYSGwoXTmFjX1VzZXJVbnBhdXNlUGxheWJhY2sQBw==');
 
-@$core.Deprecated('Use updateConfigurationDescriptor instead')
-const UpdateConfiguration$json = {
-  '1': 'UpdateConfiguration',
+@$core.Deprecated('Use playbackModeDescriptor instead')
+const PlaybackMode$json = {
+  '1': 'PlaybackMode',
   '2': [
-    {'1': 'updateType', '3': 1, '4': 1, '5': 14, '6': '.UpdateType', '10': 'updateType'},
-    {'1': 'updateIntervalInMs', '3': 2, '4': 1, '5': 13, '10': 'updateIntervalInMs'},
+    {'1': 'Pbm_NotSet', '2': 0},
+    {'1': 'Pbm_ShowDefaultImage', '2': 1},
+    {'1': 'Pbm_ShowSingleFile', '2': 2},
+    {'1': 'Pbm_UseDirectoryForRandomFileSlideshow', '2': 3},
+    {'1': 'Pbm_ShowWhiteScreen', '2': 4},
+    {'1': 'Pbm_ShowBlackScreen', '2': 5},
   ],
 };
 
-/// Descriptor for `UpdateConfiguration`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List updateConfigurationDescriptor = $convert.base64Decode(
-    'ChNVcGRhdGVDb25maWd1cmF0aW9uEisKCnVwZGF0ZVR5cGUYASABKA4yCy5VcGRhdGVUeXBlUg'
-    'p1cGRhdGVUeXBlEi4KEnVwZGF0ZUludGVydmFsSW5NcxgCIAEoDVISdXBkYXRlSW50ZXJ2YWxJ'
-    'bk1z');
-
-@$core.Deprecated('Use setUpdateConfigurationDescriptor instead')
-const SetUpdateConfiguration$json = {
-  '1': 'SetUpdateConfiguration',
-  '2': [
-    {'1': 'updateConfiguration', '3': 1, '4': 1, '5': 11, '6': '.UpdateConfiguration', '10': 'updateConfiguration'},
-    {'1': 'saveConfiguration', '3': 2, '4': 1, '5': 8, '10': 'saveConfiguration'},
-  ],
-};
-
-/// Descriptor for `SetUpdateConfiguration`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List setUpdateConfigurationDescriptor = $convert.base64Decode(
-    'ChZTZXRVcGRhdGVDb25maWd1cmF0aW9uEkYKE3VwZGF0ZUNvbmZpZ3VyYXRpb24YASABKAsyFC'
-    '5VcGRhdGVDb25maWd1cmF0aW9uUhN1cGRhdGVDb25maWd1cmF0aW9uEiwKEXNhdmVDb25maWd1'
-    'cmF0aW9uGAIgASgIUhFzYXZlQ29uZmlndXJhdGlvbg==');
-
-@$core.Deprecated('Use hatConfigurationDescriptor instead')
-const HatConfiguration$json = {
-  '1': 'HatConfiguration',
-  '2': [
-    {'1': 'imagePath', '3': 1, '4': 1, '5': 9, '10': 'imagePath'},
-    {'1': 'rotateImage', '3': 2, '4': 1, '5': 8, '10': 'rotateImage'},
-  ],
-};
-
-/// Descriptor for `HatConfiguration`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List hatConfigurationDescriptor = $convert.base64Decode(
-    'ChBIYXRDb25maWd1cmF0aW9uEhwKCWltYWdlUGF0aBgBIAEoCVIJaW1hZ2VQYXRoEiAKC3JvdG'
-    'F0ZUltYWdlGAIgASgIUgtyb3RhdGVJbWFnZQ==');
+/// Descriptor for `PlaybackMode`. Decode as a `google.protobuf.EnumDescriptorProto`.
+final $typed_data.Uint8List playbackModeDescriptor = $convert.base64Decode(
+    'CgxQbGF5YmFja01vZGUSDgoKUGJtX05vdFNldBAAEhgKFFBibV9TaG93RGVmYXVsdEltYWdlEA'
+    'ESFgoSUGJtX1Nob3dTaW5nbGVGaWxlEAISKgomUGJtX1VzZURpcmVjdG9yeUZvclJhbmRvbUZp'
+    'bGVTbGlkZXNob3cQAxIXChNQYm1fU2hvd1doaXRlU2NyZWVuEAQSFwoTUGJtX1Nob3dCbGFja1'
+    'NjcmVlbhAF');
 
 @$core.Deprecated('Use setHatRotateImageCommandDescriptor instead')
 const SetHatRotateImageCommand$json = {
@@ -115,6 +80,19 @@ const SetHatImageCommand$json = {
 final $typed_data.Uint8List setHatImageCommandDescriptor = $convert.base64Decode(
     'ChJTZXRIYXRJbWFnZUNvbW1hbmQSHAoJaW1hZ2VQYXRoGAEgASgJUglpbWFnZVBhdGg=');
 
+@$core.Deprecated('Use setPlaybackDirectoryCommandDescriptor instead')
+const SetPlaybackDirectoryCommand$json = {
+  '1': 'SetPlaybackDirectoryCommand',
+  '2': [
+    {'1': 'playbackDir', '3': 1, '4': 1, '5': 9, '10': 'playbackDir'},
+  ],
+};
+
+/// Descriptor for `SetPlaybackDirectoryCommand`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List setPlaybackDirectoryCommandDescriptor = $convert.base64Decode(
+    'ChtTZXRQbGF5YmFja0RpcmVjdG9yeUNvbW1hbmQSIAoLcGxheWJhY2tEaXIYASABKAlSC3BsYX'
+    'liYWNrRGly');
+
 @$core.Deprecated('Use getDgsrImageValidationResultCommandDescriptor instead')
 const GetDgsrImageValidationResultCommand$json = {
   '1': 'GetDgsrImageValidationResultCommand',
@@ -128,6 +106,90 @@ final $typed_data.Uint8List getDgsrImageValidationResultCommandDescriptor = $con
     'CiNHZXREZ3NySW1hZ2VWYWxpZGF0aW9uUmVzdWx0Q29tbWFuZBIcCglpbWFnZVBhdGgYASABKA'
     'lSCWltYWdlUGF0aA==');
 
+@$core.Deprecated('Use playbackSettings_ShowSingleFileDescriptor instead')
+const PlaybackSettings_ShowSingleFile$json = {
+  '1': 'PlaybackSettings_ShowSingleFile',
+  '2': [
+    {'1': 'imagePath', '3': 1, '4': 1, '5': 9, '10': 'imagePath'},
+  ],
+};
+
+/// Descriptor for `PlaybackSettings_ShowSingleFile`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List playbackSettings_ShowSingleFileDescriptor = $convert.base64Decode(
+    'Ch9QbGF5YmFja1NldHRpbmdzX1Nob3dTaW5nbGVGaWxlEhwKCWltYWdlUGF0aBgBIAEoCVIJaW'
+    '1hZ2VQYXRo');
+
+@$core.Deprecated('Use playbackSettings_UseDirectoryForRandomFileSlideshowDescriptor instead')
+const PlaybackSettings_UseDirectoryForRandomFileSlideshow$json = {
+  '1': 'PlaybackSettings_UseDirectoryForRandomFileSlideshow',
+  '2': [
+    {'1': 'slideshowDirPath', '3': 1, '4': 1, '5': 9, '10': 'slideshowDirPath'},
+    {'1': 'delayIntervalInMs', '3': 2, '4': 1, '5': 13, '10': 'delayIntervalInMs'},
+  ],
+};
+
+/// Descriptor for `PlaybackSettings_UseDirectoryForRandomFileSlideshow`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List playbackSettings_UseDirectoryForRandomFileSlideshowDescriptor = $convert.base64Decode(
+    'CjNQbGF5YmFja1NldHRpbmdzX1VzZURpcmVjdG9yeUZvclJhbmRvbUZpbGVTbGlkZXNob3cSKg'
+    'oQc2xpZGVzaG93RGlyUGF0aBgBIAEoCVIQc2xpZGVzaG93RGlyUGF0aBIsChFkZWxheUludGVy'
+    'dmFsSW5NcxgCIAEoDVIRZGVsYXlJbnRlcnZhbEluTXM=');
+
+@$core.Deprecated('Use setPlaybackCommandDescriptor instead')
+const SetPlaybackCommand$json = {
+  '1': 'SetPlaybackCommand',
+  '2': [
+    {'1': 'showSingleFile', '3': 2, '4': 1, '5': 11, '6': '.PlaybackSettings_ShowSingleFile', '9': 0, '10': 'showSingleFile'},
+    {'1': 'dirSlideshow', '3': 3, '4': 1, '5': 11, '6': '.PlaybackSettings_UseDirectoryForRandomFileSlideshow', '9': 0, '10': 'dirSlideshow'},
+  ],
+  '8': [
+    {'1': 'playback'},
+  ],
+};
+
+/// Descriptor for `SetPlaybackCommand`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List setPlaybackCommandDescriptor = $convert.base64Decode(
+    'ChJTZXRQbGF5YmFja0NvbW1hbmQSSgoOc2hvd1NpbmdsZUZpbGUYAiABKAsyIC5QbGF5YmFja1'
+    'NldHRpbmdzX1Nob3dTaW5nbGVGaWxlSABSDnNob3dTaW5nbGVGaWxlEloKDGRpclNsaWRlc2hv'
+    'dxgDIAEoCzI0LlBsYXliYWNrU2V0dGluZ3NfVXNlRGlyZWN0b3J5Rm9yUmFuZG9tRmlsZVNsaW'
+    'Rlc2hvd0gAUgxkaXJTbGlkZXNob3dCCgoIcGxheWJhY2s=');
+
+@$core.Deprecated('Use playbackConfigurationDescriptor instead')
+const PlaybackConfiguration$json = {
+  '1': 'PlaybackConfiguration',
+  '2': [
+    {'1': 'mode', '3': 1, '4': 1, '5': 14, '6': '.PlaybackMode', '10': 'mode'},
+    {'1': 'showSingleFileSettings', '3': 2, '4': 1, '5': 11, '6': '.PlaybackSettings_ShowSingleFile', '10': 'showSingleFileSettings'},
+    {'1': 'dirSlideshowSettings', '3': 3, '4': 1, '5': 11, '6': '.PlaybackSettings_UseDirectoryForRandomFileSlideshow', '10': 'dirSlideshowSettings'},
+    {'1': 'isSlideshowPaused', '3': 4, '4': 1, '5': 8, '10': 'isSlideshowPaused'},
+    {'1': 'randomSeed', '3': 10, '4': 1, '5': 13, '10': 'randomSeed'},
+  ],
+};
+
+/// Descriptor for `PlaybackConfiguration`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List playbackConfigurationDescriptor = $convert.base64Decode(
+    'ChVQbGF5YmFja0NvbmZpZ3VyYXRpb24SIQoEbW9kZRgBIAEoDjINLlBsYXliYWNrTW9kZVIEbW'
+    '9kZRJYChZzaG93U2luZ2xlRmlsZVNldHRpbmdzGAIgASgLMiAuUGxheWJhY2tTZXR0aW5nc19T'
+    'aG93U2luZ2xlRmlsZVIWc2hvd1NpbmdsZUZpbGVTZXR0aW5ncxJoChRkaXJTbGlkZXNob3dTZX'
+    'R0aW5ncxgDIAEoCzI0LlBsYXliYWNrU2V0dGluZ3NfVXNlRGlyZWN0b3J5Rm9yUmFuZG9tRmls'
+    'ZVNsaWRlc2hvd1IUZGlyU2xpZGVzaG93U2V0dGluZ3MSLAoRaXNTbGlkZXNob3dQYXVzZWQYBC'
+    'ABKAhSEWlzU2xpZGVzaG93UGF1c2VkEh4KCnJhbmRvbVNlZWQYCiABKA1SCnJhbmRvbVNlZWQ=');
+
+@$core.Deprecated('Use hatConfigurationDescriptor instead')
+const HatConfiguration$json = {
+  '1': 'HatConfiguration',
+  '2': [
+    {'1': 'activeImagePath', '3': 1, '4': 1, '5': 9, '10': 'activeImagePath'},
+    {'1': 'rotateImage', '3': 2, '4': 1, '5': 8, '10': 'rotateImage'},
+    {'1': 'playbackSettings', '3': 3, '4': 1, '5': 11, '6': '.PlaybackConfiguration', '10': 'playbackSettings'},
+  ],
+};
+
+/// Descriptor for `HatConfiguration`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List hatConfigurationDescriptor = $convert.base64Decode(
+    'ChBIYXRDb25maWd1cmF0aW9uEigKD2FjdGl2ZUltYWdlUGF0aBgBIAEoCVIPYWN0aXZlSW1hZ2'
+    'VQYXRoEiAKC3JvdGF0ZUltYWdlGAIgASgIUgtyb3RhdGVJbWFnZRJCChBwbGF5YmFja1NldHRp'
+    'bmdzGAMgASgLMhYuUGxheWJhY2tDb25maWd1cmF0aW9uUhBwbGF5YmFja1NldHRpbmdz');
+
 @$core.Deprecated('Use myProjectCommandDescriptor instead')
 const MyProjectCommand$json = {
   '1': 'MyProjectCommand',
@@ -136,6 +198,7 @@ const MyProjectCommand$json = {
     {'1': 'setHatImage', '3': 2, '4': 1, '5': 11, '6': '.SetHatImageCommand', '9': 0, '10': 'setHatImage'},
     {'1': 'setHatRotateImage', '3': 3, '4': 1, '5': 11, '6': '.SetHatRotateImageCommand', '9': 0, '10': 'setHatRotateImage'},
     {'1': 'getDgsrImageValidationResult', '3': 4, '4': 1, '5': 11, '6': '.GetDgsrImageValidationResultCommand', '9': 0, '10': 'getDgsrImageValidationResult'},
+    {'1': 'setPlayback', '3': 5, '4': 1, '5': 11, '6': '.SetPlaybackCommand', '9': 0, '10': 'setPlayback'},
   ],
   '8': [
     {'1': 'command'},
@@ -149,7 +212,8 @@ final $typed_data.Uint8List myProjectCommandDescriptor = $convert.base64Decode(
     'YW5kSABSC3NldEhhdEltYWdlEkkKEXNldEhhdFJvdGF0ZUltYWdlGAMgASgLMhkuU2V0SGF0Um'
     '90YXRlSW1hZ2VDb21tYW5kSABSEXNldEhhdFJvdGF0ZUltYWdlEmoKHGdldERnc3JJbWFnZVZh'
     'bGlkYXRpb25SZXN1bHQYBCABKAsyJC5HZXREZ3NySW1hZ2VWYWxpZGF0aW9uUmVzdWx0Q29tbW'
-    'FuZEgAUhxnZXREZ3NySW1hZ2VWYWxpZGF0aW9uUmVzdWx0QgkKB2NvbW1hbmQ=');
+    'FuZEgAUhxnZXREZ3NySW1hZ2VWYWxpZGF0aW9uUmVzdWx0EjcKC3NldFBsYXliYWNrGAUgASgL'
+    'MhMuU2V0UGxheWJhY2tDb21tYW5kSABSC3NldFBsYXliYWNrQgkKB2NvbW1hbmQ=');
 
 @$core.Deprecated('Use invalidCommandResponseDescriptor instead')
 const InvalidCommandResponse$json = {
@@ -167,16 +231,14 @@ final $typed_data.Uint8List invalidCommandResponseDescriptor = $convert.base64De
 const ConfigurationResponse$json = {
   '1': 'ConfigurationResponse',
   '2': [
-    {'1': 'updateConfiguration', '3': 1, '4': 1, '5': 11, '6': '.UpdateConfiguration', '10': 'updateConfiguration'},
     {'1': 'hatConfiguration', '3': 2, '4': 1, '5': 11, '6': '.HatConfiguration', '10': 'hatConfiguration'},
   ],
 };
 
 /// Descriptor for `ConfigurationResponse`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List configurationResponseDescriptor = $convert.base64Decode(
-    'ChVDb25maWd1cmF0aW9uUmVzcG9uc2USRgoTdXBkYXRlQ29uZmlndXJhdGlvbhgBIAEoCzIULl'
-    'VwZGF0ZUNvbmZpZ3VyYXRpb25SE3VwZGF0ZUNvbmZpZ3VyYXRpb24SPQoQaGF0Q29uZmlndXJh'
-    'dGlvbhgCIAEoCzIRLkhhdENvbmZpZ3VyYXRpb25SEGhhdENvbmZpZ3VyYXRpb24=');
+    'ChVDb25maWd1cmF0aW9uUmVzcG9uc2USPQoQaGF0Q29uZmlndXJhdGlvbhgCIAEoCzIRLkhhdE'
+    'NvbmZpZ3VyYXRpb25SEGhhdENvbmZpZ3VyYXRpb24=');
 
 @$core.Deprecated('Use firmwareDetailsResponseDescriptor instead')
 const FirmwareDetailsResponse$json = {

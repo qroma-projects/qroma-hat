@@ -10,37 +10,27 @@
 #endif
 
 /* Enum definitions */
-typedef enum _UpdateType {
-    UpdateType_UpdateType_NotSet = 0,
-    UpdateType_UpdateType_None = 1,
-    UpdateType_UpdateType_Interval = 2
-} UpdateType;
-
 typedef enum _NoArgCommands {
     NoArgCommands_Nac_NotSet = 0,
     NoArgCommands_Nac_ClearScreenToWhite = 1,
     NoArgCommands_Nac_ClearScreenToBlack = 2,
     NoArgCommands_Nac_ShowDefaultImage = 3,
-    NoArgCommands_Nac_GetConfiguration = 4
+    NoArgCommands_Nac_GetConfiguration = 4,
+    NoArgCommands_Nac_AdvancePlayback = 5,
+    NoArgCommands_Nac_UserPausePlayback = 6,
+    NoArgCommands_Nac_UserUnpausePlayback = 7
 } NoArgCommands;
 
+typedef enum _PlaybackMode {
+    PlaybackMode_Pbm_NotSet = 0,
+    PlaybackMode_Pbm_ShowDefaultImage = 1,
+    PlaybackMode_Pbm_ShowSingleFile = 2,
+    PlaybackMode_Pbm_UseDirectoryForRandomFileSlideshow = 3,
+    PlaybackMode_Pbm_ShowWhiteScreen = 4,
+    PlaybackMode_Pbm_ShowBlackScreen = 5
+} PlaybackMode;
+
 /* Struct definitions */
-typedef struct _UpdateConfiguration {
-    UpdateType updateType;
-    uint32_t updateIntervalInMs;
-} UpdateConfiguration;
-
-typedef struct _SetUpdateConfiguration {
-    bool has_updateConfiguration;
-    UpdateConfiguration updateConfiguration;
-    bool saveConfiguration;
-} SetUpdateConfiguration;
-
-typedef struct _HatConfiguration {
-    char imagePath[40];
-    bool rotateImage;
-} HatConfiguration;
-
 typedef struct _SetHatRotateImageCommand {
     bool rotateImage;
 } SetHatRotateImageCommand;
@@ -49,9 +39,47 @@ typedef struct _SetHatImageCommand {
     char imagePath[40];
 } SetHatImageCommand;
 
+typedef struct _SetPlaybackDirectoryCommand {
+    char playbackDir[40];
+} SetPlaybackDirectoryCommand;
+
 typedef struct _GetDgsrImageValidationResultCommand {
     char imagePath[40];
 } GetDgsrImageValidationResultCommand;
+
+typedef struct _PlaybackSettings_ShowSingleFile {
+    char imagePath[40];
+} PlaybackSettings_ShowSingleFile;
+
+typedef struct _PlaybackSettings_UseDirectoryForRandomFileSlideshow {
+    char slideshowDirPath[40];
+    uint32_t delayIntervalInMs;
+} PlaybackSettings_UseDirectoryForRandomFileSlideshow;
+
+typedef struct _SetPlaybackCommand {
+    pb_size_t which_playback;
+    union {
+        PlaybackSettings_ShowSingleFile showSingleFile;
+        PlaybackSettings_UseDirectoryForRandomFileSlideshow dirSlideshow;
+    } playback;
+} SetPlaybackCommand;
+
+typedef struct _PlaybackConfiguration {
+    PlaybackMode mode;
+    bool has_showSingleFileSettings;
+    PlaybackSettings_ShowSingleFile showSingleFileSettings;
+    bool has_dirSlideshowSettings;
+    PlaybackSettings_UseDirectoryForRandomFileSlideshow dirSlideshowSettings;
+    bool isSlideshowPaused;
+    uint32_t randomSeed;
+} PlaybackConfiguration;
+
+typedef struct _HatConfiguration {
+    char activeImagePath[40];
+    bool rotateImage;
+    bool has_playbackSettings;
+    PlaybackConfiguration playbackSettings;
+} HatConfiguration;
 
 typedef struct _MyProjectCommand {
     pb_size_t which_command;
@@ -60,6 +88,7 @@ typedef struct _MyProjectCommand {
         SetHatImageCommand setHatImage;
         SetHatRotateImageCommand setHatRotateImage;
         GetDgsrImageValidationResultCommand getDgsrImageValidationResult;
+        SetPlaybackCommand setPlayback;
     } command;
 } MyProjectCommand;
 
@@ -68,8 +97,7 @@ typedef struct _InvalidCommandResponse {
 } InvalidCommandResponse;
 
 typedef struct _ConfigurationResponse {
-    bool has_updateConfiguration;
-    UpdateConfiguration updateConfiguration;
+    /* UpdateConfiguration updateConfiguration = 1; */
     bool has_hatConfiguration;
     HatConfiguration hatConfiguration;
 } ConfigurationResponse;
@@ -113,19 +141,22 @@ extern "C" {
 #endif
 
 /* Helper constants for enums */
-#define _UpdateType_MIN UpdateType_UpdateType_NotSet
-#define _UpdateType_MAX UpdateType_UpdateType_Interval
-#define _UpdateType_ARRAYSIZE ((UpdateType)(UpdateType_UpdateType_Interval+1))
-
 #define _NoArgCommands_MIN NoArgCommands_Nac_NotSet
-#define _NoArgCommands_MAX NoArgCommands_Nac_GetConfiguration
-#define _NoArgCommands_ARRAYSIZE ((NoArgCommands)(NoArgCommands_Nac_GetConfiguration+1))
+#define _NoArgCommands_MAX NoArgCommands_Nac_UserUnpausePlayback
+#define _NoArgCommands_ARRAYSIZE ((NoArgCommands)(NoArgCommands_Nac_UserUnpausePlayback+1))
 
-#define UpdateConfiguration_updateType_ENUMTYPE UpdateType
+#define _PlaybackMode_MIN PlaybackMode_Pbm_NotSet
+#define _PlaybackMode_MAX PlaybackMode_Pbm_ShowBlackScreen
+#define _PlaybackMode_ARRAYSIZE ((PlaybackMode)(PlaybackMode_Pbm_ShowBlackScreen+1))
 
 
 
 
+
+
+
+
+#define PlaybackConfiguration_mode_ENUMTYPE PlaybackMode
 
 
 #define MyProjectCommand_command_noArgCommand_ENUMTYPE NoArgCommands
@@ -139,29 +170,35 @@ extern "C" {
 
 
 /* Initializer values for message structs */
-#define UpdateConfiguration_init_default         {_UpdateType_MIN, 0}
-#define SetUpdateConfiguration_init_default      {false, UpdateConfiguration_init_default, 0}
-#define HatConfiguration_init_default            {"", 0}
 #define SetHatRotateImageCommand_init_default    {0}
 #define SetHatImageCommand_init_default          {""}
+#define SetPlaybackDirectoryCommand_init_default {""}
 #define GetDgsrImageValidationResultCommand_init_default {""}
+#define PlaybackSettings_ShowSingleFile_init_default {""}
+#define PlaybackSettings_UseDirectoryForRandomFileSlideshow_init_default {"", 0}
+#define SetPlaybackCommand_init_default          {0, {PlaybackSettings_ShowSingleFile_init_default}}
+#define PlaybackConfiguration_init_default       {_PlaybackMode_MIN, false, PlaybackSettings_ShowSingleFile_init_default, false, PlaybackSettings_UseDirectoryForRandomFileSlideshow_init_default, 0, 0}
+#define HatConfiguration_init_default            {"", 0, false, PlaybackConfiguration_init_default}
 #define MyProjectCommand_init_default            {0, {_NoArgCommands_MIN}}
 #define InvalidCommandResponse_init_default      {""}
-#define ConfigurationResponse_init_default       {false, UpdateConfiguration_init_default, false, HatConfiguration_init_default}
+#define ConfigurationResponse_init_default       {false, HatConfiguration_init_default}
 #define FirmwareDetailsResponse_init_default     {"", ""}
 #define UpdateResponse_init_default              {0}
 #define SetHatImageResponse_init_default         {"", 0, ""}
 #define GetDgsrImageValidationResultResponse_init_default {"", 0, ""}
 #define MyProjectResponse_init_default           {0, {InvalidCommandResponse_init_default}}
-#define UpdateConfiguration_init_zero            {_UpdateType_MIN, 0}
-#define SetUpdateConfiguration_init_zero         {false, UpdateConfiguration_init_zero, 0}
-#define HatConfiguration_init_zero               {"", 0}
 #define SetHatRotateImageCommand_init_zero       {0}
 #define SetHatImageCommand_init_zero             {""}
+#define SetPlaybackDirectoryCommand_init_zero    {""}
 #define GetDgsrImageValidationResultCommand_init_zero {""}
+#define PlaybackSettings_ShowSingleFile_init_zero {""}
+#define PlaybackSettings_UseDirectoryForRandomFileSlideshow_init_zero {"", 0}
+#define SetPlaybackCommand_init_zero             {0, {PlaybackSettings_ShowSingleFile_init_zero}}
+#define PlaybackConfiguration_init_zero          {_PlaybackMode_MIN, false, PlaybackSettings_ShowSingleFile_init_zero, false, PlaybackSettings_UseDirectoryForRandomFileSlideshow_init_zero, 0, 0}
+#define HatConfiguration_init_zero               {"", 0, false, PlaybackConfiguration_init_zero}
 #define MyProjectCommand_init_zero               {0, {_NoArgCommands_MIN}}
 #define InvalidCommandResponse_init_zero         {""}
-#define ConfigurationResponse_init_zero          {false, UpdateConfiguration_init_zero, false, HatConfiguration_init_zero}
+#define ConfigurationResponse_init_zero          {false, HatConfiguration_init_zero}
 #define FirmwareDetailsResponse_init_zero        {"", ""}
 #define UpdateResponse_init_zero                 {0}
 #define SetHatImageResponse_init_zero            {"", 0, ""}
@@ -169,21 +206,29 @@ extern "C" {
 #define MyProjectResponse_init_zero              {0, {InvalidCommandResponse_init_zero}}
 
 /* Field tags (for use in manual encoding/decoding) */
-#define UpdateConfiguration_updateType_tag       1
-#define UpdateConfiguration_updateIntervalInMs_tag 2
-#define SetUpdateConfiguration_updateConfiguration_tag 1
-#define SetUpdateConfiguration_saveConfiguration_tag 2
-#define HatConfiguration_imagePath_tag           1
-#define HatConfiguration_rotateImage_tag         2
 #define SetHatRotateImageCommand_rotateImage_tag 1
 #define SetHatImageCommand_imagePath_tag         1
+#define SetPlaybackDirectoryCommand_playbackDir_tag 1
 #define GetDgsrImageValidationResultCommand_imagePath_tag 1
+#define PlaybackSettings_ShowSingleFile_imagePath_tag 1
+#define PlaybackSettings_UseDirectoryForRandomFileSlideshow_slideshowDirPath_tag 1
+#define PlaybackSettings_UseDirectoryForRandomFileSlideshow_delayIntervalInMs_tag 2
+#define SetPlaybackCommand_showSingleFile_tag    2
+#define SetPlaybackCommand_dirSlideshow_tag      3
+#define PlaybackConfiguration_mode_tag           1
+#define PlaybackConfiguration_showSingleFileSettings_tag 2
+#define PlaybackConfiguration_dirSlideshowSettings_tag 3
+#define PlaybackConfiguration_isSlideshowPaused_tag 4
+#define PlaybackConfiguration_randomSeed_tag     10
+#define HatConfiguration_activeImagePath_tag     1
+#define HatConfiguration_rotateImage_tag         2
+#define HatConfiguration_playbackSettings_tag    3
 #define MyProjectCommand_noArgCommand_tag        1
 #define MyProjectCommand_setHatImage_tag         2
 #define MyProjectCommand_setHatRotateImage_tag   3
 #define MyProjectCommand_getDgsrImageValidationResult_tag 4
+#define MyProjectCommand_setPlayback_tag         5
 #define InvalidCommandResponse_message_tag       1
-#define ConfigurationResponse_updateConfiguration_tag 1
 #define ConfigurationResponse_hatConfiguration_tag 2
 #define FirmwareDetailsResponse_version_tag      1
 #define FirmwareDetailsResponse_buildTime_tag    2
@@ -202,25 +247,6 @@ extern "C" {
 #define MyProjectResponse_getDgsrImageValidationResultResponse_tag 6
 
 /* Struct field encoding specification for nanopb */
-#define UpdateConfiguration_FIELDLIST(X, a) \
-X(a, STATIC,   SINGULAR, UENUM,    updateType,        1) \
-X(a, STATIC,   SINGULAR, UINT32,   updateIntervalInMs,   2)
-#define UpdateConfiguration_CALLBACK NULL
-#define UpdateConfiguration_DEFAULT NULL
-
-#define SetUpdateConfiguration_FIELDLIST(X, a) \
-X(a, STATIC,   OPTIONAL, MESSAGE,  updateConfiguration,   1) \
-X(a, STATIC,   SINGULAR, BOOL,     saveConfiguration,   2)
-#define SetUpdateConfiguration_CALLBACK NULL
-#define SetUpdateConfiguration_DEFAULT NULL
-#define SetUpdateConfiguration_updateConfiguration_MSGTYPE UpdateConfiguration
-
-#define HatConfiguration_FIELDLIST(X, a) \
-X(a, STATIC,   SINGULAR, STRING,   imagePath,         1) \
-X(a, STATIC,   SINGULAR, BOOL,     rotateImage,       2)
-#define HatConfiguration_CALLBACK NULL
-#define HatConfiguration_DEFAULT NULL
-
 #define SetHatRotateImageCommand_FIELDLIST(X, a) \
 X(a, STATIC,   SINGULAR, BOOL,     rotateImage,       1)
 #define SetHatRotateImageCommand_CALLBACK NULL
@@ -231,21 +257,66 @@ X(a, STATIC,   SINGULAR, STRING,   imagePath,         1)
 #define SetHatImageCommand_CALLBACK NULL
 #define SetHatImageCommand_DEFAULT NULL
 
+#define SetPlaybackDirectoryCommand_FIELDLIST(X, a) \
+X(a, STATIC,   SINGULAR, STRING,   playbackDir,       1)
+#define SetPlaybackDirectoryCommand_CALLBACK NULL
+#define SetPlaybackDirectoryCommand_DEFAULT NULL
+
 #define GetDgsrImageValidationResultCommand_FIELDLIST(X, a) \
 X(a, STATIC,   SINGULAR, STRING,   imagePath,         1)
 #define GetDgsrImageValidationResultCommand_CALLBACK NULL
 #define GetDgsrImageValidationResultCommand_DEFAULT NULL
 
+#define PlaybackSettings_ShowSingleFile_FIELDLIST(X, a) \
+X(a, STATIC,   SINGULAR, STRING,   imagePath,         1)
+#define PlaybackSettings_ShowSingleFile_CALLBACK NULL
+#define PlaybackSettings_ShowSingleFile_DEFAULT NULL
+
+#define PlaybackSettings_UseDirectoryForRandomFileSlideshow_FIELDLIST(X, a) \
+X(a, STATIC,   SINGULAR, STRING,   slideshowDirPath,   1) \
+X(a, STATIC,   SINGULAR, UINT32,   delayIntervalInMs,   2)
+#define PlaybackSettings_UseDirectoryForRandomFileSlideshow_CALLBACK NULL
+#define PlaybackSettings_UseDirectoryForRandomFileSlideshow_DEFAULT NULL
+
+#define SetPlaybackCommand_FIELDLIST(X, a) \
+X(a, STATIC,   ONEOF,    MESSAGE,  (playback,showSingleFile,playback.showSingleFile),   2) \
+X(a, STATIC,   ONEOF,    MESSAGE,  (playback,dirSlideshow,playback.dirSlideshow),   3)
+#define SetPlaybackCommand_CALLBACK NULL
+#define SetPlaybackCommand_DEFAULT NULL
+#define SetPlaybackCommand_playback_showSingleFile_MSGTYPE PlaybackSettings_ShowSingleFile
+#define SetPlaybackCommand_playback_dirSlideshow_MSGTYPE PlaybackSettings_UseDirectoryForRandomFileSlideshow
+
+#define PlaybackConfiguration_FIELDLIST(X, a) \
+X(a, STATIC,   SINGULAR, UENUM,    mode,              1) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  showSingleFileSettings,   2) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  dirSlideshowSettings,   3) \
+X(a, STATIC,   SINGULAR, BOOL,     isSlideshowPaused,   4) \
+X(a, STATIC,   SINGULAR, UINT32,   randomSeed,       10)
+#define PlaybackConfiguration_CALLBACK NULL
+#define PlaybackConfiguration_DEFAULT NULL
+#define PlaybackConfiguration_showSingleFileSettings_MSGTYPE PlaybackSettings_ShowSingleFile
+#define PlaybackConfiguration_dirSlideshowSettings_MSGTYPE PlaybackSettings_UseDirectoryForRandomFileSlideshow
+
+#define HatConfiguration_FIELDLIST(X, a) \
+X(a, STATIC,   SINGULAR, STRING,   activeImagePath,   1) \
+X(a, STATIC,   SINGULAR, BOOL,     rotateImage,       2) \
+X(a, STATIC,   OPTIONAL, MESSAGE,  playbackSettings,   3)
+#define HatConfiguration_CALLBACK NULL
+#define HatConfiguration_DEFAULT NULL
+#define HatConfiguration_playbackSettings_MSGTYPE PlaybackConfiguration
+
 #define MyProjectCommand_FIELDLIST(X, a) \
 X(a, STATIC,   ONEOF,    UENUM,    (command,noArgCommand,command.noArgCommand),   1) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (command,setHatImage,command.setHatImage),   2) \
 X(a, STATIC,   ONEOF,    MESSAGE,  (command,setHatRotateImage,command.setHatRotateImage),   3) \
-X(a, STATIC,   ONEOF,    MESSAGE,  (command,getDgsrImageValidationResult,command.getDgsrImageValidationResult),   4)
+X(a, STATIC,   ONEOF,    MESSAGE,  (command,getDgsrImageValidationResult,command.getDgsrImageValidationResult),   4) \
+X(a, STATIC,   ONEOF,    MESSAGE,  (command,setPlayback,command.setPlayback),   5)
 #define MyProjectCommand_CALLBACK NULL
 #define MyProjectCommand_DEFAULT NULL
 #define MyProjectCommand_command_setHatImage_MSGTYPE SetHatImageCommand
 #define MyProjectCommand_command_setHatRotateImage_MSGTYPE SetHatRotateImageCommand
 #define MyProjectCommand_command_getDgsrImageValidationResult_MSGTYPE GetDgsrImageValidationResultCommand
+#define MyProjectCommand_command_setPlayback_MSGTYPE SetPlaybackCommand
 
 #define InvalidCommandResponse_FIELDLIST(X, a) \
 X(a, STATIC,   SINGULAR, STRING,   message,           1)
@@ -253,11 +324,9 @@ X(a, STATIC,   SINGULAR, STRING,   message,           1)
 #define InvalidCommandResponse_DEFAULT NULL
 
 #define ConfigurationResponse_FIELDLIST(X, a) \
-X(a, STATIC,   OPTIONAL, MESSAGE,  updateConfiguration,   1) \
 X(a, STATIC,   OPTIONAL, MESSAGE,  hatConfiguration,   2)
 #define ConfigurationResponse_CALLBACK NULL
 #define ConfigurationResponse_DEFAULT NULL
-#define ConfigurationResponse_updateConfiguration_MSGTYPE UpdateConfiguration
 #define ConfigurationResponse_hatConfiguration_MSGTYPE HatConfiguration
 
 #define FirmwareDetailsResponse_FIELDLIST(X, a) \
@@ -301,12 +370,15 @@ X(a, STATIC,   ONEOF,    MESSAGE,  (response,getDgsrImageValidationResultRespons
 #define MyProjectResponse_response_setHatImageResponse_MSGTYPE SetHatImageResponse
 #define MyProjectResponse_response_getDgsrImageValidationResultResponse_MSGTYPE GetDgsrImageValidationResultResponse
 
-extern const pb_msgdesc_t UpdateConfiguration_msg;
-extern const pb_msgdesc_t SetUpdateConfiguration_msg;
-extern const pb_msgdesc_t HatConfiguration_msg;
 extern const pb_msgdesc_t SetHatRotateImageCommand_msg;
 extern const pb_msgdesc_t SetHatImageCommand_msg;
+extern const pb_msgdesc_t SetPlaybackDirectoryCommand_msg;
 extern const pb_msgdesc_t GetDgsrImageValidationResultCommand_msg;
+extern const pb_msgdesc_t PlaybackSettings_ShowSingleFile_msg;
+extern const pb_msgdesc_t PlaybackSettings_UseDirectoryForRandomFileSlideshow_msg;
+extern const pb_msgdesc_t SetPlaybackCommand_msg;
+extern const pb_msgdesc_t PlaybackConfiguration_msg;
+extern const pb_msgdesc_t HatConfiguration_msg;
 extern const pb_msgdesc_t MyProjectCommand_msg;
 extern const pb_msgdesc_t InvalidCommandResponse_msg;
 extern const pb_msgdesc_t ConfigurationResponse_msg;
@@ -317,12 +389,15 @@ extern const pb_msgdesc_t GetDgsrImageValidationResultResponse_msg;
 extern const pb_msgdesc_t MyProjectResponse_msg;
 
 /* Defines for backwards compatibility with code written before nanopb-0.4.0 */
-#define UpdateConfiguration_fields &UpdateConfiguration_msg
-#define SetUpdateConfiguration_fields &SetUpdateConfiguration_msg
-#define HatConfiguration_fields &HatConfiguration_msg
 #define SetHatRotateImageCommand_fields &SetHatRotateImageCommand_msg
 #define SetHatImageCommand_fields &SetHatImageCommand_msg
+#define SetPlaybackDirectoryCommand_fields &SetPlaybackDirectoryCommand_msg
 #define GetDgsrImageValidationResultCommand_fields &GetDgsrImageValidationResultCommand_msg
+#define PlaybackSettings_ShowSingleFile_fields &PlaybackSettings_ShowSingleFile_msg
+#define PlaybackSettings_UseDirectoryForRandomFileSlideshow_fields &PlaybackSettings_UseDirectoryForRandomFileSlideshow_msg
+#define SetPlaybackCommand_fields &SetPlaybackCommand_msg
+#define PlaybackConfiguration_fields &PlaybackConfiguration_msg
+#define HatConfiguration_fields &HatConfiguration_msg
 #define MyProjectCommand_fields &MyProjectCommand_msg
 #define InvalidCommandResponse_fields &InvalidCommandResponse_msg
 #define ConfigurationResponse_fields &ConfigurationResponse_msg
@@ -333,20 +408,23 @@ extern const pb_msgdesc_t MyProjectResponse_msg;
 #define MyProjectResponse_fields &MyProjectResponse_msg
 
 /* Maximum encoded size of messages (where known) */
-#define ConfigurationResponse_size               55
+#define ConfigurationResponse_size               150
 #define FirmwareDetailsResponse_size             62
 #define GetDgsrImageValidationResultCommand_size 41
 #define GetDgsrImageValidationResultResponse_size 144
-#define HatConfiguration_size                    43
+#define HatConfiguration_size                    147
 #define InvalidCommandResponse_size              51
 #define MY_PROJECT_MESSAGES_PB_H_MAX_SIZE        MyProjectResponse_size
-#define MyProjectCommand_size                    43
-#define MyProjectResponse_size                   147
+#define MyProjectCommand_size                    51
+#define MyProjectResponse_size                   153
+#define PlaybackConfiguration_size               102
+#define PlaybackSettings_ShowSingleFile_size     41
+#define PlaybackSettings_UseDirectoryForRandomFileSlideshow_size 47
 #define SetHatImageCommand_size                  41
 #define SetHatImageResponse_size                 144
 #define SetHatRotateImageCommand_size            2
-#define SetUpdateConfiguration_size              12
-#define UpdateConfiguration_size                 8
+#define SetPlaybackCommand_size                  49
+#define SetPlaybackDirectoryCommand_size         41
 #define UpdateResponse_size                      6
 
 #ifdef __cplusplus

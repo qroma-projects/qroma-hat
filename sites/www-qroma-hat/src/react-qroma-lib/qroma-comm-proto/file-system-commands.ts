@@ -30,15 +30,9 @@ export interface DirItem {
      */
     filesize: number;
 }
-// message StoreUpcomingFileDataCommand {
-//   FileData fileData = 1;
-// }
+// message StoreUpcomingFileDataCommand {//   FileData fileData = 1;// }
 
-// message StoreUpcomingFileDataResponse {
-//   bool success = 1;
-//   uint32 bytesWritten = 2;
-//   FileData command = 3;
-// }
+// message StoreUpcomingFileDataResponse {//   bool success = 1;//   uint32 bytesWritten = 2;//   FileData command = 3;// }
 
 /**
  * @generated from protobuf message RmFileCommand

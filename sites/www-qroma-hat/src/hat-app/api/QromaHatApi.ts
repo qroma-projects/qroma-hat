@@ -1,9 +1,8 @@
 import { useState } from "react";
-import { DirItem, IQromaConnectionState, PortRequestResult, QromaCommResponse, sleep, useQromaAppWebSerial } from "../../react-qroma-lib";
-import { MyProjectCommand, MyProjectResponse, NoArgCommands } from "../../qroma-proto/my-project-messages";
-// import { NoArgCommands_QromaLightsDeviceCommand, QromaLightsDeviceConfigUpdated } from "../../qroma-proto/qroma-lights-commands";
-// import { QromaLightsDeviceConfig, QromaStrip_WS2812FX_Animation, QromaStrip_WS2812FX_IoSettings, QromaStrip_WS2812FX_StripIndex } from "../../qroma-proto/qroma-lights-types";
+import { DirItem, IQromaConnectionState, PortRequestResult, QromaCommResponse } from "../../react-qroma-lib";
+import { HatConfiguration, MyProjectCommand, MyProjectResponse, NoArgCommands, PlaybackConfiguration } from "../../qroma-proto/my-project-messages";
 import { useQromaCommFileSystemRxApi } from "../../react-qroma-lib/qroma-lib/file-explorer/QromaCommFileSystemRxApi";
+import { IQromaAppRxHandler, useQromaAppWebSerialRx } from "../../react-qroma-lib/qroma-lib/webserial/QromaAppWebSerialRx";
 
 
 export interface IQromaHatApi {
@@ -11,9 +10,21 @@ export interface IQromaHatApi {
 
   connectionState: IQromaConnectionState
 
-  // restartDevice: () => void
-  getHatImages: () => Promise<DirItem[]> 
+  getCurrentHatConfiguration: () => Promise<HatConfiguration | undefined>
+  getCurrentPlaybackConfiguration: () => Promise<PlaybackConfiguration | undefined>
+  
+  getHatImages: (imageDir: string) => Promise<DirItem[]> 
   showImageFile: (filePath: string) => Promise<void>
+  showNextImage: () => Promise<void>
+  pausePlayback: () => Promise<void>
+  resumePlayback: () => Promise<void>
+
+  showBlackScreen: () => Promise<void>
+  showWhiteScreen: () => Promise<void>
+  showDefaultScreen: () => Promise<void>
+  
+  setPlaybackDirectoryConfiguration: (slideshowDirPath: string, delayIntervalInMs: number) => Promise<void>
+  
   uploadToHat: (filePath: string, fileBytes: Uint8Array) => Promise<void>
 }
 
@@ -27,6 +38,8 @@ export const useQromaHatApi = (): IQromaHatApi => {
     keepQromaMonitoringOn: false,
     isQromaMonitoringOn: false,
   } as IQromaConnectionState);
+  // const [imageDirPath, setImageDirPath] = useState("/dgsr");
+
 
   let _latestResponse: QromaCommResponse | undefined = undefined;
   let _latestAppResponse: MyProjectResponse | undefined = undefined;
@@ -75,9 +88,6 @@ export const useQromaHatApi = (): IQromaHatApi => {
     console.log(appMessage);
   }
 
-  // const clearLatestAppResponse = () => {
-  //   _latestAppResponse = undefined;
-  // }
   
   const qromaAppWebSerialInputs = {
     onConnect: () => () => { console.log("ON CONNECT") },
@@ -94,30 +104,90 @@ export const useQromaHatApi = (): IQromaHatApi => {
     onQromaCommResponse,
     onQromaAppResponse,
   }
-  const qromaAppWebSerial = useQromaAppWebSerial<MyProjectCommand, MyProjectResponse>(qromaAppWebSerialInputs);
+  const qromaAppWebSerial = useQromaAppWebSerialRx<MyProjectCommand, MyProjectResponse>(qromaAppWebSerialInputs);
   const qromaCommFileSystemApi = useQromaCommFileSystemRxApi();
 
   const startMonitoring = async () => {
     qromaAppWebSerial.startMonitoring();
   }
 
-  // const restartDevice = () => {
-  //   const appCommand: MyProjectCommand = {
-  //     command: {
-  //       oneofKind: 'noArgCommand',
-  //       noArgCommand: NoArgCommands.Nac_RestartDevice,
-  //     }
-  //   };
+  
+  const getCurrentHatConfiguration = async (): Promise<HatConfiguration | undefined> => {
+    const appCommand: MyProjectCommand = {
+      command: {
+        oneofKind: 'noArgCommand',
+        noArgCommand: NoArgCommands.Nac_GetConfiguration,
+      }
+    };
 
-  //   qromaAppWebSerial.sendQromaAppCommand(appCommand);
-  // }
+    let theResponse: HatConfiguration | undefined;
+    const rxHandler: IQromaAppRxHandler<MyProjectResponse> = {
+      onAppRx: (appResponse: MyProjectResponse) => {
+        console.log("RX HANDLER - QROMA HAT")
+        console.log(appResponse)
+        if (appResponse.response.oneofKind === 'configurationResponse') {
+          theResponse = appResponse.response.configurationResponse.hatConfiguration;
+          return true;
+        }
+        return false;
+      },
+    }
 
-  const dirPath = "/dgsr";
+    await qromaAppWebSerial.sendQromaAppCommandRx(appCommand, rxHandler, 2000);
 
-  const getHatImages = async (): Promise<DirItem[]> => {
-    console.log("SHOWING DIR CONTENTS FOR " + dirPath);
+    console.log("HAT API CONFIG RESPONSE");
+    console.log(theResponse);
 
-    const dirResult = await qromaCommFileSystemApi.listDir(dirPath);
+    return theResponse;
+  }
+
+
+  const getCurrentPlaybackConfiguration = async (): Promise<PlaybackConfiguration | undefined> => {
+    const hatConfiguration = await getCurrentHatConfiguration();
+
+    const theResponse = hatConfiguration?.playbackSettings;
+    console.log("HAT API PLAYBACK CONFIG RESPONSE");
+    console.log(theResponse);
+
+    return theResponse;
+
+
+    // const appCommand: MyProjectCommand = {
+    //   command: {
+    //     oneofKind: 'noArgCommand',
+    //     noArgCommand: NoArgCommands.Nac_GetConfiguration,
+    //   }
+    // };
+
+    // let theResponse: PlaybackConfiguration | undefined;
+    // const rxHandler: IQromaAppRxHandler<MyProjectResponse> = {
+    //   onAppRx: (appResponse: MyProjectResponse) => {
+    //     console.log("RX HANDLER - QROMA HAT")
+    //     console.log(appResponse)
+    //     if (appResponse.response.oneofKind === 'configurationResponse') {
+    //       theResponse = appResponse.response.configurationResponse.hatConfiguration?.playbackSettings;
+    //       return true;
+    //     }
+    //     return false;
+    //   },
+    //   // isRxComplete: () => boolean
+    //   // hasTimeoutOccurred: () => boolean
+    //   // onTimeout: () => void
+    // }
+
+    // await qromaAppWebSerial.sendQromaAppCommandRx(appCommand, rxHandler, 2000);
+
+    // console.log("HAT API PLAYBACK CONFIG RESPONSE");
+    // console.log(theResponse);
+
+    // return theResponse;
+  }
+
+
+  const getHatImages = async (imageDir: string): Promise<DirItem[]> => {
+    console.log("SHOWING DIR CONTENTS FOR " + imageDir);
+
+    const dirResult = await qromaCommFileSystemApi.listDir(imageDir);
     if (dirResult && dirResult.success) {
         console.log("DIR RESULT");
         console.log(dirResult);
@@ -127,7 +197,7 @@ export const useQromaHatApi = (): IQromaHatApi => {
     return [];
   }
 
-  const showImageFile = (filePath: string) => {
+  const showImageFile = async (filePath: string) => {
     console.log("SHOWING HAT IMAGE FILE");
     console.log(filePath);
     
@@ -147,12 +217,111 @@ export const useQromaHatApi = (): IQromaHatApi => {
     await qromaCommFileSystemApi.writeFileContents(filePath, fileBytes);
   }
 
+  const setPlaybackDirectoryConfiguration = async (slideshowDirPath: string, delayIntervalInMs: number) => {
+    const appCommand: MyProjectCommand = {
+      command: {
+        oneofKind: 'setPlayback',
+        setPlayback: {
+          playback: {
+            oneofKind: 'dirSlideshow',
+            dirSlideshow: {
+              slideshowDirPath,
+              delayIntervalInMs,
+            }
+          },
+        }
+      }
+    };
+
+    qromaAppWebSerial.sendQromaAppCommand(appCommand);
+  }
+
+  const showNextImage = async () => {
+    const appCommand: MyProjectCommand = {
+      command: {
+        oneofKind: 'noArgCommand',
+        noArgCommand: NoArgCommands.Nac_AdvancePlayback,
+      }
+    };
+
+    qromaAppWebSerial.sendQromaAppCommand(appCommand);
+  }
+
+  const pausePlayback = async () => {
+    const appCommand: MyProjectCommand = {
+      command: {
+        oneofKind: 'noArgCommand',
+        noArgCommand: NoArgCommands.Nac_UserPausePlayback,
+      }
+    };
+
+    qromaAppWebSerial.sendQromaAppCommand(appCommand);
+  }
+
+  const resumePlayback = async () => {
+    const appCommand: MyProjectCommand = {
+      command: {
+        oneofKind: 'noArgCommand',
+        noArgCommand: NoArgCommands.Nac_UserUnpausePlayback,
+      }
+    };
+
+    qromaAppWebSerial.sendQromaAppCommand(appCommand);
+  }
+
+  const showBlackScreen = async () => {
+    const appCommand: MyProjectCommand = {
+      command: {
+        oneofKind: 'noArgCommand',
+        noArgCommand: NoArgCommands.Nac_ClearScreenToBlack,
+      }
+    };
+
+    qromaAppWebSerial.sendQromaAppCommand(appCommand);
+  }
+
+  const showWhiteScreen = async () => {
+    const appCommand: MyProjectCommand = {
+      command: {
+        oneofKind: 'noArgCommand',
+        noArgCommand: NoArgCommands.Nac_ClearScreenToWhite,
+      }
+    };
+
+    qromaAppWebSerial.sendQromaAppCommand(appCommand);
+  }
+
+  const showDefaultScreen = async () => {
+    const appCommand: MyProjectCommand = {
+      command: {
+        oneofKind: 'noArgCommand',
+        noArgCommand: NoArgCommands.Nac_ShowDefaultImage,
+      }
+    };
+
+    qromaAppWebSerial.sendQromaAppCommand(appCommand);
+  }
+
+
   return {
     init: startMonitoring,
     connectionState: qromaAppWebSerial.getConnectionState(),
     
+    getCurrentHatConfiguration,
+    getCurrentPlaybackConfiguration,
+
     getHatImages,
     showImageFile,
+    showNextImage,
+
+    showBlackScreen,
+    showWhiteScreen,
+    showDefaultScreen,
+
+    pausePlayback,
+    resumePlayback,
+
+    setPlaybackDirectoryConfiguration,
     uploadToHat,
   };
 }

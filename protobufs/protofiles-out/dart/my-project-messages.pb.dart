@@ -17,200 +17,6 @@ import 'my-project-messages.pbenum.dart';
 
 export 'my-project-messages.pbenum.dart';
 
-class UpdateConfiguration extends $pb.GeneratedMessage {
-  factory UpdateConfiguration({
-    UpdateType? updateType,
-    $core.int? updateIntervalInMs,
-  }) {
-    final $result = create();
-    if (updateType != null) {
-      $result.updateType = updateType;
-    }
-    if (updateIntervalInMs != null) {
-      $result.updateIntervalInMs = updateIntervalInMs;
-    }
-    return $result;
-  }
-  UpdateConfiguration._() : super();
-  factory UpdateConfiguration.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory UpdateConfiguration.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
-
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'UpdateConfiguration', createEmptyInstance: create)
-    ..e<UpdateType>(1, _omitFieldNames ? '' : 'updateType', $pb.PbFieldType.OE, protoName: 'updateType', defaultOrMaker: UpdateType.UpdateType_NotSet, valueOf: UpdateType.valueOf, enumValues: UpdateType.values)
-    ..a<$core.int>(2, _omitFieldNames ? '' : 'updateIntervalInMs', $pb.PbFieldType.OU3, protoName: 'updateIntervalInMs')
-    ..hasRequiredFields = false
-  ;
-
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-  'Will be removed in next major version')
-  UpdateConfiguration clone() => UpdateConfiguration()..mergeFromMessage(this);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-  'Will be removed in next major version')
-  UpdateConfiguration copyWith(void Function(UpdateConfiguration) updates) => super.copyWith((message) => updates(message as UpdateConfiguration)) as UpdateConfiguration;
-
-  $pb.BuilderInfo get info_ => _i;
-
-  @$core.pragma('dart2js:noInline')
-  static UpdateConfiguration create() => UpdateConfiguration._();
-  UpdateConfiguration createEmptyInstance() => create();
-  static $pb.PbList<UpdateConfiguration> createRepeated() => $pb.PbList<UpdateConfiguration>();
-  @$core.pragma('dart2js:noInline')
-  static UpdateConfiguration getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<UpdateConfiguration>(create);
-  static UpdateConfiguration? _defaultInstance;
-
-  @$pb.TagNumber(1)
-  UpdateType get updateType => $_getN(0);
-  @$pb.TagNumber(1)
-  set updateType(UpdateType v) { setField(1, v); }
-  @$pb.TagNumber(1)
-  $core.bool hasUpdateType() => $_has(0);
-  @$pb.TagNumber(1)
-  void clearUpdateType() => clearField(1);
-
-  @$pb.TagNumber(2)
-  $core.int get updateIntervalInMs => $_getIZ(1);
-  @$pb.TagNumber(2)
-  set updateIntervalInMs($core.int v) { $_setUnsignedInt32(1, v); }
-  @$pb.TagNumber(2)
-  $core.bool hasUpdateIntervalInMs() => $_has(1);
-  @$pb.TagNumber(2)
-  void clearUpdateIntervalInMs() => clearField(2);
-}
-
-class SetUpdateConfiguration extends $pb.GeneratedMessage {
-  factory SetUpdateConfiguration({
-    UpdateConfiguration? updateConfiguration,
-    $core.bool? saveConfiguration,
-  }) {
-    final $result = create();
-    if (updateConfiguration != null) {
-      $result.updateConfiguration = updateConfiguration;
-    }
-    if (saveConfiguration != null) {
-      $result.saveConfiguration = saveConfiguration;
-    }
-    return $result;
-  }
-  SetUpdateConfiguration._() : super();
-  factory SetUpdateConfiguration.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory SetUpdateConfiguration.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
-
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'SetUpdateConfiguration', createEmptyInstance: create)
-    ..aOM<UpdateConfiguration>(1, _omitFieldNames ? '' : 'updateConfiguration', protoName: 'updateConfiguration', subBuilder: UpdateConfiguration.create)
-    ..aOB(2, _omitFieldNames ? '' : 'saveConfiguration', protoName: 'saveConfiguration')
-    ..hasRequiredFields = false
-  ;
-
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-  'Will be removed in next major version')
-  SetUpdateConfiguration clone() => SetUpdateConfiguration()..mergeFromMessage(this);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-  'Will be removed in next major version')
-  SetUpdateConfiguration copyWith(void Function(SetUpdateConfiguration) updates) => super.copyWith((message) => updates(message as SetUpdateConfiguration)) as SetUpdateConfiguration;
-
-  $pb.BuilderInfo get info_ => _i;
-
-  @$core.pragma('dart2js:noInline')
-  static SetUpdateConfiguration create() => SetUpdateConfiguration._();
-  SetUpdateConfiguration createEmptyInstance() => create();
-  static $pb.PbList<SetUpdateConfiguration> createRepeated() => $pb.PbList<SetUpdateConfiguration>();
-  @$core.pragma('dart2js:noInline')
-  static SetUpdateConfiguration getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<SetUpdateConfiguration>(create);
-  static SetUpdateConfiguration? _defaultInstance;
-
-  @$pb.TagNumber(1)
-  UpdateConfiguration get updateConfiguration => $_getN(0);
-  @$pb.TagNumber(1)
-  set updateConfiguration(UpdateConfiguration v) { setField(1, v); }
-  @$pb.TagNumber(1)
-  $core.bool hasUpdateConfiguration() => $_has(0);
-  @$pb.TagNumber(1)
-  void clearUpdateConfiguration() => clearField(1);
-  @$pb.TagNumber(1)
-  UpdateConfiguration ensureUpdateConfiguration() => $_ensure(0);
-
-  @$pb.TagNumber(2)
-  $core.bool get saveConfiguration => $_getBF(1);
-  @$pb.TagNumber(2)
-  set saveConfiguration($core.bool v) { $_setBool(1, v); }
-  @$pb.TagNumber(2)
-  $core.bool hasSaveConfiguration() => $_has(1);
-  @$pb.TagNumber(2)
-  void clearSaveConfiguration() => clearField(2);
-}
-
-class HatConfiguration extends $pb.GeneratedMessage {
-  factory HatConfiguration({
-    $core.String? imagePath,
-    $core.bool? rotateImage,
-  }) {
-    final $result = create();
-    if (imagePath != null) {
-      $result.imagePath = imagePath;
-    }
-    if (rotateImage != null) {
-      $result.rotateImage = rotateImage;
-    }
-    return $result;
-  }
-  HatConfiguration._() : super();
-  factory HatConfiguration.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory HatConfiguration.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
-
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'HatConfiguration', createEmptyInstance: create)
-    ..aOS(1, _omitFieldNames ? '' : 'imagePath', protoName: 'imagePath')
-    ..aOB(2, _omitFieldNames ? '' : 'rotateImage', protoName: 'rotateImage')
-    ..hasRequiredFields = false
-  ;
-
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-  'Will be removed in next major version')
-  HatConfiguration clone() => HatConfiguration()..mergeFromMessage(this);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-  'Will be removed in next major version')
-  HatConfiguration copyWith(void Function(HatConfiguration) updates) => super.copyWith((message) => updates(message as HatConfiguration)) as HatConfiguration;
-
-  $pb.BuilderInfo get info_ => _i;
-
-  @$core.pragma('dart2js:noInline')
-  static HatConfiguration create() => HatConfiguration._();
-  HatConfiguration createEmptyInstance() => create();
-  static $pb.PbList<HatConfiguration> createRepeated() => $pb.PbList<HatConfiguration>();
-  @$core.pragma('dart2js:noInline')
-  static HatConfiguration getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<HatConfiguration>(create);
-  static HatConfiguration? _defaultInstance;
-
-  @$pb.TagNumber(1)
-  $core.String get imagePath => $_getSZ(0);
-  @$pb.TagNumber(1)
-  set imagePath($core.String v) { $_setString(0, v); }
-  @$pb.TagNumber(1)
-  $core.bool hasImagePath() => $_has(0);
-  @$pb.TagNumber(1)
-  void clearImagePath() => clearField(1);
-
-  @$pb.TagNumber(2)
-  $core.bool get rotateImage => $_getBF(1);
-  @$pb.TagNumber(2)
-  set rotateImage($core.bool v) { $_setBool(1, v); }
-  @$pb.TagNumber(2)
-  $core.bool hasRotateImage() => $_has(1);
-  @$pb.TagNumber(2)
-  void clearRotateImage() => clearField(2);
-}
-
 class SetHatRotateImageCommand extends $pb.GeneratedMessage {
   factory SetHatRotateImageCommand({
     $core.bool? rotateImage,
@@ -311,6 +117,56 @@ class SetHatImageCommand extends $pb.GeneratedMessage {
   void clearImagePath() => clearField(1);
 }
 
+class SetPlaybackDirectoryCommand extends $pb.GeneratedMessage {
+  factory SetPlaybackDirectoryCommand({
+    $core.String? playbackDir,
+  }) {
+    final $result = create();
+    if (playbackDir != null) {
+      $result.playbackDir = playbackDir;
+    }
+    return $result;
+  }
+  SetPlaybackDirectoryCommand._() : super();
+  factory SetPlaybackDirectoryCommand.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory SetPlaybackDirectoryCommand.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'SetPlaybackDirectoryCommand', createEmptyInstance: create)
+    ..aOS(1, _omitFieldNames ? '' : 'playbackDir', protoName: 'playbackDir')
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  SetPlaybackDirectoryCommand clone() => SetPlaybackDirectoryCommand()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  SetPlaybackDirectoryCommand copyWith(void Function(SetPlaybackDirectoryCommand) updates) => super.copyWith((message) => updates(message as SetPlaybackDirectoryCommand)) as SetPlaybackDirectoryCommand;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static SetPlaybackDirectoryCommand create() => SetPlaybackDirectoryCommand._();
+  SetPlaybackDirectoryCommand createEmptyInstance() => create();
+  static $pb.PbList<SetPlaybackDirectoryCommand> createRepeated() => $pb.PbList<SetPlaybackDirectoryCommand>();
+  @$core.pragma('dart2js:noInline')
+  static SetPlaybackDirectoryCommand getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<SetPlaybackDirectoryCommand>(create);
+  static SetPlaybackDirectoryCommand? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get playbackDir => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set playbackDir($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasPlaybackDir() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearPlaybackDir() => clearField(1);
+}
+
 class GetDgsrImageValidationResultCommand extends $pb.GeneratedMessage {
   factory GetDgsrImageValidationResultCommand({
     $core.String? imagePath,
@@ -361,11 +217,399 @@ class GetDgsrImageValidationResultCommand extends $pb.GeneratedMessage {
   void clearImagePath() => clearField(1);
 }
 
+class PlaybackSettings_ShowSingleFile extends $pb.GeneratedMessage {
+  factory PlaybackSettings_ShowSingleFile({
+    $core.String? imagePath,
+  }) {
+    final $result = create();
+    if (imagePath != null) {
+      $result.imagePath = imagePath;
+    }
+    return $result;
+  }
+  PlaybackSettings_ShowSingleFile._() : super();
+  factory PlaybackSettings_ShowSingleFile.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory PlaybackSettings_ShowSingleFile.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'PlaybackSettings_ShowSingleFile', createEmptyInstance: create)
+    ..aOS(1, _omitFieldNames ? '' : 'imagePath', protoName: 'imagePath')
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  PlaybackSettings_ShowSingleFile clone() => PlaybackSettings_ShowSingleFile()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  PlaybackSettings_ShowSingleFile copyWith(void Function(PlaybackSettings_ShowSingleFile) updates) => super.copyWith((message) => updates(message as PlaybackSettings_ShowSingleFile)) as PlaybackSettings_ShowSingleFile;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static PlaybackSettings_ShowSingleFile create() => PlaybackSettings_ShowSingleFile._();
+  PlaybackSettings_ShowSingleFile createEmptyInstance() => create();
+  static $pb.PbList<PlaybackSettings_ShowSingleFile> createRepeated() => $pb.PbList<PlaybackSettings_ShowSingleFile>();
+  @$core.pragma('dart2js:noInline')
+  static PlaybackSettings_ShowSingleFile getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<PlaybackSettings_ShowSingleFile>(create);
+  static PlaybackSettings_ShowSingleFile? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get imagePath => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set imagePath($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasImagePath() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearImagePath() => clearField(1);
+}
+
+class PlaybackSettings_UseDirectoryForRandomFileSlideshow extends $pb.GeneratedMessage {
+  factory PlaybackSettings_UseDirectoryForRandomFileSlideshow({
+    $core.String? slideshowDirPath,
+    $core.int? delayIntervalInMs,
+  }) {
+    final $result = create();
+    if (slideshowDirPath != null) {
+      $result.slideshowDirPath = slideshowDirPath;
+    }
+    if (delayIntervalInMs != null) {
+      $result.delayIntervalInMs = delayIntervalInMs;
+    }
+    return $result;
+  }
+  PlaybackSettings_UseDirectoryForRandomFileSlideshow._() : super();
+  factory PlaybackSettings_UseDirectoryForRandomFileSlideshow.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory PlaybackSettings_UseDirectoryForRandomFileSlideshow.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'PlaybackSettings_UseDirectoryForRandomFileSlideshow', createEmptyInstance: create)
+    ..aOS(1, _omitFieldNames ? '' : 'slideshowDirPath', protoName: 'slideshowDirPath')
+    ..a<$core.int>(2, _omitFieldNames ? '' : 'delayIntervalInMs', $pb.PbFieldType.OU3, protoName: 'delayIntervalInMs')
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  PlaybackSettings_UseDirectoryForRandomFileSlideshow clone() => PlaybackSettings_UseDirectoryForRandomFileSlideshow()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  PlaybackSettings_UseDirectoryForRandomFileSlideshow copyWith(void Function(PlaybackSettings_UseDirectoryForRandomFileSlideshow) updates) => super.copyWith((message) => updates(message as PlaybackSettings_UseDirectoryForRandomFileSlideshow)) as PlaybackSettings_UseDirectoryForRandomFileSlideshow;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static PlaybackSettings_UseDirectoryForRandomFileSlideshow create() => PlaybackSettings_UseDirectoryForRandomFileSlideshow._();
+  PlaybackSettings_UseDirectoryForRandomFileSlideshow createEmptyInstance() => create();
+  static $pb.PbList<PlaybackSettings_UseDirectoryForRandomFileSlideshow> createRepeated() => $pb.PbList<PlaybackSettings_UseDirectoryForRandomFileSlideshow>();
+  @$core.pragma('dart2js:noInline')
+  static PlaybackSettings_UseDirectoryForRandomFileSlideshow getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<PlaybackSettings_UseDirectoryForRandomFileSlideshow>(create);
+  static PlaybackSettings_UseDirectoryForRandomFileSlideshow? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get slideshowDirPath => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set slideshowDirPath($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasSlideshowDirPath() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearSlideshowDirPath() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.int get delayIntervalInMs => $_getIZ(1);
+  @$pb.TagNumber(2)
+  set delayIntervalInMs($core.int v) { $_setUnsignedInt32(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasDelayIntervalInMs() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearDelayIntervalInMs() => clearField(2);
+}
+
+enum SetPlaybackCommand_Playback {
+  showSingleFile, 
+  dirSlideshow, 
+  notSet
+}
+
+class SetPlaybackCommand extends $pb.GeneratedMessage {
+  factory SetPlaybackCommand({
+    PlaybackSettings_ShowSingleFile? showSingleFile,
+    PlaybackSettings_UseDirectoryForRandomFileSlideshow? dirSlideshow,
+  }) {
+    final $result = create();
+    if (showSingleFile != null) {
+      $result.showSingleFile = showSingleFile;
+    }
+    if (dirSlideshow != null) {
+      $result.dirSlideshow = dirSlideshow;
+    }
+    return $result;
+  }
+  SetPlaybackCommand._() : super();
+  factory SetPlaybackCommand.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory SetPlaybackCommand.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static const $core.Map<$core.int, SetPlaybackCommand_Playback> _SetPlaybackCommand_PlaybackByTag = {
+    2 : SetPlaybackCommand_Playback.showSingleFile,
+    3 : SetPlaybackCommand_Playback.dirSlideshow,
+    0 : SetPlaybackCommand_Playback.notSet
+  };
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'SetPlaybackCommand', createEmptyInstance: create)
+    ..oo(0, [2, 3])
+    ..aOM<PlaybackSettings_ShowSingleFile>(2, _omitFieldNames ? '' : 'showSingleFile', protoName: 'showSingleFile', subBuilder: PlaybackSettings_ShowSingleFile.create)
+    ..aOM<PlaybackSettings_UseDirectoryForRandomFileSlideshow>(3, _omitFieldNames ? '' : 'dirSlideshow', protoName: 'dirSlideshow', subBuilder: PlaybackSettings_UseDirectoryForRandomFileSlideshow.create)
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  SetPlaybackCommand clone() => SetPlaybackCommand()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  SetPlaybackCommand copyWith(void Function(SetPlaybackCommand) updates) => super.copyWith((message) => updates(message as SetPlaybackCommand)) as SetPlaybackCommand;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static SetPlaybackCommand create() => SetPlaybackCommand._();
+  SetPlaybackCommand createEmptyInstance() => create();
+  static $pb.PbList<SetPlaybackCommand> createRepeated() => $pb.PbList<SetPlaybackCommand>();
+  @$core.pragma('dart2js:noInline')
+  static SetPlaybackCommand getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<SetPlaybackCommand>(create);
+  static SetPlaybackCommand? _defaultInstance;
+
+  SetPlaybackCommand_Playback whichPlayback() => _SetPlaybackCommand_PlaybackByTag[$_whichOneof(0)]!;
+  void clearPlayback() => clearField($_whichOneof(0));
+
+  @$pb.TagNumber(2)
+  PlaybackSettings_ShowSingleFile get showSingleFile => $_getN(0);
+  @$pb.TagNumber(2)
+  set showSingleFile(PlaybackSettings_ShowSingleFile v) { setField(2, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasShowSingleFile() => $_has(0);
+  @$pb.TagNumber(2)
+  void clearShowSingleFile() => clearField(2);
+  @$pb.TagNumber(2)
+  PlaybackSettings_ShowSingleFile ensureShowSingleFile() => $_ensure(0);
+
+  @$pb.TagNumber(3)
+  PlaybackSettings_UseDirectoryForRandomFileSlideshow get dirSlideshow => $_getN(1);
+  @$pb.TagNumber(3)
+  set dirSlideshow(PlaybackSettings_UseDirectoryForRandomFileSlideshow v) { setField(3, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasDirSlideshow() => $_has(1);
+  @$pb.TagNumber(3)
+  void clearDirSlideshow() => clearField(3);
+  @$pb.TagNumber(3)
+  PlaybackSettings_UseDirectoryForRandomFileSlideshow ensureDirSlideshow() => $_ensure(1);
+}
+
+class PlaybackConfiguration extends $pb.GeneratedMessage {
+  factory PlaybackConfiguration({
+    PlaybackMode? mode,
+    PlaybackSettings_ShowSingleFile? showSingleFileSettings,
+    PlaybackSettings_UseDirectoryForRandomFileSlideshow? dirSlideshowSettings,
+    $core.bool? isSlideshowPaused,
+    $core.int? randomSeed,
+  }) {
+    final $result = create();
+    if (mode != null) {
+      $result.mode = mode;
+    }
+    if (showSingleFileSettings != null) {
+      $result.showSingleFileSettings = showSingleFileSettings;
+    }
+    if (dirSlideshowSettings != null) {
+      $result.dirSlideshowSettings = dirSlideshowSettings;
+    }
+    if (isSlideshowPaused != null) {
+      $result.isSlideshowPaused = isSlideshowPaused;
+    }
+    if (randomSeed != null) {
+      $result.randomSeed = randomSeed;
+    }
+    return $result;
+  }
+  PlaybackConfiguration._() : super();
+  factory PlaybackConfiguration.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory PlaybackConfiguration.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'PlaybackConfiguration', createEmptyInstance: create)
+    ..e<PlaybackMode>(1, _omitFieldNames ? '' : 'mode', $pb.PbFieldType.OE, defaultOrMaker: PlaybackMode.Pbm_NotSet, valueOf: PlaybackMode.valueOf, enumValues: PlaybackMode.values)
+    ..aOM<PlaybackSettings_ShowSingleFile>(2, _omitFieldNames ? '' : 'showSingleFileSettings', protoName: 'showSingleFileSettings', subBuilder: PlaybackSettings_ShowSingleFile.create)
+    ..aOM<PlaybackSettings_UseDirectoryForRandomFileSlideshow>(3, _omitFieldNames ? '' : 'dirSlideshowSettings', protoName: 'dirSlideshowSettings', subBuilder: PlaybackSettings_UseDirectoryForRandomFileSlideshow.create)
+    ..aOB(4, _omitFieldNames ? '' : 'isSlideshowPaused', protoName: 'isSlideshowPaused')
+    ..a<$core.int>(10, _omitFieldNames ? '' : 'randomSeed', $pb.PbFieldType.OU3, protoName: 'randomSeed')
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  PlaybackConfiguration clone() => PlaybackConfiguration()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  PlaybackConfiguration copyWith(void Function(PlaybackConfiguration) updates) => super.copyWith((message) => updates(message as PlaybackConfiguration)) as PlaybackConfiguration;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static PlaybackConfiguration create() => PlaybackConfiguration._();
+  PlaybackConfiguration createEmptyInstance() => create();
+  static $pb.PbList<PlaybackConfiguration> createRepeated() => $pb.PbList<PlaybackConfiguration>();
+  @$core.pragma('dart2js:noInline')
+  static PlaybackConfiguration getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<PlaybackConfiguration>(create);
+  static PlaybackConfiguration? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  PlaybackMode get mode => $_getN(0);
+  @$pb.TagNumber(1)
+  set mode(PlaybackMode v) { setField(1, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasMode() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearMode() => clearField(1);
+
+  @$pb.TagNumber(2)
+  PlaybackSettings_ShowSingleFile get showSingleFileSettings => $_getN(1);
+  @$pb.TagNumber(2)
+  set showSingleFileSettings(PlaybackSettings_ShowSingleFile v) { setField(2, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasShowSingleFileSettings() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearShowSingleFileSettings() => clearField(2);
+  @$pb.TagNumber(2)
+  PlaybackSettings_ShowSingleFile ensureShowSingleFileSettings() => $_ensure(1);
+
+  @$pb.TagNumber(3)
+  PlaybackSettings_UseDirectoryForRandomFileSlideshow get dirSlideshowSettings => $_getN(2);
+  @$pb.TagNumber(3)
+  set dirSlideshowSettings(PlaybackSettings_UseDirectoryForRandomFileSlideshow v) { setField(3, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasDirSlideshowSettings() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearDirSlideshowSettings() => clearField(3);
+  @$pb.TagNumber(3)
+  PlaybackSettings_UseDirectoryForRandomFileSlideshow ensureDirSlideshowSettings() => $_ensure(2);
+
+  @$pb.TagNumber(4)
+  $core.bool get isSlideshowPaused => $_getBF(3);
+  @$pb.TagNumber(4)
+  set isSlideshowPaused($core.bool v) { $_setBool(3, v); }
+  @$pb.TagNumber(4)
+  $core.bool hasIsSlideshowPaused() => $_has(3);
+  @$pb.TagNumber(4)
+  void clearIsSlideshowPaused() => clearField(4);
+
+  @$pb.TagNumber(10)
+  $core.int get randomSeed => $_getIZ(4);
+  @$pb.TagNumber(10)
+  set randomSeed($core.int v) { $_setUnsignedInt32(4, v); }
+  @$pb.TagNumber(10)
+  $core.bool hasRandomSeed() => $_has(4);
+  @$pb.TagNumber(10)
+  void clearRandomSeed() => clearField(10);
+}
+
+class HatConfiguration extends $pb.GeneratedMessage {
+  factory HatConfiguration({
+    $core.String? activeImagePath,
+    $core.bool? rotateImage,
+    PlaybackConfiguration? playbackSettings,
+  }) {
+    final $result = create();
+    if (activeImagePath != null) {
+      $result.activeImagePath = activeImagePath;
+    }
+    if (rotateImage != null) {
+      $result.rotateImage = rotateImage;
+    }
+    if (playbackSettings != null) {
+      $result.playbackSettings = playbackSettings;
+    }
+    return $result;
+  }
+  HatConfiguration._() : super();
+  factory HatConfiguration.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory HatConfiguration.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'HatConfiguration', createEmptyInstance: create)
+    ..aOS(1, _omitFieldNames ? '' : 'activeImagePath', protoName: 'activeImagePath')
+    ..aOB(2, _omitFieldNames ? '' : 'rotateImage', protoName: 'rotateImage')
+    ..aOM<PlaybackConfiguration>(3, _omitFieldNames ? '' : 'playbackSettings', protoName: 'playbackSettings', subBuilder: PlaybackConfiguration.create)
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  HatConfiguration clone() => HatConfiguration()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  HatConfiguration copyWith(void Function(HatConfiguration) updates) => super.copyWith((message) => updates(message as HatConfiguration)) as HatConfiguration;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static HatConfiguration create() => HatConfiguration._();
+  HatConfiguration createEmptyInstance() => create();
+  static $pb.PbList<HatConfiguration> createRepeated() => $pb.PbList<HatConfiguration>();
+  @$core.pragma('dart2js:noInline')
+  static HatConfiguration getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<HatConfiguration>(create);
+  static HatConfiguration? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get activeImagePath => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set activeImagePath($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasActiveImagePath() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearActiveImagePath() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.bool get rotateImage => $_getBF(1);
+  @$pb.TagNumber(2)
+  set rotateImage($core.bool v) { $_setBool(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasRotateImage() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearRotateImage() => clearField(2);
+
+  @$pb.TagNumber(3)
+  PlaybackConfiguration get playbackSettings => $_getN(2);
+  @$pb.TagNumber(3)
+  set playbackSettings(PlaybackConfiguration v) { setField(3, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasPlaybackSettings() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearPlaybackSettings() => clearField(3);
+  @$pb.TagNumber(3)
+  PlaybackConfiguration ensurePlaybackSettings() => $_ensure(2);
+}
+
 enum MyProjectCommand_Command {
   noArgCommand, 
   setHatImage, 
   setHatRotateImage, 
   getDgsrImageValidationResult, 
+  setPlayback, 
   notSet
 }
 
@@ -375,6 +619,7 @@ class MyProjectCommand extends $pb.GeneratedMessage {
     SetHatImageCommand? setHatImage,
     SetHatRotateImageCommand? setHatRotateImage,
     GetDgsrImageValidationResultCommand? getDgsrImageValidationResult,
+    SetPlaybackCommand? setPlayback,
   }) {
     final $result = create();
     if (noArgCommand != null) {
@@ -389,6 +634,9 @@ class MyProjectCommand extends $pb.GeneratedMessage {
     if (getDgsrImageValidationResult != null) {
       $result.getDgsrImageValidationResult = getDgsrImageValidationResult;
     }
+    if (setPlayback != null) {
+      $result.setPlayback = setPlayback;
+    }
     return $result;
   }
   MyProjectCommand._() : super();
@@ -400,14 +648,16 @@ class MyProjectCommand extends $pb.GeneratedMessage {
     2 : MyProjectCommand_Command.setHatImage,
     3 : MyProjectCommand_Command.setHatRotateImage,
     4 : MyProjectCommand_Command.getDgsrImageValidationResult,
+    5 : MyProjectCommand_Command.setPlayback,
     0 : MyProjectCommand_Command.notSet
   };
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'MyProjectCommand', createEmptyInstance: create)
-    ..oo(0, [1, 2, 3, 4])
+    ..oo(0, [1, 2, 3, 4, 5])
     ..e<NoArgCommands>(1, _omitFieldNames ? '' : 'noArgCommand', $pb.PbFieldType.OE, protoName: 'noArgCommand', defaultOrMaker: NoArgCommands.Nac_NotSet, valueOf: NoArgCommands.valueOf, enumValues: NoArgCommands.values)
     ..aOM<SetHatImageCommand>(2, _omitFieldNames ? '' : 'setHatImage', protoName: 'setHatImage', subBuilder: SetHatImageCommand.create)
     ..aOM<SetHatRotateImageCommand>(3, _omitFieldNames ? '' : 'setHatRotateImage', protoName: 'setHatRotateImage', subBuilder: SetHatRotateImageCommand.create)
     ..aOM<GetDgsrImageValidationResultCommand>(4, _omitFieldNames ? '' : 'getDgsrImageValidationResult', protoName: 'getDgsrImageValidationResult', subBuilder: GetDgsrImageValidationResultCommand.create)
+    ..aOM<SetPlaybackCommand>(5, _omitFieldNames ? '' : 'setPlayback', protoName: 'setPlayback', subBuilder: SetPlaybackCommand.create)
     ..hasRequiredFields = false
   ;
 
@@ -476,6 +726,17 @@ class MyProjectCommand extends $pb.GeneratedMessage {
   void clearGetDgsrImageValidationResult() => clearField(4);
   @$pb.TagNumber(4)
   GetDgsrImageValidationResultCommand ensureGetDgsrImageValidationResult() => $_ensure(3);
+
+  @$pb.TagNumber(5)
+  SetPlaybackCommand get setPlayback => $_getN(4);
+  @$pb.TagNumber(5)
+  set setPlayback(SetPlaybackCommand v) { setField(5, v); }
+  @$pb.TagNumber(5)
+  $core.bool hasSetPlayback() => $_has(4);
+  @$pb.TagNumber(5)
+  void clearSetPlayback() => clearField(5);
+  @$pb.TagNumber(5)
+  SetPlaybackCommand ensureSetPlayback() => $_ensure(4);
 }
 
 class InvalidCommandResponse extends $pb.GeneratedMessage {
@@ -530,13 +791,9 @@ class InvalidCommandResponse extends $pb.GeneratedMessage {
 
 class ConfigurationResponse extends $pb.GeneratedMessage {
   factory ConfigurationResponse({
-    UpdateConfiguration? updateConfiguration,
     HatConfiguration? hatConfiguration,
   }) {
     final $result = create();
-    if (updateConfiguration != null) {
-      $result.updateConfiguration = updateConfiguration;
-    }
     if (hatConfiguration != null) {
       $result.hatConfiguration = hatConfiguration;
     }
@@ -547,7 +804,6 @@ class ConfigurationResponse extends $pb.GeneratedMessage {
   factory ConfigurationResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'ConfigurationResponse', createEmptyInstance: create)
-    ..aOM<UpdateConfiguration>(1, _omitFieldNames ? '' : 'updateConfiguration', protoName: 'updateConfiguration', subBuilder: UpdateConfiguration.create)
     ..aOM<HatConfiguration>(2, _omitFieldNames ? '' : 'hatConfiguration', protoName: 'hatConfiguration', subBuilder: HatConfiguration.create)
     ..hasRequiredFields = false
   ;
@@ -573,27 +829,17 @@ class ConfigurationResponse extends $pb.GeneratedMessage {
   static ConfigurationResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ConfigurationResponse>(create);
   static ConfigurationResponse? _defaultInstance;
 
-  @$pb.TagNumber(1)
-  UpdateConfiguration get updateConfiguration => $_getN(0);
-  @$pb.TagNumber(1)
-  set updateConfiguration(UpdateConfiguration v) { setField(1, v); }
-  @$pb.TagNumber(1)
-  $core.bool hasUpdateConfiguration() => $_has(0);
-  @$pb.TagNumber(1)
-  void clearUpdateConfiguration() => clearField(1);
-  @$pb.TagNumber(1)
-  UpdateConfiguration ensureUpdateConfiguration() => $_ensure(0);
-
+  /// UpdateConfiguration updateConfiguration = 1;
   @$pb.TagNumber(2)
-  HatConfiguration get hatConfiguration => $_getN(1);
+  HatConfiguration get hatConfiguration => $_getN(0);
   @$pb.TagNumber(2)
   set hatConfiguration(HatConfiguration v) { setField(2, v); }
   @$pb.TagNumber(2)
-  $core.bool hasHatConfiguration() => $_has(1);
+  $core.bool hasHatConfiguration() => $_has(0);
   @$pb.TagNumber(2)
   void clearHatConfiguration() => clearField(2);
   @$pb.TagNumber(2)
-  HatConfiguration ensureHatConfiguration() => $_ensure(1);
+  HatConfiguration ensureHatConfiguration() => $_ensure(0);
 }
 
 class FirmwareDetailsResponse extends $pb.GeneratedMessage {

@@ -13,43 +13,49 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x19my-project-messages.proto\"R\n\x13UpdateConfiguration\x12\x1f\n\nupdateType\x18\x01 \x01(\x0e\x32\x0b.UpdateType\x12\x1a\n\x12updateIntervalInMs\x18\x02 \x01(\r\"f\n\x16SetUpdateConfiguration\x12\x31\n\x13updateConfiguration\x18\x01 \x01(\x0b\x32\x14.UpdateConfiguration\x12\x19\n\x11saveConfiguration\x18\x02 \x01(\x08\":\n\x10HatConfiguration\x12\x11\n\timagePath\x18\x01 \x01(\t\x12\x13\n\x0brotateImage\x18\x02 \x01(\x08\"/\n\x18SetHatRotateImageCommand\x12\x13\n\x0brotateImage\x18\x01 \x01(\x08\"\'\n\x12SetHatImageCommand\x12\x11\n\timagePath\x18\x01 \x01(\t\"8\n#GetDgsrImageValidationResultCommand\x12\x11\n\timagePath\x18\x01 \x01(\t\"\xf7\x01\n\x10MyProjectCommand\x12&\n\x0cnoArgCommand\x18\x01 \x01(\x0e\x32\x0e.NoArgCommandsH\x00\x12*\n\x0bsetHatImage\x18\x02 \x01(\x0b\x32\x13.SetHatImageCommandH\x00\x12\x36\n\x11setHatRotateImage\x18\x03 \x01(\x0b\x32\x19.SetHatRotateImageCommandH\x00\x12L\n\x1cgetDgsrImageValidationResult\x18\x04 \x01(\x0b\x32$.GetDgsrImageValidationResultCommandH\x00\x42\t\n\x07\x63ommand\")\n\x16InvalidCommandResponse\x12\x0f\n\x07message\x18\x01 \x01(\t\"w\n\x15\x43onfigurationResponse\x12\x31\n\x13updateConfiguration\x18\x01 \x01(\x0b\x32\x14.UpdateConfiguration\x12+\n\x10hatConfiguration\x18\x02 \x01(\x0b\x32\x11.HatConfiguration\"=\n\x17\x46irmwareDetailsResponse\x12\x0f\n\x07version\x18\x01 \x01(\t\x12\x11\n\tbuildTime\x18\x02 \x01(\t\")\n\x0eUpdateResponse\x12\x17\n\x0f\x62oardUptimeInMs\x18\x01 \x01(\r\"J\n\x13SetHatImageResponse\x12\x11\n\timagePath\x18\x01 \x01(\t\x12\x0f\n\x07success\x18\x02 \x01(\x08\x12\x0f\n\x07message\x18\x03 \x01(\t\"[\n$GetDgsrImageValidationResultResponse\x12\x11\n\timagePath\x18\x01 \x01(\t\x12\x0f\n\x07isValid\x18\x02 \x01(\x08\x12\x0f\n\x07message\x18\x03 \x01(\t\"\x87\x03\n\x11MyProjectResponse\x12\x39\n\x16invalidCommandResponse\x18\x01 \x01(\x0b\x32\x17.InvalidCommandResponseH\x00\x12;\n\x17\x66irmwareDetailsResponse\x18\x02 \x01(\x0b\x32\x18.FirmwareDetailsResponseH\x00\x12)\n\x0eupdateResponse\x18\x03 \x01(\x0b\x32\x0f.UpdateResponseH\x00\x12\x37\n\x15\x63onfigurationResponse\x18\x04 \x01(\x0b\x32\x16.ConfigurationResponseH\x00\x12\x33\n\x13setHatImageResponse\x18\x05 \x01(\x0b\x32\x14.SetHatImageResponseH\x00\x12U\n$getDgsrImageValidationResultResponse\x18\x06 \x01(\x0b\x32%.GetDgsrImageValidationResultResponseH\x00\x42\n\n\x08response*Q\n\nUpdateType\x12\x15\n\x11UpdateType_NotSet\x10\x00\x12\x13\n\x0fUpdateType_None\x10\x01\x12\x17\n\x13UpdateType_Interval\x10\x02*\x8b\x01\n\rNoArgCommands\x12\x0e\n\nNac_NotSet\x10\x00\x12\x1a\n\x16Nac_ClearScreenToWhite\x10\x01\x12\x1a\n\x16Nac_ClearScreenToBlack\x10\x02\x12\x18\n\x14Nac_ShowDefaultImage\x10\x03\x12\x18\n\x14Nac_GetConfiguration\x10\x04\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x19my-project-messages.proto\"/\n\x18SetHatRotateImageCommand\x12\x13\n\x0brotateImage\x18\x01 \x01(\x08\"\'\n\x12SetHatImageCommand\x12\x11\n\timagePath\x18\x01 \x01(\t\"2\n\x1bSetPlaybackDirectoryCommand\x12\x13\n\x0bplaybackDir\x18\x01 \x01(\t\"8\n#GetDgsrImageValidationResultCommand\x12\x11\n\timagePath\x18\x01 \x01(\t\"4\n\x1fPlaybackSettings_ShowSingleFile\x12\x11\n\timagePath\x18\x01 \x01(\t\"j\n3PlaybackSettings_UseDirectoryForRandomFileSlideshow\x12\x18\n\x10slideshowDirPath\x18\x01 \x01(\t\x12\x19\n\x11\x64\x65layIntervalInMs\x18\x02 \x01(\r\"\xaa\x01\n\x12SetPlaybackCommand\x12:\n\x0eshowSingleFile\x18\x02 \x01(\x0b\x32 .PlaybackSettings_ShowSingleFileH\x00\x12L\n\x0c\x64irSlideshow\x18\x03 \x01(\x0b\x32\x34.PlaybackSettings_UseDirectoryForRandomFileSlideshowH\x00\x42\n\n\x08playback\"\xf9\x01\n\x15PlaybackConfiguration\x12\x1b\n\x04mode\x18\x01 \x01(\x0e\x32\r.PlaybackMode\x12@\n\x16showSingleFileSettings\x18\x02 \x01(\x0b\x32 .PlaybackSettings_ShowSingleFile\x12R\n\x14\x64irSlideshowSettings\x18\x03 \x01(\x0b\x32\x34.PlaybackSettings_UseDirectoryForRandomFileSlideshow\x12\x19\n\x11isSlideshowPaused\x18\x04 \x01(\x08\x12\x12\n\nrandomSeed\x18\n \x01(\r\"r\n\x10HatConfiguration\x12\x17\n\x0f\x61\x63tiveImagePath\x18\x01 \x01(\t\x12\x13\n\x0brotateImage\x18\x02 \x01(\x08\x12\x30\n\x10playbackSettings\x18\x03 \x01(\x0b\x32\x16.PlaybackConfiguration\"\xa3\x02\n\x10MyProjectCommand\x12&\n\x0cnoArgCommand\x18\x01 \x01(\x0e\x32\x0e.NoArgCommandsH\x00\x12*\n\x0bsetHatImage\x18\x02 \x01(\x0b\x32\x13.SetHatImageCommandH\x00\x12\x36\n\x11setHatRotateImage\x18\x03 \x01(\x0b\x32\x19.SetHatRotateImageCommandH\x00\x12L\n\x1cgetDgsrImageValidationResult\x18\x04 \x01(\x0b\x32$.GetDgsrImageValidationResultCommandH\x00\x12*\n\x0bsetPlayback\x18\x05 \x01(\x0b\x32\x13.SetPlaybackCommandH\x00\x42\t\n\x07\x63ommand\")\n\x16InvalidCommandResponse\x12\x0f\n\x07message\x18\x01 \x01(\t\"D\n\x15\x43onfigurationResponse\x12+\n\x10hatConfiguration\x18\x02 \x01(\x0b\x32\x11.HatConfiguration\"=\n\x17\x46irmwareDetailsResponse\x12\x0f\n\x07version\x18\x01 \x01(\t\x12\x11\n\tbuildTime\x18\x02 \x01(\t\")\n\x0eUpdateResponse\x12\x17\n\x0f\x62oardUptimeInMs\x18\x01 \x01(\r\"J\n\x13SetHatImageResponse\x12\x11\n\timagePath\x18\x01 \x01(\t\x12\x0f\n\x07success\x18\x02 \x01(\x08\x12\x0f\n\x07message\x18\x03 \x01(\t\"[\n$GetDgsrImageValidationResultResponse\x12\x11\n\timagePath\x18\x01 \x01(\t\x12\x0f\n\x07isValid\x18\x02 \x01(\x08\x12\x0f\n\x07message\x18\x03 \x01(\t\"\x87\x03\n\x11MyProjectResponse\x12\x39\n\x16invalidCommandResponse\x18\x01 \x01(\x0b\x32\x17.InvalidCommandResponseH\x00\x12;\n\x17\x66irmwareDetailsResponse\x18\x02 \x01(\x0b\x32\x18.FirmwareDetailsResponseH\x00\x12)\n\x0eupdateResponse\x18\x03 \x01(\x0b\x32\x0f.UpdateResponseH\x00\x12\x37\n\x15\x63onfigurationResponse\x18\x04 \x01(\x0b\x32\x16.ConfigurationResponseH\x00\x12\x33\n\x13setHatImageResponse\x18\x05 \x01(\x0b\x32\x14.SetHatImageResponseH\x00\x12U\n$getDgsrImageValidationResultResponse\x18\x06 \x01(\x0b\x32%.GetDgsrImageValidationResultResponseH\x00\x42\n\n\x08response*\xdc\x01\n\rNoArgCommands\x12\x0e\n\nNac_NotSet\x10\x00\x12\x1a\n\x16Nac_ClearScreenToWhite\x10\x01\x12\x1a\n\x16Nac_ClearScreenToBlack\x10\x02\x12\x18\n\x14Nac_ShowDefaultImage\x10\x03\x12\x18\n\x14Nac_GetConfiguration\x10\x04\x12\x17\n\x13Nac_AdvancePlayback\x10\x05\x12\x19\n\x15Nac_UserPausePlayback\x10\x06\x12\x1b\n\x17Nac_UserUnpausePlayback\x10\x07*\xae\x01\n\x0cPlaybackMode\x12\x0e\n\nPbm_NotSet\x10\x00\x12\x18\n\x14Pbm_ShowDefaultImage\x10\x01\x12\x16\n\x12Pbm_ShowSingleFile\x10\x02\x12*\n&Pbm_UseDirectoryForRandomFileSlideshow\x10\x03\x12\x17\n\x13Pbm_ShowWhiteScreen\x10\x04\x12\x17\n\x13Pbm_ShowBlackScreen\x10\x05\x62\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'my_project_messages_pb2', _globals)
 if _descriptor._USE_C_DESCRIPTORS == False:
   DESCRIPTOR._options = None
-  _globals['_UPDATETYPE']._serialized_start=1508
-  _globals['_UPDATETYPE']._serialized_end=1589
-  _globals['_NOARGCOMMANDS']._serialized_start=1592
-  _globals['_NOARGCOMMANDS']._serialized_end=1731
-  _globals['_UPDATECONFIGURATION']._serialized_start=29
-  _globals['_UPDATECONFIGURATION']._serialized_end=111
-  _globals['_SETUPDATECONFIGURATION']._serialized_start=113
-  _globals['_SETUPDATECONFIGURATION']._serialized_end=215
-  _globals['_HATCONFIGURATION']._serialized_start=217
-  _globals['_HATCONFIGURATION']._serialized_end=275
-  _globals['_SETHATROTATEIMAGECOMMAND']._serialized_start=277
-  _globals['_SETHATROTATEIMAGECOMMAND']._serialized_end=324
-  _globals['_SETHATIMAGECOMMAND']._serialized_start=326
-  _globals['_SETHATIMAGECOMMAND']._serialized_end=365
-  _globals['_GETDGSRIMAGEVALIDATIONRESULTCOMMAND']._serialized_start=367
-  _globals['_GETDGSRIMAGEVALIDATIONRESULTCOMMAND']._serialized_end=423
-  _globals['_MYPROJECTCOMMAND']._serialized_start=426
-  _globals['_MYPROJECTCOMMAND']._serialized_end=673
-  _globals['_INVALIDCOMMANDRESPONSE']._serialized_start=675
-  _globals['_INVALIDCOMMANDRESPONSE']._serialized_end=716
-  _globals['_CONFIGURATIONRESPONSE']._serialized_start=718
-  _globals['_CONFIGURATIONRESPONSE']._serialized_end=837
-  _globals['_FIRMWAREDETAILSRESPONSE']._serialized_start=839
-  _globals['_FIRMWAREDETAILSRESPONSE']._serialized_end=900
-  _globals['_UPDATERESPONSE']._serialized_start=902
-  _globals['_UPDATERESPONSE']._serialized_end=943
-  _globals['_SETHATIMAGERESPONSE']._serialized_start=945
-  _globals['_SETHATIMAGERESPONSE']._serialized_end=1019
-  _globals['_GETDGSRIMAGEVALIDATIONRESULTRESPONSE']._serialized_start=1021
-  _globals['_GETDGSRIMAGEVALIDATIONRESULTRESPONSE']._serialized_end=1112
-  _globals['_MYPROJECTRESPONSE']._serialized_start=1115
-  _globals['_MYPROJECTRESPONSE']._serialized_end=1506
+  _globals['_NOARGCOMMANDS']._serialized_start=2009
+  _globals['_NOARGCOMMANDS']._serialized_end=2229
+  _globals['_PLAYBACKMODE']._serialized_start=2232
+  _globals['_PLAYBACKMODE']._serialized_end=2406
+  _globals['_SETHATROTATEIMAGECOMMAND']._serialized_start=29
+  _globals['_SETHATROTATEIMAGECOMMAND']._serialized_end=76
+  _globals['_SETHATIMAGECOMMAND']._serialized_start=78
+  _globals['_SETHATIMAGECOMMAND']._serialized_end=117
+  _globals['_SETPLAYBACKDIRECTORYCOMMAND']._serialized_start=119
+  _globals['_SETPLAYBACKDIRECTORYCOMMAND']._serialized_end=169
+  _globals['_GETDGSRIMAGEVALIDATIONRESULTCOMMAND']._serialized_start=171
+  _globals['_GETDGSRIMAGEVALIDATIONRESULTCOMMAND']._serialized_end=227
+  _globals['_PLAYBACKSETTINGS_SHOWSINGLEFILE']._serialized_start=229
+  _globals['_PLAYBACKSETTINGS_SHOWSINGLEFILE']._serialized_end=281
+  _globals['_PLAYBACKSETTINGS_USEDIRECTORYFORRANDOMFILESLIDESHOW']._serialized_start=283
+  _globals['_PLAYBACKSETTINGS_USEDIRECTORYFORRANDOMFILESLIDESHOW']._serialized_end=389
+  _globals['_SETPLAYBACKCOMMAND']._serialized_start=392
+  _globals['_SETPLAYBACKCOMMAND']._serialized_end=562
+  _globals['_PLAYBACKCONFIGURATION']._serialized_start=565
+  _globals['_PLAYBACKCONFIGURATION']._serialized_end=814
+  _globals['_HATCONFIGURATION']._serialized_start=816
+  _globals['_HATCONFIGURATION']._serialized_end=930
+  _globals['_MYPROJECTCOMMAND']._serialized_start=933
+  _globals['_MYPROJECTCOMMAND']._serialized_end=1224
+  _globals['_INVALIDCOMMANDRESPONSE']._serialized_start=1226
+  _globals['_INVALIDCOMMANDRESPONSE']._serialized_end=1267
+  _globals['_CONFIGURATIONRESPONSE']._serialized_start=1269
+  _globals['_CONFIGURATIONRESPONSE']._serialized_end=1337
+  _globals['_FIRMWAREDETAILSRESPONSE']._serialized_start=1339
+  _globals['_FIRMWAREDETAILSRESPONSE']._serialized_end=1400
+  _globals['_UPDATERESPONSE']._serialized_start=1402
+  _globals['_UPDATERESPONSE']._serialized_end=1443
+  _globals['_SETHATIMAGERESPONSE']._serialized_start=1445
+  _globals['_SETHATIMAGERESPONSE']._serialized_end=1519
+  _globals['_GETDGSRIMAGEVALIDATIONRESULTRESPONSE']._serialized_start=1521
+  _globals['_GETDGSRIMAGEVALIDATIONRESULTRESPONSE']._serialized_end=1612
+  _globals['_MYPROJECTRESPONSE']._serialized_start=1615
+  _globals['_MYPROJECTRESPONSE']._serialized_end=2006
 # @@protoc_insertion_point(module_scope)

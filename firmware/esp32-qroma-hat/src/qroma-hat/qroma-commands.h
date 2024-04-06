@@ -3,6 +3,8 @@
 
 #include <qroma-proto/my-project-messages.pb.h>
 
+void showStartupImage();
+
 void onMyProjectCommand(MyProjectCommand * message, MyProjectResponse * response);
 
 void populateConfigurationResponse(ConfigurationResponse * response);
@@ -11,5 +13,6 @@ void populateGetDgsrImageValidationResultResponse(GetDgsrImageValidationResultRe
 void handleSetHatImageCommand(SetHatImageCommand * message, MyProjectResponse * response);
 void handleSetHatRotateImageCommand(SetHatRotateImageCommand * message, MyProjectResponse * response);
 void handleGetDgsrImageValidationResultCommand(GetDgsrImageValidationResultCommand * message, MyProjectResponse * response);
+void handleSetPlaybackCommand(SetPlaybackCommand * message, MyProjectResponse * response);
 
 #endif

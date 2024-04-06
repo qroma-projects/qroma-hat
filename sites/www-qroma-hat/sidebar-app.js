@@ -11,7 +11,7 @@ export default {
         },
         {
           type: 'doc',
-          id: 'control-hat',
+          id: 'hat-control',
         },
         {
           type: 'doc',

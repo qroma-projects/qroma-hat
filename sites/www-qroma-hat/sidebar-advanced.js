@@ -15,6 +15,10 @@ export default {
         },
         {
           type: 'doc',
+          id: 'qroma-core',
+        },
+        {
+          type: 'doc',
           id: 'filesystem',
         },
         {

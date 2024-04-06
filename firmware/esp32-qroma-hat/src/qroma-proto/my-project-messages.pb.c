@@ -6,22 +6,31 @@
 #error Regenerate this file with the current version of nanopb generator.
 #endif
 
-PB_BIND(UpdateConfiguration, UpdateConfiguration, AUTO)
-
-
-PB_BIND(SetUpdateConfiguration, SetUpdateConfiguration, AUTO)
-
-
-PB_BIND(HatConfiguration, HatConfiguration, AUTO)
-
-
 PB_BIND(SetHatRotateImageCommand, SetHatRotateImageCommand, AUTO)
 
 
 PB_BIND(SetHatImageCommand, SetHatImageCommand, AUTO)
 
 
+PB_BIND(SetPlaybackDirectoryCommand, SetPlaybackDirectoryCommand, AUTO)
+
+
 PB_BIND(GetDgsrImageValidationResultCommand, GetDgsrImageValidationResultCommand, AUTO)
+
+
+PB_BIND(PlaybackSettings_ShowSingleFile, PlaybackSettings_ShowSingleFile, AUTO)
+
+
+PB_BIND(PlaybackSettings_UseDirectoryForRandomFileSlideshow, PlaybackSettings_UseDirectoryForRandomFileSlideshow, AUTO)
+
+
+PB_BIND(SetPlaybackCommand, SetPlaybackCommand, AUTO)
+
+
+PB_BIND(PlaybackConfiguration, PlaybackConfiguration, AUTO)
+
+
+PB_BIND(HatConfiguration, HatConfiguration, AUTO)
 
 
 PB_BIND(MyProjectCommand, MyProjectCommand, AUTO)

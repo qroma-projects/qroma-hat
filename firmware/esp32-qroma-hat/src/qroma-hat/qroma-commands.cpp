@@ -7,6 +7,7 @@
 #include "eink/eink-screen.h"
 #include "lib_version.h"
 #include "images/dgsr/dgsrImageValidator.h"
+#include "playback/playback.h"
 
 
 void handleNoArgCommand(NoArgCommands noArgCommand, MyProjectResponse * response) {
@@ -16,18 +17,36 @@ void handleNoArgCommand(NoArgCommands noArgCommand, MyProjectResponse * response
       break;
 
     case NoArgCommands_Nac_ClearScreenToWhite:
-      clearScreenToWhite();
+      playbackWhiteScreen();
       break;
 
     case NoArgCommands_Nac_ClearScreenToBlack:
-      clearScreenToBlack();
+      playbackBlackScreen();
       break;
 
     case NoArgCommands_Nac_ShowDefaultImage:
-      showDefaultImage();
+      playbackDefaultImage();
       break;
 
     case NoArgCommands_Nac_GetConfiguration:
+      response->which_response = MyProjectResponse_configurationResponse_tag;
+      populateConfigurationResponse(&(response->response.configurationResponse));
+      break;
+
+    case NoArgCommands_Nac_AdvancePlayback:
+      advancePlayback();
+      response->which_response = MyProjectResponse_configurationResponse_tag;
+      populateConfigurationResponse(&(response->response.configurationResponse));
+      break;
+
+    case NoArgCommands_Nac_UserPausePlayback:
+      userPausePlayback();
+      response->which_response = MyProjectResponse_configurationResponse_tag;
+      populateConfigurationResponse(&(response->response.configurationResponse));
+      break;
+
+    case NoArgCommands_Nac_UserUnpausePlayback:
+      userUnpausePlayback();
       response->which_response = MyProjectResponse_configurationResponse_tag;
       populateConfigurationResponse(&(response->response.configurationResponse));
       break;
@@ -63,6 +82,10 @@ void onMyProjectCommand(MyProjectCommand * message, MyProjectResponse * response
       handleGetDgsrImageValidationResultCommand(&(message->command.getDgsrImageValidationResult), response);
       break;
 
+    case MyProjectCommand_setPlayback_tag:
+      handleSetPlaybackCommand(&(message->command.setPlayback), response);
+      break;
+
     default:
       logError("Unrecognized MyProjectCommand command");
       logError(message->which_command);
@@ -78,63 +101,25 @@ void onMyProjectCommand(MyProjectCommand * message, MyProjectResponse * response
 
 
 void populateConfigurationResponse(ConfigurationResponse * response) {
-  response->has_updateConfiguration = true;
-  response->updateConfiguration.updateIntervalInMs = updateConfiguration.updateIntervalInMs;
-  response->updateConfiguration.updateType = updateConfiguration.updateType;
-
   response->has_hatConfiguration = true;
-  response->hatConfiguration.rotateImage = hatConfiguration.rotateImage;
-  strncpy(response->hatConfiguration.imagePath, hatConfiguration.imagePath, sizeof(response->hatConfiguration.imagePath));
+  memcpy(&(response->hatConfiguration), &_hatConfiguration, sizeof(response->hatConfiguration));
 }
 
 
 void handleSetHatImageCommand(SetHatImageCommand * message, MyProjectResponse * response) {
+  PlaybackSettings_ShowSingleFile singleFilePlaybackCommand;
+  strncpy(singleFilePlaybackCommand.imagePath, message->imagePath, 
+    sizeof(singleFilePlaybackCommand.imagePath));
 
-  response->which_response = MyProjectResponse_setHatImageResponse_tag;
+  playbackImageFromFile(&singleFilePlaybackCommand);
 
-  // validate image is a valid DGSR file we can show
-  if (!isValidDgsrFile(message->imagePath, response->response.getDgsrImageValidationResultResponse.message)) {
-    response->response.setHatImageResponse.success = false;
-    strncpy(response->response.setHatImageResponse.message, 
-      "Invalid hat image file: ", 
-      sizeof(response->response.setHatImageResponse.message));
-    strncat(response->response.setHatImageResponse.message, 
-      message->imagePath, 
-      sizeof(response->response.setHatImageResponse.message));
-    strncat(response->response.setHatImageResponse.message, 
-      response->response.getDgsrImageValidationResultResponse.message, 
-      sizeof(response->response.setHatImageResponse.message));
-    return;
-  }
-
-  strncpy(hatConfiguration.imagePath, message->imagePath, 
-    sizeof(response->response.setHatImageResponse.imagePath));
-  bool saveSuccess = saveHatConfig(&hatConfiguration);
-
-  if (!saveSuccess) {
-    response->response.setHatImageResponse.success = false;
-    strncpy(response->response.setHatImageResponse.message, 
-      "Error saving hat config with image file: ", 
-      sizeof(response->response.setHatImageResponse.message));
-    strncat(response->response.setHatImageResponse.message, 
-      message->imagePath, 
-      sizeof(response->response.setHatImageResponse.message));
-    return;
-  }
-
-  response->response.setHatImageResponse.success = true;
-  strncpy(response->response.setHatImageResponse.message, "Setting as hat image: ", 
-    sizeof(response->response.setHatImageResponse.message));
-  strncat(response->response.setHatImageResponse.message, message->imagePath, 
-    sizeof(response->response.setHatImageResponse.message));
-
-  showImageFromFile(message->imagePath);
+  bool saveSuccess = saveHatConfig(&_hatConfiguration);
 }
 
 
 void handleSetHatRotateImageCommand(SetHatRotateImageCommand * message, MyProjectResponse * response) {
-  hatConfiguration.rotateImage = message->rotateImage;
-  saveHatConfig(&hatConfiguration);
+  _hatConfiguration.rotateImage = message->rotateImage;
+  saveHatConfig(&_hatConfiguration);
 
   response->which_response = MyProjectResponse_configurationResponse_tag;
   populateConfigurationResponse(&(response->response.configurationResponse));
@@ -156,4 +141,25 @@ void handleGetDgsrImageValidationResultCommand(GetDgsrImageValidationResultComma
   strncpy(response->response.getDgsrImageValidationResultResponse.imagePath,
     message->imagePath, 
     sizeof(response->response.getDgsrImageValidationResultResponse.imagePath));
+}
+
+
+void handleSetPlaybackCommand(SetPlaybackCommand * message, MyProjectResponse * response) {
+  switch (message->which_playback) {
+    case SetPlaybackCommand_showSingleFile_tag:
+      playbackImageFromFile(&(message->playback.showSingleFile));
+      response->which_response = MyProjectResponse_configurationResponse_tag;
+      populateConfigurationResponse(&(response->response.configurationResponse));
+      break;
+    case SetPlaybackCommand_dirSlideshow_tag:
+      startDirSlideshowPlayback(&(message->playback.dirSlideshow));
+      response->which_response = MyProjectResponse_configurationResponse_tag;
+      populateConfigurationResponse(&(response->response.configurationResponse));
+      break;
+    default:
+      logError("Unrecognized SetPlaybackCommand tag");
+      logError(message->which_playback);
+      break;
+
+  }
 }

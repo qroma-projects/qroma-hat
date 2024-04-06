@@ -1,9 +1,10 @@
 import React from "react"
-import { IQromaHatApi } from "../api/QromaHatApi"
+import { IQromaHatApi } from "../../api/QromaHatApi"
 
 
 export interface ISelectImageButton {
   path: string
+  label: string
   qromaHatApi: IQromaHatApi
 }
 
@@ -16,9 +17,11 @@ export const SelectImageButton = (props: ISelectImageButton) => {
 
   return (
     <>
-      <button onClick={() => showHatImage()}>
-        {props.path}
-      </button>
+      <div>
+        <button onClick={() => showHatImage()}>
+          {props.label}
+        </button>
+      </div>
     </>
   )
 }
